@@ -13,6 +13,6 @@ int sumar(int* pResultado, int operandoUno, int operandoDos);
 int restar(int* pResultado, int operandoUno, int operandoDos);
 int multiplicar(int* pResultado, int operandoUno, int operandoDos);
 int dividir(float* pResultado, int operandoUno, int operandoDos);
-int factorial(int* pResultado, int operandoUno);
+int factorial(int* pResultado, int operando);
 
 #endif /* UTNFUNCIONES_H_ */
