@@ -11,24 +11,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdio_ext.h>
-#include "utnFunciones.h"
 
+#include "utnFuncionesCalculadora.h"
+#include "utnFuncionesGenericas.h"
 
-int mostrarMenu(char *pOperacionElegida, int reintentos, int operandoUno, int operandoDos);
-int utn_getNumero(int* pResultado,char* mensaje,char* mensajeError,int minimo,int maximo,int reintentos);
+int mostrarMenu(char *pOperacionElegida, int reintentos, float operandoUno, float operandoDos);
 
-
-int main(void) {
-	int operandoUno;
-	int operandoDos;
+int main(void)
+{
+	float operandoUno;
+	float operandoDos;
 	char operacion;
-	int resultado;
+	float resultado;
 	int resultadoFactorialUno;
 	int resultadoFactorialDos;
-	float resultadoDivision;
-	if(utn_getNumero(&operandoUno,"Ingrese el numero A:\n","El valor ingresado es invalido.\n",-32768,32767,2) == 0)
+	if(utn_getFloat(&operandoUno,"Ingrese el numero A:\n","El valor ingresado es invalido.\n",2) == 0)
 	{
-		if(utn_getNumero(&operandoDos,"Ingrese el numero B:\n","El valor ingresado es invalido.\n",-32768,32767,2) == 0)
+		if(utn_getFloat(&operandoDos,"Ingrese el numero B:\n","El valor ingresado es invalido.\n",2) == 0)
 		{
 			if(mostrarMenu(&operacion,2,operandoUno, operandoDos) == 0)
 			{
@@ -36,20 +35,20 @@ int main(void) {
 				{
 					case 'a':
 						sumar(&resultado,operandoUno,operandoDos);
-						printf("El resultado de A+B es: %d.\n", resultado);
+						printf("El resultado de A+B es: %.2f.\n", resultado);
 						break;
 					case 'b':
 						restar(&resultado,operandoUno,operandoDos);
-						printf("El resultado de A-B es: %d.\n", resultado);
+						printf("El resultado de A-B es: %f.\n", resultado);
 						break;
 					case 'c':
 						multiplicar(&resultado, operandoUno,operandoDos);
-						printf("El resultado de A*B es: %d.\n", resultado);
+						printf("El resultado de A*B es: %f.\n", resultado);
 						break;
 					case 'd':
-						if(dividir(&resultadoDivision,operandoUno,operandoDos) == 0)
+						if(dividir(&resultado,operandoUno,operandoDos) == 0)
 						{
-							printf("El resultado de A/B es: %.2f.\n", resultadoDivision);
+							printf("El resultado de A/B es: %.2f.\n", resultado);
 						}
 						else
 						{
@@ -63,11 +62,9 @@ int main(void) {
 						}
 						else
 						{
-							printf("Ninguno de los operandos puede ser menor a 1.\n");
+							printf("Ninguno de los operandos puede ser menor a 0.\n");
 						}
-
 				}
-
 			}
 			else
 			{
@@ -83,7 +80,6 @@ int main(void) {
 	{
 		printf("Hubo problemas al ingresar el primer operando.\n");
 	}
-
 	return EXIT_SUCCESS;
 }
 /**
@@ -94,14 +90,14 @@ int main(void) {
 * \param int operandoDos, segundo valor ingresado para ser mostrado en pantalla.
 * \return (-1) Error / (0) Ok
 */
-int mostrarMenu(char *pOperacionElegida, int reintentos, int operandoUno, int operandoDos)
+int mostrarMenu(char *pOperacionElegida, int reintentos, float operandoUno, float operandoDos)
 {
 	int retorno = -1;
 	char operacionIngresada;
 	int resultadoIngreso;
 	if(pOperacionElegida != NULL && reintentos >=0)
 	{
-		printf("A = %d, B = %d\n",operandoUno,operandoDos);
+		printf("A = %f, B = %f\n",operandoUno,operandoDos);
 		do{
 			printf("Por favor, seleccione la operación a realizar escribiendo la letra correspondiente:\na-Sumar\nb-Restar\nc-Multiplicar\nd-Dividir\ne-Factorial\n");
 			__fpurge(stdin);
@@ -133,46 +129,6 @@ int mostrarMenu(char *pOperacionElegida, int reintentos, int operandoUno, int op
 			}
 		}
 		while(reintentos > 0);
-	}
-	return retorno;
-}
-/**
-* \brief Solicita un entero al usuario
-* \param int* pResultado, puntero al espacio de memoria donde se dejará el valor obtenido.
-* \param char* mensaje, Es el mensaje a ser mostrado al usuario.
-* \param char* mensajeError, Es el mensaje de error a ser mostrado al usuario.
-* \param int minimo, valor minimo admitido
-* \param int maximo, valor maximo admitido
-* \param int reintentos, cantidad de oportunidades para ingresar el dato
-* \return (-1) Error / (0) Ok
- */
-int utn_getNumero(int* pResultado,char* mensaje,char* mensajeError,int minimo,int maximo,int reintentos)
-{
-	int bufferInt;
-	int retorno =-1;
-	int resultadoScan;
-
-	if(pResultado != NULL && mensaje != NULL && mensajeError != NULL && minimo <= maximo && reintentos >= 0)
-	{
-		while(reintentos>=0)
-		{
-			printf("%s",mensaje);
-			__fpurge(stdin);  //fflush(stdin);
-			resultadoScan = scanf("%d",&bufferInt);
-
-			if(resultadoScan == 1 && bufferInt > minimo && bufferInt < maximo)
-			{
-				retorno = 0;
-				*pResultado = bufferInt;
-				break;
-			}
-			else
-			{
-				reintentos--;
-				printf("%s",mensajeError);
-			}
-
-		}
 	}
 	return retorno;
 }
