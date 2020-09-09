@@ -14,7 +14,7 @@
 #include "utnFunciones.h"
 
 
-int mostrarMenu(char* pOperacionElegida, int reintentos);
+int mostrarMenu(char *pOperacionElegida, int reintentos, int operandoUno, int operandoDos);
 int utn_getNumero(int* pResultado,char* mensaje,char* mensajeError,int minimo,int maximo,int reintentos);
 
 
@@ -23,31 +23,33 @@ int main(void) {
 	int operandoDos;
 	char operacion;
 	int resultado;
+	int resultadoFactorialUno;
+	int resultadoFactorialDos;
 	float resultadoDivision;
-	if(utn_getNumero(&operandoUno,"Ingrese el primer número:\n","El valor ingresado es invalido.\n",-32768,32767,2) == 0)
+	if(utn_getNumero(&operandoUno,"Ingrese el numero A:\n","El valor ingresado es invalido.\n",-32768,32767,2) == 0)
 	{
-		if(utn_getNumero(&operandoDos,"Ingrese el segundo número:\n","El valor ingresado es invalido.\n",-32768,32767,2) == 0)
+		if(utn_getNumero(&operandoDos,"Ingrese el numero B:\n","El valor ingresado es invalido.\n",-32768,32767,2) == 0)
 		{
-			if(mostrarMenu(&operacion,2) == 0)
+			if(mostrarMenu(&operacion,2,operandoUno, operandoDos) == 0)
 			{
 				switch(operacion)
 				{
 					case 'a':
 						sumar(&resultado,operandoUno,operandoDos);
-						printf("El resultado de la suma es: %d.\n", resultado);
+						printf("El resultado de A+B es: %d.\n", resultado);
 						break;
 					case 'b':
 						restar(&resultado,operandoUno,operandoDos);
-						printf("El resultado de la resta es: %d.\n", resultado);
+						printf("El resultado de A-B es: %d.\n", resultado);
 						break;
 					case 'c':
 						multiplicar(&resultado, operandoUno,operandoDos);
-						printf("El resultado de la multiplicación es: %d.\n", resultado);
+						printf("El resultado de A*B es: %d.\n", resultado);
 						break;
 					case 'd':
 						if(dividir(&resultadoDivision,operandoUno,operandoDos) == 0)
 						{
-							printf("El resultado de la división es: %.2f.\n", resultadoDivision);
+							printf("El resultado de A/B es: %.2f.\n", resultadoDivision);
 						}
 						else
 						{
@@ -55,13 +57,13 @@ int main(void) {
 						}
 						break;
 					case 'e':
-						if(factorial(&resultado,operandoUno) == 0)
+						if(factorial(&resultadoFactorialUno,operandoUno) == 0 && factorial(&resultadoFactorialDos,operandoDos) == 0)
 						{
-							printf("El resultado de la función factorial es: %d.\n", resultado);
+							printf("El factorial de A es: %d y El factorial de B es: %d.\n" , resultadoFactorialUno,resultadoFactorialDos);
 						}
 						else
 						{
-							printf("El operando uno no puede ser menor a 1.\n");
+							printf("Ninguno de los operandos puede ser menor a 1.\n");
 						}
 
 				}
@@ -88,15 +90,18 @@ int main(void) {
 * \brief despliega un menu en pantalla con las opciones sobre las operaciones matemáticas y solicita al usuario elegir una.
 * \param char* pOperacionElegida puntero al espacio de memoria donde se dejará el valor con el char de la operacion elegida.
 * \param int reintentos, cantidad de oportunidades para ingresar el dato
+* \param int operandoUno, primer valor ingresado para ser mostrado en pantalla.
+* \param int operandoDos, segundo valor ingresado para ser mostrado en pantalla.
 * \return (-1) Error / (0) Ok
 */
-int mostrarMenu(char *pOperacionElegida, int reintentos)
+int mostrarMenu(char *pOperacionElegida, int reintentos, int operandoUno, int operandoDos)
 {
 	int retorno = -1;
 	char operacionIngresada;
 	int resultadoIngreso;
 	if(pOperacionElegida != NULL && reintentos >=0)
 	{
+		printf("A = %d, B = %d\n",operandoUno,operandoDos);
 		do{
 			printf("Por favor, seleccione la operación a realizar escribiendo la letra correspondiente:\na-Sumar\nb-Restar\nc-Multiplicar\nd-Dividir\ne-Factorial\n");
 			__fpurge(stdin);
