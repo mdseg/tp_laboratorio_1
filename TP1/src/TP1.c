@@ -39,11 +39,11 @@ int main(void)
 						break;
 					case 'b':
 						restar(&resultado,operandoUno,operandoDos);
-						printf("El resultado de A-B es: %f.\n", resultado);
+						printf("El resultado de A-B es: %.2f.\n", resultado);
 						break;
 					case 'c':
 						multiplicar(&resultado, operandoUno,operandoDos);
-						printf("El resultado de A*B es: %f.\n", resultado);
+						printf("El resultado de A*B es: %.2f.\n", resultado);
 						break;
 					case 'd':
 						if(dividir(&resultado,operandoUno,operandoDos) == 0)
@@ -97,7 +97,7 @@ int mostrarMenu(char *pOperacionElegida, int reintentos, float operandoUno, floa
 	int resultadoIngreso;
 	if(pOperacionElegida != NULL && reintentos >=0)
 	{
-		printf("A = %f, B = %f\n",operandoUno,operandoDos);
+		printf("A = %.2f, B = %.2f\n",operandoUno,operandoDos);
 		do{
 			printf("Por favor, seleccione la operación a realizar escribiendo la letra correspondiente:\na-Sumar\nb-Restar\nc-Multiplicar\nd-Dividir\ne-Factorial\n");
 			__fpurge(stdin);
