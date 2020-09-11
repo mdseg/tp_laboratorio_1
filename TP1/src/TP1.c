@@ -15,7 +15,6 @@
 #include "utnFuncionesCalculadora.h"
 #include "utnFuncionesGenericas.h"
 
-int mostrarMenu(char *pOperacionElegida, int reintentos, float operandoUno, float operandoDos);
 
 int main(void)
 {
@@ -81,54 +80,4 @@ int main(void)
 		printf("Hubo problemas al ingresar el primer operando.\n");
 	}
 	return EXIT_SUCCESS;
-}
-/**
-* \brief despliega un menu en pantalla con las opciones sobre las operaciones matemáticas y solicita al usuario elegir una.
-* \param char* pOperacionElegida puntero al espacio de memoria donde se dejará el valor con el char de la operacion elegida.
-* \param int reintentos, cantidad de oportunidades para ingresar el dato
-* \param int operandoUno, primer valor ingresado para ser mostrado en pantalla.
-* \param int operandoDos, segundo valor ingresado para ser mostrado en pantalla.
-* \return (-1) Error / (0) Ok
-*/
-int mostrarMenu(char *pOperacionElegida, int reintentos, float operandoUno, float operandoDos)
-{
-	int retorno = -1;
-	char operacionIngresada;
-	int resultadoIngreso;
-	if(pOperacionElegida != NULL && reintentos >=0)
-	{
-		printf("A = %.2f, B = %.2f\n",operandoUno,operandoDos);
-		do{
-			printf("Por favor, seleccione la operación a realizar escribiendo la letra correspondiente:\na-Sumar\nb-Restar\nc-Multiplicar\nd-Dividir\ne-Factorial\n");
-			__fpurge(stdin);
-			resultadoIngreso = scanf("%c", &operacionIngresada);
-			if(resultadoIngreso == 1)
-			{
-				switch(operacionIngresada)
-				{
-					case 'a':
-					case 'b':
-					case 'c':
-					case 'd':
-					case 'e':
-						retorno = 0;
-						*pOperacionElegida = operacionIngresada;
-						break;
-					default:
-						printf("Error en el ingreso.\n");
-						reintentos--;
-						if(reintentos >0)
-						{
-							printf("Vuelva a intentarlo.\n");
-						}
-				}
-				if(retorno == 0)
-				{
-					break;
-				}
-			}
-		}
-		while(reintentos > 0);
-	}
-	return retorno;
 }

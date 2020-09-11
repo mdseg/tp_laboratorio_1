@@ -14,5 +14,6 @@ int restar(float* pResultado, float operandoUno, float operandoDos);
 int multiplicar(float* pResultado, float operandoUno, float operandoDos);
 int dividir(float* pResultado, float operandoUno, float operandoDos);
 int factorial(int* pResultado, float operando);
+int mostrarMenu(char *pOperacionElegida, int reintentos, float operandoUno, float operandoDos);
 
 #endif /* UTNFUNCIONESCALCULADORA_H_ */
