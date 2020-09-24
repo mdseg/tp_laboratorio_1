@@ -7,15 +7,11 @@
  Description : Hello World in C, Ansi-style
  ============================================================================
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdio_ext.h>
-
 #include "utnFuncionesCalculadora.h"
 #include "utnFuncionesGenericas.h"
-
-
 int main(void)
 {
 	float operandoUno;
