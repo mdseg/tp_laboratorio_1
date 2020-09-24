@@ -10,8 +10,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include "utn.h"
+#include "ArrayEmployees.h"
+
+
 
 int main(void) {
-	puts("!!!Hello World!!!"); /* prints !!!Hello World!!! */
+	Employee empleados[QTY_EMPLOYEE];
+	employee_initEmployees(empleados, QTY_EMPLOYEE);
 	return EXIT_SUCCESS;
 }
