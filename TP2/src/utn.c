@@ -159,6 +159,29 @@ int utn_getInt(int* pResultado,char* mensaje,char* mensajeError,int minimo,int m
 	}
 	return retorno;
 }
+int utn_getFloat(char* mensaje,char* mensajeError,float* pResultado,int minimo,int maximo,int reintentos)
+{
+	int retorno = -1;
+	float buffer;
+
+	if(pResultado != NULL && mensaje != NULL && mensajeError != NULL && minimo <= maximo && reintentos >= 0)
+	{
+		do
+		{
+			printf("%s",mensaje);
+			if(scanf("%f",&buffer) == 1 && buffer >= minimo && buffer <= maximo)
+			{
+				*pResultado = buffer;
+				retorno = 0;
+				break;
+			}
+			printf("%s",mensajeError);
+			reintentos--;
+		}
+		while(reintentos > 0);
+	}
+	return retorno;
+}
 int utn_getChar(char* pResultado,char* mensaje,char* mensajeError,int minimo,int maximo,int reintentos)
 {
 	int retorno = -1;

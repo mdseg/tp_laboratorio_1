@@ -13,6 +13,8 @@
 #define LONG_NOMBRE 50
 #define QTY_EMPLOYEE 100
 #define ATTEMPTS 5
+#define SECTOR_MIN 1
+#define SECTOR_MAX 10
 struct
 {
  int id;

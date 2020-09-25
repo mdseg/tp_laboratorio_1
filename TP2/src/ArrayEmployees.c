@@ -52,13 +52,18 @@ lastName[],float salary,int sector)
 		if(
 			utn_getName("\nIngrese el nombre:","\nError",bufferEmployee.name, ATTEMPTS, LONG_NOMBRE) == 0 &&
 			utn_getName("\nIngrese el apellido:","\nError",bufferEmployee.lastName, ATTEMPTS, LONG_NOMBRE) == 0 &&
-			utn_getFloat("\nIngrese el salario:", "\nError",bufferEmployee.salary, ATTEMPTS) == 0
-			)
+			utn_getFloat("\nIngrese el salario:","\nError",&bufferEmployee.salary,SECTOR_MIN,SECTOR_MAX,ATTEMPTS) == 0 &&
+			utn_getInt(&bufferEmployee.sector, "", "\nError", SECTOR_MIN, SECTOR_MAX, ATTEMPTS)
+		   )
 		{
-
+			bufferEmployee.isEmpty = FALSE;
+			utn_UpperFirstCharArray(bufferEmployee.name);
+			utn_UpperFirstCharArray(bufferEmployee.lastName);
+			list[id] = bufferEmployee;
+			retorno = 0;
 		}
 	}
- return -1;
+ return retorno;
 }
 /** \brief find an Employee by Id en returns the index position in array.
  *

@@ -10,7 +10,7 @@
 #define LIMITE_BUFFER_STRING 4096
 
 int utn_getInt(int* pResultado,char* mensaje,char* mensajeError,int minimo,int maximo,int reintentos);
-int utn_getFloat(char* mensaje,char* mensajeError, float* pResultado,int reintentos);
+int utn_getFloat(char* mensaje,char* mensajeError,float* pResultado,int minimo,int maximo,int reintentos);
 int getCadenaNoNumerica(char* mensaje, char*mensajeError, char* pResultado, int reintentos, int limite);
 int utn_getName(char* message, char* errorMessage, char* pResult, int attemps, int limit);
 int getMinimoArrayInt(int array[], int *pResultado, int size);
