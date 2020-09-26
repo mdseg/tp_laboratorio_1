@@ -11,7 +11,7 @@
 #define TRUE 1
 #define FALSE 0
 #define LONG_NAME 50
-#define QTY_EMPLOYEE 100
+#define QTY_EMPLOYEE 5
 #define ATTEMPTS 5
 #define SECTOR_MIN 1
 #define SECTOR_MAX 10
@@ -34,7 +34,8 @@ int employee_findEmployeeById(Employee* list, int len,int id); //Hecho
 int employee_initEmployees(Employee* list, int len); //Hecho
 int employee_printEmployees(Employee* list, int length); //Hecho
 int employee_removeEmployee(Employee* list, int len, int id); //Hecho
-int employee_uploadEmployee();
+int employee_uploadEmployee(Employee* list, int len, int new);
 int employee_searchIndexFree(Employee* list,int* pIndex, int len);
+int employee_sortEmployees(Employee* list, int len, int order);
 static int generateNewId(void);
 #endif /* ARRAYEMPLOYEES_H_ */

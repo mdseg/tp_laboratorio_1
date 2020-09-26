@@ -23,7 +23,7 @@ int employee_initEmployees(Employee* list, int len)
 			for(i = 0;i<len;i++)
 			{
 			list[i].id = -1;
-			list[i].isEmpty = 1;
+			list[i].isEmpty = TRUE;
 			}
 			retorno = 0;
 		}
@@ -98,13 +98,11 @@ int employee_removeEmployee(Employee* list, int len, int id)
 {
 	int retorno = -1;
 	int bufferIndex = employee_findEmployeeById(list, len, id);
-	Employee bufferEmployee;
 	if( list != NULL && len > 0 &&
 		id > 0 && bufferIndex != -1
 		&& list[bufferIndex].isEmpty == FALSE)
 	{
-		bufferEmployee.isEmpty = TRUE;
-		list[id] = bufferEmployee;
+		list[bufferIndex].isEmpty = TRUE;
 		retorno = 0;
 	}
 	return retorno;
@@ -157,16 +155,37 @@ int employee_uploadEmployee(Employee* list, int len, int new)
     float salary;
     int sector;
     int index;
-    if(employee_searchIndexFree(list, &index, len) == 0 &&
-    	utn_getName("\nIngrese el nombre:","\nError",name, ATTEMPTS, LONG_NAME) == 0 &&
-    	utn_getName("\nIngrese el apellido:","\nError",lastName, ATTEMPTS, LONG_NAME) == 0 &&
-    	utn_getFloat("\nIngrese el salario:","\nError",&salary,SALARY_MIN,SALARY_MAX,ATTEMPTS) == 0 &&
-    	utn_getInt(&sector, "\nIngrese el sector:", "\nError", SECTOR_MIN, SECTOR_MAX, ATTEMPTS) == 0
-		)
+    if (new == TRUE)
     {
-    	id = generateNewId();
-    	employee_addEmployee(list, len, id, name, lastName, salary, sector, index);
-    	retorno = 0;
+    	if(employee_searchIndexFree(list, &index, len) == 0 &&
+    	    	utn_getName("\nIngrese el nombre:","\nError",name, ATTEMPTS, LONG_NAME) == 0 &&
+    	    	utn_getName("\nIngrese el apellido:","\nError",lastName, ATTEMPTS, LONG_NAME) == 0 &&
+    	    	utn_getFloat("\nIngrese el salario:","\nError",&salary,SALARY_MIN,SALARY_MAX,ATTEMPTS) == 0 &&
+    	    	utn_getInt(&sector, "\nIngrese el sector:", "\nError", SECTOR_MIN, SECTOR_MAX, ATTEMPTS) == 0
+    			)
+    	    {
+    	    	id = generateNewId();
+    	    	employee_addEmployee(list, len, id, name, lastName, salary, sector, index);
+    	    	retorno = 0;
+    	    }
+    }
+    else
+    {
+
+    	if(utn_getInt(&id, "Ingrese el Id del empleado:\n", "Error.\n", ID_MIN, ID_MAX, 2) == 0)
+    	{
+    		index = employee_findEmployeeById(list, QTY_EMPLOYEE, id);
+    		if(index != -1 &&
+   				utn_getName("\nIngrese el nombre:","\nError",name, ATTEMPTS, LONG_NAME) == 0 &&
+	    		utn_getName("\nIngrese el apellido:","\nError",lastName, ATTEMPTS, LONG_NAME) == 0 &&
+				utn_getFloat("\nIngrese el salario:","\nError",&salary,SALARY_MIN,SALARY_MAX,ATTEMPTS) == 0 &&
+    			utn_getInt(&sector, "\nIngrese el sector:", "\nError", SECTOR_MIN, SECTOR_MAX, ATTEMPTS) == 0
+    			)
+    		{
+    			employee_addEmployee(list, len, id, name, lastName, salary, sector, index);
+    			retorno = 0;
+    		}
+    	}
     }
 	return retorno;
 
@@ -180,7 +199,7 @@ int employee_searchIndexFree(Employee* list,int* pIndex, int len)
 			{
 				for(i = 0;i<len;i++)
 				{
-					if(list[i].isEmpty == 1)
+					if(list[i].isEmpty == TRUE)
 					{
 						*pIndex = i;
 						retorno = 0;
@@ -190,4 +209,63 @@ int employee_searchIndexFree(Employee* list,int* pIndex, int len)
 				}
 			}
 		return retorno;
+}
+/** \brief Sort the elements in the array of employees, the argument order
+indicate UP or DOWN order
+*
+* \param list Employee*
+* \param len int
+* \param order int [1] indicate UP - [0] indicate DOWN
+* \return int Return (-1) if Error [Invalid length or NULL pointer] - (0) if Ok
+*
+*/
+int employee_sortEmployees(Employee* list, int len, int order)
+{
+	int flagSwap;
+	int i;
+	int retorno = -1;
+	Employee buffer;
+	int nuevoLimite;
+	if(list != NULL && len >=0)
+	{
+		nuevoLimite = len - 1;
+		do
+		{
+
+			flagSwap=0;
+			for(i=0; i<nuevoLimite;i++)
+			{
+				switch (order)
+				{
+					case 0:
+						if(list[i].lastName[0] < list[i+1].lastName[0])
+						{
+
+							flagSwap=1;
+							buffer = list[i];
+							list[i] = list[i+1];
+							list[i+1] = buffer;
+
+						}
+						break;
+					case 1:
+						if(list[i].lastName[0] > list[i+1].lastName[0])
+						{
+							flagSwap=1;
+							buffer = list[i];
+							list[i] = list[i+1];
+							list[i+1] = buffer;
+						}
+						break;
+				}
+			}
+			nuevoLimite--;
+
+		}
+		while(flagSwap);
+		retorno = 0;
+
+	}
+
+	return retorno;
 }
