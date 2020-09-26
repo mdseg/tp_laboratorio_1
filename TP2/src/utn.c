@@ -62,7 +62,7 @@ static int getInt(int* pResultado)
  * \param int limite, indica la cantidad de letras maxima de la cadena
  * \return (0) Indicar que no es un nombre valido / (!0) INdica que es un nombre valido
  * */
-static int utn_isValidName(char* array, int limit)
+int utn_isValidName(char* array, int limit)
 {
 	int respuesta = 1; // TOdo ok
 	int i;

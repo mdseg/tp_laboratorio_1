@@ -22,8 +22,10 @@ int employee_initEmployees(Employee* list, int len)
 		{
 			for(i = 0;i<len;i++)
 			{
+			list[i].id = -1;
 			list[i].isEmpty = 1;
 			}
+			retorno = 0;
 		}
 		return retorno;
 }
@@ -40,30 +42,22 @@ int employee_initEmployees(Employee* list, int len)
 free space] - (0) if Ok
  */
 int employee_addEmployee(Employee* list, int len, int id, char name[],char
-lastName[],float salary,int sector)
+lastName[],float salary,int sector,int index)
 {
-	int retorno = -1;
-	Employee bufferEmployee;
-	if( list != NULL && len > 0 &&
-		id >= 0 &&
-		id < len &&
-		list[id].isEmpty == TRUE)
-	{
-		if(
-			utn_getName("\nIngrese el nombre:","\nError",bufferEmployee.name, ATTEMPTS, LONG_NOMBRE) == 0 &&
-			utn_getName("\nIngrese el apellido:","\nError",bufferEmployee.lastName, ATTEMPTS, LONG_NOMBRE) == 0 &&
-			utn_getFloat("\nIngrese el salario:","\nError",&bufferEmployee.salary,SECTOR_MIN,SECTOR_MAX,ATTEMPTS) == 0 &&
-			utn_getInt(&bufferEmployee.sector, "", "\nError", SECTOR_MIN, SECTOR_MAX, ATTEMPTS)
-		   )
-		{
-			bufferEmployee.isEmpty = FALSE;
-			utn_UpperFirstCharArray(bufferEmployee.name);
-			utn_UpperFirstCharArray(bufferEmployee.lastName);
-			list[id] = bufferEmployee;
-			retorno = 0;
-		}
-	}
- return retorno;
+
+	int retorno=0;
+    list[index].id=id;
+    utn_UpperFirstCharArray(name);
+    utn_UpperFirstCharArray(lastName);
+    strcpy(list[index].name,name);
+    strcpy(list[index].lastName,lastName);
+    list[index].salary=salary;
+    list[index].sector=sector;
+    list[index].isEmpty = FALSE;
+    return retorno;
+
+
+
 }
 /** \brief find an Employee by Id en returns the index position in array.
  *
@@ -76,7 +70,20 @@ pointer received or employee not found]
  */
 int employee_findEmployeeById(Employee* list, int len,int id)
 {
- return -1;
+	int i = 0;
+	int retorno = -1;
+		if(list != NULL && len > 0 && id > 0)
+		{
+			for ( i = 0; i < len; i++)
+			{
+				if(list[i].id == id)
+				{
+
+					retorno = i;
+				}
+			}
+		}
+	return retorno;
 }
 /** \brief Remove a Employee by Id (put isEmpty Flag in 1)
  *
@@ -89,7 +96,18 @@ find a employee] - (0) if Ok
  */
 int employee_removeEmployee(Employee* list, int len, int id)
 {
- return -1;
+	int retorno = -1;
+	int bufferIndex = employee_findEmployeeById(list, len, id);
+	Employee bufferEmployee;
+	if( list != NULL && len > 0 &&
+		id > 0 && bufferIndex != -1
+		&& list[bufferIndex].isEmpty == FALSE)
+	{
+		bufferEmployee.isEmpty = TRUE;
+		list[id] = bufferEmployee;
+		retorno = 0;
+	}
+	return retorno;
 }
 /** \brief print the content of employees array
  *
@@ -100,5 +118,76 @@ int employee_removeEmployee(Employee* list, int len, int id)
  */
 int employee_printEmployees(Employee* list, int length)
 {
- return 0;
+	int retorno = -1;
+	int i;
+	int flagResults = FALSE;
+	if (list != NULL && length > 0)
+	{
+		for(i = 0; i < length; i++)
+		{
+			if(list[i].isEmpty == 0)
+			{
+				if(flagResults == FALSE)
+				{
+					flagResults = TRUE;
+					retorno = 0;
+				}
+				printf("ID: %d - Nombre: %s - Apellido: %s - Salario: %.2f - Sector: %d\n",list[i].id,list[i].name,list[i].lastName,list[i].salary,list[i].sector);
+			}
+		}
+	}
+ return retorno;
+}
+static int generateNewId(void)
+{
+	static int id= ID_MIN; // es global para solo la fn puede usarla
+
+	//guardar el ultimo que asigne (ultimo que devolvi)
+	//para devolver 1+
+	id = id+1;
+	return id;
+}
+int employee_uploadEmployee(Employee* list, int len, int new)
+{
+
+	int retorno = -1;
+	int id;
+    char name[51];
+    char lastName[51];
+    float salary;
+    int sector;
+    int index;
+    if(employee_searchIndexFree(list, &index, len) == 0 &&
+    	utn_getName("\nIngrese el nombre:","\nError",name, ATTEMPTS, LONG_NAME) == 0 &&
+    	utn_getName("\nIngrese el apellido:","\nError",lastName, ATTEMPTS, LONG_NAME) == 0 &&
+    	utn_getFloat("\nIngrese el salario:","\nError",&salary,SALARY_MIN,SALARY_MAX,ATTEMPTS) == 0 &&
+    	utn_getInt(&sector, "\nIngrese el sector:", "\nError", SECTOR_MIN, SECTOR_MAX, ATTEMPTS) == 0
+		)
+    {
+    	id = generateNewId();
+    	employee_addEmployee(list, len, id, name, lastName, salary, sector, index);
+    	retorno = 0;
+    }
+	return retorno;
+
+
+}
+int employee_searchIndexFree(Employee* list,int* pIndex, int len)
+{
+	int retorno = -1;
+		int i;
+			if(list != NULL && len > 0)
+			{
+				for(i = 0;i<len;i++)
+				{
+					if(list[i].isEmpty == 1)
+					{
+						*pIndex = i;
+						retorno = 0;
+						break;
+
+					}
+				}
+			}
+		return retorno;
 }
