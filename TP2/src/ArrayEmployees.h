@@ -19,6 +19,9 @@
 #define SALARY_MAX 100000
 #define ID_MAX 1000
 #define ID_MIN 0
+#define MENU_FIRST "\n1-Alta \n2-Salir"
+#define MENU_SECOND "\n1-Alta\n2-Actualizar\n3-Dar de baja Empleado\n4-Ordenar empleados de forma descendente\n5-Ordenar empleados de forma ascendente\n6-Imprimir todos\n7-Imprimir Empleado por Id\n10-Salir"
+#define ERROR_GENERIC "\nError"
 struct
 {
  int id;
