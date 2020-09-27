@@ -19,7 +19,7 @@
 int main(void) {
 	int op;
 	int scanId;
-	int flagFirstUser = TRUE;
+	int flagFirstUser = FALSE;
 	float resultAvg;
 	int resultCountAvg;
 	float acumulatorSalary;
@@ -40,13 +40,13 @@ int main(void) {
 			case 1:
 				if(employee_uploadEmployee(empleados, QTY_EMPLOYEE, TRUE) == 0)
 				{
-					printf("Empleado cargado correctamente.\n");
+					printf(CREATE_EMPLOYEE_SUCCESS);
 					flagFirstUser = TRUE;
 					op = 2;
 				}
 				else
 				{
-					printf("Error en la carga del empleado.\n");
+					printf(CREATE_EMPLOYEE_ERROR);
 				}
 				break;
 		}
@@ -63,32 +63,32 @@ int main(void) {
 				case 1:
 					if(employee_uploadEmployee(empleados, QTY_EMPLOYEE, TRUE) == 0)
 					{
-						printf("Empleado cargado correctamente.\n");
+						printf(CREATE_EMPLOYEE_SUCCESS);
 					}
 					else
 					{
-						printf("Error en la carga del empleado.\n");
+						printf(CREATE_EMPLOYEE_ERROR);
 					}
 					break;
 				case 2:
 					if(employee_uploadEmployee(empleados, QTY_EMPLOYEE, FALSE) == 0)
 					{
-						printf("Empleado modificado correctamente.\n");
+						printf(MODIFY_EMPLOYEE_SUCCESS);
 					}
 					else
 					{
-						printf("Error en la modificación del empleado.\n");
+						printf(MODIFY_EMPLOYEE_ERROR);
 					}
 					break;
 				case 3:
-					if(utn_getInt(&scanId, "Ingrese el Id del empleado:\n", "Error.\n", ID_MIN, ID_MAX, 2) == 0 &&
+					if(utn_getInt(&scanId, INPUT_ID, ERROR_GENERIC, ID_MIN, ID_MAX, ATTEMPTS) == 0 &&
 						employee_removeEmployee(empleados, QTY_EMPLOYEE, scanId) == 0	)
 					{
-						printf("Empleado eliminado con éxito");
+						printf(DELETE_EMPLOYEE_SUCCESS);
 					}
 					else
 					{
-						printf("No existe un empleado con ese ID");
+						printf(DELETE_EMPLOYEE_ERROR);
 					}
 					break;
 				case 4:
@@ -96,11 +96,11 @@ int main(void) {
 					   employee_printEmployees(empleados, QTY_EMPLOYEE) == 0 &&
 					   employee_calculateAverageSalary(empleados, QTY_EMPLOYEE, &resultAvg, &resultCountAvg,&acumulatorSalary) == 0)
 					{
-						printf("El salario total es: %.2f. El salario promedio es: %.2f y el número de empleados que supera el promedio es: %d",acumulatorSalary,resultAvg,resultCountAvg);
+						printf(REPORT_EMPLOYEES_SUCCESS,acumulatorSalary,resultAvg,resultCountAvg);
 					}
 					else
 					{
-						printf("Error");
+						printf(REPORT_EMPLOYEES_ERROR);
 					}
 					break;
 			}

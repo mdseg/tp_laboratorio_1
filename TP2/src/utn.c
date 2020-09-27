@@ -110,16 +110,7 @@ static int utn_verifyNumArray(char* array)
 
 
 
-/**
-* \brief Solicita un entero al usuario
-* \param int* pResultado, puntero al espacio de memoria donde se dejará el valor obtenido.
-* \param char* mensaje, Es el mensaje a ser mostrado al usuario.
-* \param char* mensajeError, Es el mensaje de error a ser mostrado al usuario.
-* \param int minimo, valor minimo admitido
-* \param int maximo, valor maximo admitido
-* \param int reintentos, cantidad de oportunidades para ingresar el dato
-* \return (-1) Error / (0) Ok
- */
+
 static int getChar(char* pResultado)
 {
 	int retorno = -1;
@@ -136,6 +127,16 @@ static int getChar(char* pResultado)
 	}
 	return retorno;
 }
+/**
+* \brief Solicita un entero al usuario
+* \param int* pResultado, puntero al espacio de memoria donde se dejará el valor obtenido.
+* \param char* mensaje, Es el mensaje a ser mostrado al usuario.
+* \param char* mensajeError, Es el mensaje de error a ser mostrado al usuario.
+* \param int minimo, valor minimo admitido
+* \param int maximo, valor maximo admitido
+* \param int reintentos, cantidad de oportunidades para ingresar el dato
+* \return (-1) Error / (0) Ok
+ */
 int utn_getInt(int* pResultado,char* mensaje,char* mensajeError,int minimo,int maximo,int reintentos)
 {
 	int retorno = -1;
@@ -163,6 +164,16 @@ int utn_getInt(int* pResultado,char* mensaje,char* mensajeError,int minimo,int m
 	}
 	return retorno;
 }
+/**
+* \brief Solicita un entero al usuario
+* \param char* mensaje, Es el mensaje a ser mostrado al usuario.
+* \param char* mensajeError, Es el mensaje de error a ser mostrado al usuario.
+** \param int* pResultado, puntero al espacio de memoria donde se dejará el valor obtenido.
+* \param int minimo, valor minimo admitido
+* \param int maximo, valor maximo admitido
+* \param int reintentos, cantidad de oportunidades para ingresar el dato
+* \return (-1) Error / (0) Ok
+ */
 int utn_getFloat(char* mensaje,char* mensajeError,float* pResultado,int minimo,int maximo,int reintentos)
 {
 	int retorno = -1;
@@ -186,6 +197,16 @@ int utn_getFloat(char* mensaje,char* mensajeError,float* pResultado,int minimo,i
 	}
 	return retorno;
 }
+/**
+* \brief Solicita un char al usuario
+* \param char* pResultado, puntero al espacio de memoria donde se dejará la cadena de chars obtenida.
+* \param char* mensaje, Es el mensaje a ser mostrado al usuario.
+* \param char* mensajeError, Es el mensaje de error a ser mostrado al usuario.
+* \param int minimo, valor minimo admitido
+* \param int maximo, valor maximo admitido
+* \param int reintentos, cantidad de oportunidades para ingresar el dato
+* \return (-1) Error / (0) Ok
+ */
 int utn_getChar(char* pResultado,char* mensaje,char* mensajeError,int minimo,int maximo,int reintentos)
 {
 	int retorno = -1;
@@ -209,6 +230,16 @@ int utn_getChar(char* pResultado,char* mensaje,char* mensajeError,int minimo,int
 	}
 	return retorno;
 }
+/**
+* \brief Solicita un nombre al usuario y lo valida.
+* \param char* mensaje, Es el mensaje a ser mostrado al usuario.
+* \param char* mensajeError, Es el mensaje de error a ser mostrado al usuario.
+* \param char* pResultado, puntero al espacio de memoria donde se dejará el valor obtenido.
+* \param int minimo, valor minimo admitido
+* \param int maximo, valor maximo admitido
+* \param int reintentos, cantidad de oportunidades para ingresar el dato
+* \return (-1) Error / (0) Ok
+ */
 int utn_getName(char* message, char* errorMessage, char* pResult, int attemps, int limit)
 {
 	int retorno = -1;
@@ -236,6 +267,7 @@ int utn_getName(char* message, char* errorMessage, char* pResult, int attemps, i
 	}
 	return retorno;
 }
+
 int getMaximoArrayInt(int *pArray, int *pResultado, int size)
 {
 	int retorno = -1;
