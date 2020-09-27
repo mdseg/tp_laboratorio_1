@@ -19,16 +19,18 @@
 int main(void) {
 	int op;
 	int scanId;
-	int flagFirstUser = FALSE;
+	int flagFirstUser = TRUE;
+	float resultAvg;
+	int resultCountAvg;
+	float acumulatorSalary;
 	Employee empleados[QTY_EMPLOYEE];
 	employee_initEmployees(empleados, QTY_EMPLOYEE);
-
-	/*employee_addEmployee(empleados, QTY_EMPLOYEE, 4, "Lionel", "Zoriano", 1800, 1, 4);
+	employee_addEmployee(empleados, QTY_EMPLOYEE, 4, "Lionel", "Zoriano", 1800, 1, 4);
 	employee_addEmployee(empleados, QTY_EMPLOYEE, 2, "Marianela", "Hernandez", 2500, 2, 2);
 	employee_addEmployee(empleados, QTY_EMPLOYEE, 3, "Jorge", "Sampahumoli", 4000, 2, 3);
-	employee_addEmployee(empleados, QTY_EMPLOYEE, 1, "Dario", "Benitez", 4000, 2, 1);
-	employee_addEmployee(empleados, QTY_EMPLOYEE, 0, "Alvaro", "Elena", 4000, 2, 0);
-	*/
+	employee_addEmployee(empleados, QTY_EMPLOYEE, 7, "Dario", "Benitez", 4000, 2, 7);
+	employee_addEmployee(empleados, QTY_EMPLOYEE, 8, "Oscar", "Ruggeri", 4000, 1, 8);
+	employee_addEmployee(empleados, QTY_EMPLOYEE, 9, "Daniel", "Soldado", 4000, 2, 9);
 	do
 	{
 		utn_getInt(&op, MENU_FIRST, ERROR_GENERIC, 1, 2, ATTEMPTS);
@@ -49,6 +51,7 @@ int main(void) {
 		}
 	}
 	while(op != 2);
+
 	if(flagFirstUser == TRUE)
 	{
 		do
@@ -77,58 +80,83 @@ int main(void) {
 					}
 					break;
 				case 3:
-					if(utn_getInt(&scanId, "Ingrese el Id del empleado:\n", "Error.\n", ID_MIN, ID_MAX, 2) == 0)
+					if(utn_getInt(&scanId, "Ingrese el Id del empleado:\n", "Error.\n", ID_MIN, ID_MAX, 2) == 0 &&
+						employee_removeEmployee(empleados, QTY_EMPLOYEE, scanId) == 0	)
 					{
-						if(employee_removeEmployee(empleados, QTY_EMPLOYEE, scanId) == 0)
-						{
-							printf("Empleado eliminado con éxito");
-						}
-						else
-						{
-							printf("No existe un empleado con ese ID");
-						}
+						printf("Empleado eliminado con éxito");
+					}
+					else
+					{
+						printf("No existe un empleado con ese ID");
 					}
 					break;
 				case 4:
-					if(employee_sortEmployees(empleados, QTY_EMPLOYEE, 0) == 0)
+					if(employee_sortEmployees(empleados, QTY_EMPLOYEE, UP) == 0 &&
+					   employee_printEmployees(empleados, QTY_EMPLOYEE) == 0 &&
+					   employee_calculateAverageSalary(empleados, QTY_EMPLOYEE, &resultAvg, &resultCountAvg,&acumulatorSalary) == 0)
 					{
-						printf("Orden realizado correctamente");
+						printf("El salario total es: %.2f. El salario promedio es: %.2f y el número de empleados que supera el promedio es: %d",acumulatorSalary,resultAvg,resultCountAvg);
 					}
 					else
 					{
-						printf("Error al ordenar");
+						printf("Error");
 					}
 					break;
-				case 5:
-					if(employee_sortEmployees(empleados, QTY_EMPLOYEE, 1) == 0)
-					{
-						printf("Orden realizado correctamente");
-					}
-					else
-					{
-						printf("Error al ordenar");
-					}
-					break;
-				case 6:
-					if(employee_printEmployees(empleados, QTY_EMPLOYEE) != 0)
-					{
-						printf("No hay registros cargados.\n");
-					}
-					break;
-				case 7:
-					if(utn_getInt(&scanId, "Ingrese el Id del empleado:\n", "Error.\n", ID_MIN, ID_MAX, 2) == 0)
-					{
-						if(employee_findEmployeeById(empleados, QTY_EMPLOYEE, scanId) != 0)
-						{
-							printf("No hay registros cargados.\n");
-						}
-					}
-					break;
-				}
+			}
 		}
-		while(op != 10);
-
+		while(op != 5);
 	}
-
 	return EXIT_SUCCESS;
 }
+
+
+
+/*
+case 4:
+	if(employee_sortEmployees(empleados, QTY_EMPLOYEE, 0) == 0)
+	{
+		printf("Orden realizado correctamente");
+	}
+	else
+	{
+		printf("Error al ordenar");
+	}
+	break;
+
+case 5:
+	if(employee_sortEmployees(empleados, QTY_EMPLOYEE, 1) == 0)
+	{
+		printf("Orden realizado correctamente");
+	}
+	else
+	{
+		printf("Error al ordenar");
+	}
+	break;
+
+case 6:
+	if(employee_printEmployees(empleados, QTY_EMPLOYEE) != 0)
+	{
+		printf("No hay registros cargados.\n");
+	}
+	break;
+
+case 7:
+	if(utn_getInt(&scanId, "Ingrese el Id del empleado:\n", "Error.\n", ID_MIN, ID_MAX, 2) == 0)
+	{
+		if(employee_findEmployeeById(empleados, QTY_EMPLOYEE, scanId) != 0)
+		{
+			printf("No hay registros cargados.\n");
+		}
+	}
+	break;
+case 5:
+	if(employee_calculateAverageSalary(empleados, QTY_EMPLOYEE, &resultAvg) == 0)
+	{
+		printf("El salario promedio es: %f",resultAvg);
+	}
+	else
+	{
+		printf("Error");
+	}
+	*/

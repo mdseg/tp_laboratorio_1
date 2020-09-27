@@ -11,7 +11,7 @@
 #define TRUE 1
 #define FALSE 0
 #define LONG_NAME 50
-#define QTY_EMPLOYEE 5
+#define QTY_EMPLOYEE 10
 #define ATTEMPTS 5
 #define SECTOR_MIN 1
 #define SECTOR_MAX 10
@@ -19,9 +19,11 @@
 #define SALARY_MAX 100000
 #define ID_MAX 1000
 #define ID_MIN 0
-#define MENU_FIRST "\n1-Alta \n2-Salir"
-#define MENU_SECOND "\n1-Alta\n2-Actualizar\n3-Dar de baja Empleado\n4-Ordenar empleados de forma descendente\n5-Ordenar empleados de forma ascendente\n6-Imprimir todos\n7-Imprimir Empleado por Id\n10-Salir"
+#define MENU_FIRST "\nMenu inicial, para proseguir es necesario dar de alta el primer usuario:\n1-Alta \n2-Salir"
+#define MENU_SECOND "\nElija una de estas opciones:\n1-Alta\n2-Actualizar\n3-Dar de baja Empleado\n4-Informe\n5-Salir"
 #define ERROR_GENERIC "\nError"
+#define UP 1
+#define DOWN 0
 struct
 {
  int id;
@@ -40,5 +42,6 @@ int employee_removeEmployee(Employee* list, int len, int id); //Hecho
 int employee_uploadEmployee(Employee* list, int len, int new);
 int employee_searchIndexFree(Employee* list,int* pIndex, int len);
 int employee_sortEmployees(Employee* list, int len, int order);
+int employee_calculateAverageSalary(Employee* list, int len, float *pAvg, int *pSavg, float *acmulatorSalary);
 static int generateNewId(void);
 #endif /* ARRAYEMPLOYEES_H_ */

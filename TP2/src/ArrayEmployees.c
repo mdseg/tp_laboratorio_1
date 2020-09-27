@@ -221,9 +221,10 @@ indicate UP or DOWN order
 */
 int employee_sortEmployees(Employee* list, int len, int order)
 {
+	int retorno = -1;
+
 	int flagSwap;
 	int i;
-	int retorno = -1;
 	Employee buffer;
 	int nuevoLimite;
 	if(list != NULL && len >=0)
@@ -263,9 +264,80 @@ int employee_sortEmployees(Employee* list, int len, int order)
 
 		}
 		while(flagSwap);
+		nuevoLimite = len - 1;
+		do
+		{
+			flagSwap=0;
+			for(i=0; i<nuevoLimite;i++)
+			{
+				switch (order)
+				{
+					case 0:
+						if(list[i].sector < list[i+1].sector)
+						{
+							flagSwap=1;
+							buffer = list[i];
+							list[i] = list[i+1];
+							list[i+1] = buffer;
+						}
+						break;
+					case 1:
+						if(list[i].sector > list[i+1].sector)
+						{
+							flagSwap=1;
+							buffer = list[i];
+							list[i] = list[i+1];
+							list[i+1] = buffer;
+						}
+						break;
+				}
+			}
+			nuevoLimite--;
+
+		}
+		while(flagSwap);
 		retorno = 0;
 
+
 	}
+
+	return retorno;
+}
+int employee_calculateAverageSalary(Employee* list, int len, float *pAvg, int *pSAvg, float *acumulatorSalary)
+{
+	int retorno = -1;
+	float bAcumulatorSalary = 0;
+	int counterSalary = 0;
+	float averageSalary = 0;
+	int counterSAverage = 0;
+	int i;
+
+	if(list != NULL && len > 0)
+	{
+		for(i = 0;i<len;i++)
+		{
+			if(list[i].isEmpty == FALSE)
+			{
+				bAcumulatorSalary+= list[i].salary;
+				counterSalary++;
+			}
+		}
+		averageSalary = bAcumulatorSalary / counterSalary;
+		for(i = 0;i<len;i++)
+		{
+			if(list[i].salary > averageSalary)
+			{
+
+				counterSAverage++;
+
+			}
+		}
+		*pAvg = averageSalary;
+		*pSAvg = counterSAverage;
+		*acumulatorSalary = bAcumulatorSalary;
+		retorno = 0;
+	}
+
 
 	return retorno;
 }

@@ -25,9 +25,9 @@ static int getChar(char* pResultado);
 static int utn_myGets(char* array, int length)
 {
 	int retorno=-1;
+	__fpurge(stdin);// fflush o __fpurge
 	if(array != NULL && length >0 && fgets(array,length,stdin)==array)
 	{
-		__fpurge(stdin); // fflush o __fpurge
 		if(array[strlen(array)-1] == '\n')
 		{
 			array[strlen(array)-1] = '\0';
@@ -152,8 +152,12 @@ int utn_getInt(int* pResultado,char* mensaje,char* mensajeError,int minimo,int m
 				retorno = 0;
 				break;
 			}
-			printf("%s",mensajeError);
-			reintentos--;
+			else
+			{
+				printf("%s",mensajeError);
+				reintentos--;
+			}
+
 		}
 		while(reintentos > 0);
 	}
@@ -231,7 +235,6 @@ int utn_getName(char* message, char* errorMessage, char* pResult, int attemps, i
 		while(attemps > 0);
 	}
 	return retorno;
-
 }
 int getMaximoArrayInt(int *pArray, int *pResultado, int size)
 {
@@ -252,7 +255,6 @@ int getMaximoArrayInt(int *pArray, int *pResultado, int size)
 	}
 	return retorno;
 }
-
 int getMinimoArrayInt(int *pArray, int *pResultado, int size)
 {
 	int retorno = -1;
@@ -272,7 +274,6 @@ int getMinimoArrayInt(int *pArray, int *pResultado, int size)
 	}
 	return retorno;
 }
-
 int promedioArray(int array[], float* pResultado, int size)
 {
 	int retorno = -1;
@@ -318,7 +319,6 @@ int printArrayInt(int* pArray, int limite)
  * \pram size Es la longitud del array.
  * \return Cantidad de iteraciones necesarias para Ordenar si Ok o -1 para indicar un error.
  */
-
 int ordenarArrayIntDesc(int* pArray, int limite)
 {
 	int flagSwap;
@@ -371,30 +371,23 @@ int ordenarArrayIntAsc(int* pArray, int limite)
 		nuevoLimite = limite - 1;
 		do
 		{
-
 			flagSwap=0;
 			for(i=0; i<nuevoLimite;i++)
 			{
 				contador++;
 				if(pArray[i] > pArray[i+1])
 				{
-
 					flagSwap=1;
 					buffer = pArray[i];
 					pArray[i] = pArray[i+1];
 					pArray[i+1] = buffer;
-
 				}
-
 			}
 			nuevoLimite--;
-
 		}
 		while(flagSwap);
 		retorno = contador;
-
 	}
-
 	return retorno;
 }
 int contadorArray(int* pArray, int limite, int valorBuscado, int* pContador)
@@ -461,7 +454,6 @@ int getCadenaNoNumerica(char* mensaje, char*mensajeError, char* pResultado, int 
 		while(reintentos > 0);
 	}
 	return retorno;
-
 }
 static int utn_verifyCharArray(char *pArray)
 {
