@@ -155,6 +155,7 @@ int employee_uploadEmployee(Employee* list, int len, int new)
     float salary;
     int sector;
     int index;
+    int op;
     if (new == TRUE)
     {
     	if(employee_searchIndexFree(list, &index, len) == 0 &&
@@ -175,17 +176,56 @@ int employee_uploadEmployee(Employee* list, int len, int new)
     	if(utn_getInt(&id, "Ingrese el Id del empleado:\n", "Error.\n", ID_MIN, ID_MAX, 2) == 0)
     	{
     		index = employee_findEmployeeById(list, QTY_EMPLOYEE, id);
-    		if(index != -1 &&
-   				utn_getName("\nIngrese el nombre:","\nError",name, ATTEMPTS, LONG_NAME) == 0 &&
-	    		utn_getName("\nIngrese el apellido:","\nError",lastName, ATTEMPTS, LONG_NAME) == 0 &&
-				utn_getFloat("\nIngrese el salario:","\nError",&salary,SALARY_MIN,SALARY_MAX,ATTEMPTS) == 0 &&
-    			utn_getInt(&sector, "\nIngrese el sector:", "\nError", SECTOR_MIN, SECTOR_MAX, ATTEMPTS) == 0
-    			)
+    		if(index != -1)
     		{
-    			employee_addEmployee(list, len, id, name, lastName, salary, sector, index);
-    			retorno = 0;
+    			Employee bufferEmployee = list[index];
+    			int flagCarga = FALSE;
+
+    			do
+    			{
+        			utn_getInt(&op, MENU_MODIFY, ERROR_GENERIC, 1, 8, ATTEMPTS);
+    				switch (op)
+					{
+						case 1:
+							if(utn_getName("\nIngrese el nombre:","\nError",name, ATTEMPTS, LONG_NAME) == 0)
+							{
+								strcpy(bufferEmployee.name,name);
+								flagCarga = TRUE;
+							}
+							break;
+						case 2:
+							if(utn_getName("\nIngrese el nombre:","\nError",name, ATTEMPTS, LONG_NAME) == 0)
+							{
+								strcpy(bufferEmployee.lastName,lastName);
+								flagCarga = TRUE;
+							}
+							break;
+						case 3:
+							if(utn_getFloat("\nIngrese el salario:","\nError",&salary,SALARY_MIN,SALARY_MAX,ATTEMPTS) == 0)
+							{
+								bufferEmployee.salary = salary;
+								flagCarga = TRUE;
+							}
+							break;
+						case 4:
+							if(utn_getInt(&sector, "\nIngrese el sector:", "\nError", SECTOR_MIN, SECTOR_MAX, ATTEMPTS) == 0)
+							{
+								bufferEmployee.sector =sector;
+								flagCarga = TRUE;
+							}
+							break;
+					}
+    			}
+    			while(op != 5);
+    			if(flagCarga == TRUE)
+    			{
+    				employee_addEmployee(list, len, id, name, lastName, salary, sector, index);
+    				retorno = 0;
+    			}
     		}
+
     	}
+
     }
 	return retorno;
 

@@ -21,6 +21,7 @@
 #define ID_MIN 0
 #define MENU_FIRST "\nMenu inicial, para proseguir es necesario dar de alta el primer usuario:\n1-Alta \n2-Salir"
 #define MENU_SECOND "\nElija una de estas opciones:\n1-Alta\n2-Actualizar\n3-Dar de baja Empleado\n4-Informe\n5-Salir"
+#define MENU_MODIFY "\nSeleccione el campo a modificar:\n1-Nombre\n2-Apellido\n3-Salario\n4-Sector\n5-Volver al menú principal"
 #define ERROR_GENERIC "\nError"
 #define UP 1
 #define DOWN 0
