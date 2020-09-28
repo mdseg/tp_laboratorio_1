@@ -79,6 +79,8 @@ int dividir(float* pResultado,float operandoUno, float operandoDos)
 int factorial(int* pResultado, float operando)
 {
 	int retorno = -1;
+	int contador;
+	int acumuladorFactorial = 1;
 	if (pResultado != NULL && operando >= 0)
 	{
 		if (operando == 0)
@@ -87,8 +89,6 @@ int factorial(int* pResultado, float operando)
 		}
 		else
 		{
-			int contador;
-			int acumuladorFactorial = 1;
 			for(contador = 1; contador <= operando;contador++)
 			{
 				acumuladorFactorial *= contador;

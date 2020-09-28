@@ -19,19 +19,21 @@
 int main(void) {
 	int op;
 	int scanId;
-	int flagFirstUser = FALSE;
+	int flagFirstUser = TRUE;
+	int flagExit = FALSE;
 	float resultAvg;
 	int resultCountAvg;
 	float acumulatorSalary;
 	Employee empleados[QTY_EMPLOYEE];
 	employee_initEmployees(empleados, QTY_EMPLOYEE);
-	employee_addEmployee(empleados, QTY_EMPLOYEE, 4, "Lionel", "Zoriano", 1800, 1, 4);
-	employee_addEmployee(empleados, QTY_EMPLOYEE, 2, "Marianela", "Hernandez", 2500, 2, 2);
-	employee_addEmployee(empleados, QTY_EMPLOYEE, 3, "Jorge", "Sampahumoli", 4000, 2, 3);
-	employee_addEmployee(empleados, QTY_EMPLOYEE, 7, "Dario", "Benitez", 4000, 2, 7);
-	employee_addEmployee(empleados, QTY_EMPLOYEE, 8, "Oscar", "Ruggeri", 4000, 1, 8);
-	employee_addEmployee(empleados, QTY_EMPLOYEE, 9, "Daniel", "Soldado", 4000, 2, 9);
 
+	employee_addEmployee(empleados, QTY_EMPLOYEE, 4, "Lionel", "Zoriano", 1800, 1);
+	employee_addEmployee(empleados, QTY_EMPLOYEE, 2, "Marianela", "Hernandez", 2500, 2);
+	employee_addEmployee(empleados, QTY_EMPLOYEE, 3, "Jorge", "Sampahumoli", 4000, 2);
+	employee_addEmployee(empleados, QTY_EMPLOYEE, 7, "Dario", "Benitez", 4000, 2);
+	employee_addEmployee(empleados, QTY_EMPLOYEE, 8, "Oscar", "Ruggeri", 4000, 1);
+	employee_addEmployee(empleados, QTY_EMPLOYEE, 9, "Daniel", "Soldado", 4000, 2);
+	/*
 	do
 	{
 		utn_getInt(&op, MENU_FIRST, ERROR_GENERIC, 1, 2, ATTEMPTS);
@@ -42,17 +44,21 @@ int main(void) {
 				{
 					printf(CREATE_EMPLOYEE_SUCCESS);
 					flagFirstUser = TRUE;
-					op = 2;
+					flagExit = TRUE;
 				}
 				else
 				{
 					printf(CREATE_EMPLOYEE_ERROR);
 				}
 				break;
+			case 2:
+				printf("Saliendo de la aplicación...");
+				flagExit = TRUE;
+				break;
 		}
 	}
-	while(op != 2);
-
+	while(flagExit == FALSE);
+	*/
 	if(flagFirstUser == TRUE)
 	{
 		do
@@ -102,6 +108,9 @@ int main(void) {
 					{
 						printf(REPORT_EMPLOYEES_ERROR);
 					}
+					break;
+				case 5:
+					printf("Saliendo de la aplicación...");
 					break;
 			}
 		}

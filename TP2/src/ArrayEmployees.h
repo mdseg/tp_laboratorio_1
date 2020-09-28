@@ -23,7 +23,7 @@
 #define MENU_SECOND "\nElija una de estas opciones:\n1-Alta\n2-Actualizar\n3-Dar de baja Empleado\n4-Informe\n5-Salir"
 #define MENU_MODIFY "\nSeleccione el campo a modificar:\n1-Nombre\n2-Apellido\n3-Salario\n4-Sector\n5-Volver al menú principal"
 #define ERROR_GENERIC "\nError"
-#define CREATE_EMPLOYEE_SUCCESS "Empleado eliminado con éxito.\n"
+#define CREATE_EMPLOYEE_SUCCESS "Empleado creado con éxito.\n"
 #define CREATE_EMPLOYEE_ERROR "Error en la carga del empleado.\n"
 #define MODIFY_EMPLOYEE_ERROR "Error en la modificación del empleado.\n"
 #define MODIFY_EMPLOYEE_SUCCESS "Empleado modificado correctamente.\n"
@@ -49,7 +49,8 @@ struct
  int isEmpty;
 }typedef Employee;
 
-int employee_addEmployee(Employee* list, int len, int id, char name[],char lastName[],float salary,int sector, int index);
+int employee_addEmployee(Employee* list, int len, int id, char name[],char lastName[],float salary,int sector);
+int employee_modifyEmployee(Employee* list, int len, int id, char name[],char lastName[],float salary,int sector,int index);
 int employee_findEmployeeById(Employee* list, int len,int id);
 int employee_initEmployees(Employee* list, int len);
 int employee_printEmployees(Employee* list, int length);

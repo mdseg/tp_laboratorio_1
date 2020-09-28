@@ -42,22 +42,51 @@ int employee_initEmployees(Employee* list, int len)
 free space] - (0) if Ok
  */
 int employee_addEmployee(Employee* list, int len, int id, char name[],char
-lastName[],float salary,int sector,int index)
+lastName[],float salary,int sector)
 {
 
 	int retorno=0;
-    list[index].id=id;
-    utn_UpperFirstCharArray(name);
-    utn_UpperFirstCharArray(lastName);
-    strcpy(list[index].name,name);
-    strcpy(list[index].lastName,lastName);
-    list[index].salary=salary;
-    list[index].sector=sector;
-    list[index].isEmpty = FALSE;
+	int index;
+	if(employee_searchIndexFree(list, &index, len) == 0)
+	{
+		list[index].id=id;
+	    utn_UpperFirstCharArray(name);
+	    utn_UpperFirstCharArray(lastName);
+	    strcpy(list[index].name,name);
+	    strcpy(list[index].lastName,lastName);
+	    list[index].salary=salary;
+	    list[index].sector=sector;
+	    list[index].isEmpty = FALSE;
+	}
     return retorno;
+}
+/** \brief add in a existing list of employees the values received as parameters
+ * in the first empty position
+ * \param list employee*
+ * \param len int
+ * \param id int
+ * \param name[] char
+ * \param lastName[] char
+ * \param salary float
+ * \param sector int
+ * \return int Return (-1) if Error [Invalid length or NULL pointer or without
+free space] - (0) if Ok
+ */
+int employee_modifyEmployee(Employee* list, int len, int id, char name[],char
+lastName[],float salary,int sector, int index)
+{
 
+	int retorno=0;
+	list[index].id=id;
+	utn_UpperFirstCharArray(name);
+	utn_UpperFirstCharArray(lastName);
+	strcpy(list[index].name,name);
+	strcpy(list[index].lastName,lastName);
+	list[index].salary=salary;
+	list[index].sector=sector;
+	list[index].isEmpty = FALSE;
 
-
+    return retorno;
 }
 /** \brief find an Employee by Id en returns the index position in array.
  *
@@ -178,13 +207,12 @@ int employee_uploadEmployee(Employee* list, int len, int new)
     			)
     	    {
     	    	id = generateNewId();
-    	    	employee_addEmployee(list, len, id, name, lastName, salary, sector, index);
+    	    	employee_addEmployee(list, len, id, name, lastName, salary, sector);
     	    	retorno = 0;
     	    }
     }
     else
     {
-
     	if(utn_getInt(&id, INPUT_ID, ERROR_GENERIC, ID_MIN, ID_MAX, 2) == 0)
     	{
     		index = employee_findEmployeeById(list, QTY_EMPLOYEE, id);
@@ -195,7 +223,7 @@ int employee_uploadEmployee(Employee* list, int len, int new)
 
     			do
     			{
-        			utn_getInt(&op, MENU_MODIFY, ERROR_GENERIC, 1, 8, ATTEMPTS);
+        			utn_getInt(&op, MENU_MODIFY, ERROR_GENERIC, 1, 5, ATTEMPTS);
     				switch (op)
 					{
 						case 1:
@@ -231,7 +259,7 @@ int employee_uploadEmployee(Employee* list, int len, int new)
     			while(op != 5);
     			if(flagCarga == TRUE)
     			{
-    				employee_addEmployee(list, len, id, name, lastName, salary, sector, index);
+    				employee_modifyEmployee(list, len, bufferEmployee.id, bufferEmployee.name, bufferEmployee.lastName, bufferEmployee.salary, bufferEmployee.sector,index);
     				retorno = 0;
     			}
     		}
