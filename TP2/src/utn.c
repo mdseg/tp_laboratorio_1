@@ -110,7 +110,11 @@ static int utn_verifyNumArray(char* array)
 
 
 
-
+/**
+* \brief ​ se le solicita un valor del tipo char el usuario y lo valida para posteriormente almacenarlo en un puntero
+* \​param​ ​ *pResultado char puntero donde se almacena el char generado y validado.
+* \return ​ Retorna​ 1 (​ vardadero​ ) ​ si​ ​ la​ ​ cadena​ ​ es​ ​ numerica​ y 0 (​ falso​ ) ​ si​ no ​ lo​ ​ es
+*/
 static int getChar(char* pResultado)
 {
 	int retorno = -1;
@@ -267,7 +271,13 @@ int utn_getName(char* message, char* errorMessage, char* pResult, int attemps, i
 	}
 	return retorno;
 }
-
+/**
+ * \brief Buscar el valor máximo existente en un array de enteros.
+ * \param pArray es el puntero al array donde se hará la busqueda.
+ * \param pResultado es el puntero donde se almacena el valor máximo encontrado en el array
+ * \param size Es la longitud del array.
+ * \return 0 si Ok o -1 para indicar un error.
+ */
 int getMaximoArrayInt(int *pArray, int *pResultado, int size)
 {
 	int retorno = -1;
@@ -287,6 +297,13 @@ int getMaximoArrayInt(int *pArray, int *pResultado, int size)
 	}
 	return retorno;
 }
+/**
+ * \brief Buscar el valor mínimo existente en un array de enteros.
+ * \param pArray es el puntero al array donde se hará la busqueda.
+ * \param pResultado es el puntero donde se almacena el valor mínimo encontrado en el array
+ * \param size Es la longitud del array.
+ * \return 0 si Ok o -1 para indicar un error.
+ */
 int getMinimoArrayInt(int *pArray, int *pResultado, int size)
 {
 	int retorno = -1;
@@ -306,6 +323,13 @@ int getMinimoArrayInt(int *pArray, int *pResultado, int size)
 	}
 	return retorno;
 }
+/**
+ * \brief realiza el promedio en un array de numeros enteros.
+ * \param array[] es el puntero al array donde se hará la busqueda.
+ * \param pResultado es el puntero donde se almacena el valor del promedio de todos los elementos del array.
+ * \param size Es la longitud del array.
+ * \return 0 si Ok o -1 para indicar un error.
+ */
 int promedioArray(int array[], float* pResultado, int size)
 {
 	int retorno = -1;
@@ -390,11 +414,16 @@ int ordenarArrayIntDesc(int* pArray, int limite)
 
 	return retorno;
 }
+/**
+ * \brief ordena un array de enteros ASC
+ * \param pArray es el puntero al array a ser ordenado.
+ * \pram size Es la longitud del array.
+ * \return 0 si Ok o -1 para indicar un error.
+ */
 int ordenarArrayIntAsc(int* pArray, int limite)
 {
 	int flagSwap;
 	int i;
-	int contador = 0;
 	int retorno = -1;
 	int buffer;
 	int nuevoLimite;
@@ -406,7 +435,6 @@ int ordenarArrayIntAsc(int* pArray, int limite)
 			flagSwap=0;
 			for(i=0; i<nuevoLimite;i++)
 			{
-				contador++;
 				if(pArray[i] > pArray[i+1])
 				{
 					flagSwap=1;
@@ -418,10 +446,18 @@ int ordenarArrayIntAsc(int* pArray, int limite)
 			nuevoLimite--;
 		}
 		while(flagSwap);
-		retorno = contador;
+		retorno = 0;
 	}
 	return retorno;
 }
+/**
+ * \brief realiza un conteo sobre las veces que aparece un valor deseado en un Array
+ * \param pArray int es el puntero al array donde se hará la búsqueda.
+ * \param valorBuscado int es el numero entero a buscar.
+ * \param limite int es la longitud del array.
+ * \param pContador int es un puntero que almacena la cantidad de veces que aparece el valor buscado.
+ * \return 0 si Ok o -1 para indicar un error.
+ */
 int contadorArray(int* pArray, int limite, int valorBuscado, int* pContador)
 {
 	int contador;
@@ -441,6 +477,13 @@ int contadorArray(int* pArray, int limite, int valorBuscado, int* pContador)
 		}
 	return retorno;
 }
+/**
+ * \brief realiza un conteo sobre las veces que aparece un valor char deseado en un Array
+ * \param pArray char es el puntero al array donde se hará la búsqueda.
+ * \param valorBuscado char es el numero entero a buscar.
+ * \param pContador int es un puntero que almacena la cantidad de veces que aparece el valor buscado.
+ * \return 0 si Ok o -1 para indicar un error.
+ */
 int contadorArrayChar(char* pArray, char valorBuscado, int* pContador)
 {
 	int contador;
@@ -487,6 +530,11 @@ int getCadenaNoNumerica(char* mensaje, char*mensajeError, char* pResultado, int 
 	}
 	return retorno;
 }
+/**
+ * \brief verifica que una cadena de char incluya solo letras mayusculas y minusculas.
+ * \param pArray char es el puntero al array donde se hará la búsqueda.
+ * \return 0 si Ok o -1 para indicar un error.
+ */
 static int utn_verifyCharArray(char *pArray)
 {
 	int retorno = 0;
