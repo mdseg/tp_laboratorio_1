@@ -615,20 +615,28 @@ int utn_UpperFirstCharArray(char pArray[])
 
 static int isOnlyLettersAndSpace(char cadena[])
 {
-	int retorno = 1;
+	int retorno = -11;
 	int i;
 
 	for(i=0 ; cadena[i] != '\0'; i++)
 	{
 		if((cadena[i] < 'A' || cadena[i] > 'Z') &&
 			(cadena[i] < 'a' || cadena[i] > 'z') &&
-			(cadena[i] != ' ') &&
-			(cadena[i] < 'á' || cadena[i] > 'ú') &&
-			(cadena[i] != 'é'))
+			(cadena[i] != ' ')
+			)
 		{
 			retorno = 0;
 			break;
 		}
+	}
+	return retorno;
+}
+int stringCompare(char firstString[], char secondString[])
+{
+	int retorno = -1;
+	if(isOnlyLettersAndSpace(firstString) == 0 && isOnlyLettersAndSpace(secondString))
+	{
+
 	}
 	return retorno;
 }
