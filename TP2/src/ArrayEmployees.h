@@ -29,7 +29,7 @@
 #define MODIFY_EMPLOYEE_SUCCESS "Empleado modificado correctamente.\n"
 #define DELETE_EMPLOYEE_ERROR "No existe un empleado con ese ID.\n"
 #define DELETE_EMPLOYEE_SUCCESS "Empleado dado de baja correctamente.\n"
-#define REPORT_EMPLOYEES_SUCCESS "El salario total es: %.2f. El salario promedio es: %.2f y el número de empleados que supera el promedio es: %d"
+#define REPORT_EMPLOYEES_SUCCESS "El salario total es: %.2f.\nEl salario promedio es: %.2f.\nEl número de empleados que supera el promedio es: %d"
 #define REPORT_EMPLOYEES_ERROR "Error al realizar el informe.\n"
 #define PRINT_ONE_EMPLOYEE "ID: %d - Nombre: %s - Apellido: %s - Salario: %.2f - Sector: %d\n"
 #define UP 1

@@ -442,7 +442,7 @@ static int employee_calculateAverageSalary(Employee* list, int len, float *pAvg,
 		averageSalary = bAcumulatorSalary / counterSalary;
 		for(i = 0;i<len;i++)
 		{
-			if(list[i].salary > averageSalary)
+			if(list[i].salary > averageSalary && list[i].isEmpty == FALSE)
 			{
 
 				counterSAverage++;
