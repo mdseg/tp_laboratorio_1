@@ -21,12 +21,7 @@ int main(void) {
 	int flagFirstEmployee = FALSE;
 	Employee empleados[QTY_EMPLOYEE];
 	employee_initEmployees(empleados, QTY_EMPLOYEE);
-	employee_addEmployee(empleados, QTY_EMPLOYEE, 4, "Lionel", "Zoriano", 1800, 1);
-	employee_addEmployee(empleados, QTY_EMPLOYEE, 2, "Marianela", "Hernandez", 2500, 2);
-	employee_addEmployee(empleados, QTY_EMPLOYEE, 3, "Jorge", "Sampahumoli", 4000, 1);
-	employee_addEmployee(empleados, QTY_EMPLOYEE, 7, "Dario", "Soldado", 4000, 2);
-	employee_addEmployee(empleados, QTY_EMPLOYEE, 8, "Oscar", "Ruggeri", 4000, 1);
-	employee_addEmployee(empleados, QTY_EMPLOYEE, 9, "Daniel", "Sendra", 4000, 2);
+	employee_createTestEmployeesList(empleados, QTY_EMPLOYEE);
 	do
 	{
 		utn_getInt(&op, MAIN_MENU, ERROR_GENERIC, 1, 5, ATTEMPTS);
@@ -36,7 +31,7 @@ int main(void) {
 				employee_createEmployee(empleados, QTY_EMPLOYEE, &flagFirstEmployee);
 				break;
 			case 2:
-				employee_publicModifyEmployee(empleados, QTY_EMPLOYEE, flagFirstEmployee);
+				employee_modifyEmployee(empleados, QTY_EMPLOYEE, flagFirstEmployee);
 				break;
 			case 3:
 				employee_unsuscribeEmployee(empleados, QTY_EMPLOYEE, flagFirstEmployee);

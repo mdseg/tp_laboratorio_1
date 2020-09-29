@@ -6,7 +6,7 @@
 #include <string.h>
 
 static int generateNewId(void);
-static int employee_modifyEmployee(Employee* list, int len, int id, char name[],char lastName[],float salary,int sector,int index);
+static int employee_staticModifyEmployee(Employee* list, int len, int id, char name[],char lastName[],float salary,int sector,int index);
 static int employee_searchIndexFree(Employee* list,int* pIndex, int len);
 static int employee_findEmployeeById(Employee* list, int len,int id);
 static int employee_printEmployees(Employee* list, int length);
@@ -67,7 +67,7 @@ int employee_addEmployee(Employee* list, int len, int id, char name[],char
 lastName[],float salary,int sector)
 {
 
-	int retorno=0;
+	int retorno= -1;
 	int index;
 	if(employee_searchIndexFree(list, &index, len) == 0)
 	{
@@ -79,6 +79,7 @@ lastName[],float salary,int sector)
 	    list[index].salary=salary;
 	    list[index].sector=sector;
 	    list[index].isEmpty = FALSE;
+	    retorno = 0;
 	}
     return retorno;
 }
@@ -94,7 +95,7 @@ lastName[],float salary,int sector)
  * \return int Return (-1) if Error [Invalid length or NULL pointer or without
 free space] - (0) if Ok
  */
-static int employee_modifyEmployee(Employee* list, int len, int id, char name[],char
+static int employee_staticModifyEmployee(Employee* list, int len, int id, char name[],char
 lastName[],float salary,int sector, int index)
 {
 
@@ -280,7 +281,7 @@ static int employee_loadEmployee(Employee* list, int len, int new)
     			while(op != 5);
     			if(flagCarga == TRUE)
     			{
-    				employee_modifyEmployee(list, len, bufferEmployee.id, bufferEmployee.name, bufferEmployee.lastName, bufferEmployee.salary, bufferEmployee.sector,index);
+    				employee_staticModifyEmployee(list, len, bufferEmployee.id, bufferEmployee.name, bufferEmployee.lastName, bufferEmployee.salary, bufferEmployee.sector,index);
     				retorno = 0;
     			}
     		}
@@ -458,13 +459,20 @@ static int employee_calculateAverageSalary(Employee* list, int len, float *pAvg,
 
 	return retorno;
 }
+/** \brief call the statics functions to create an employee
+*
+* \param list Employee*
+* \param len int
+* \param *pflagFirstEmployee int it's a pointer that will change to TRUE(1) if a new Employee has been created
+* \return int Return (-1) if Error - (0) if Ok
+*
+*/
 int employee_createEmployee(Employee* list, int len, int* pflagFirstEmployee)
 {
-
 	int retorno = -1;
 	if(employee_loadEmployee(list, QTY_EMPLOYEE, TRUE) == 0)
 	{
-		*pflagFirstEmployee = 1;
+		*pflagFirstEmployee = TRUE;
 		printf(CREATE_EMPLOYEE_SUCCESS);
 		retorno = 0;
 	}
@@ -474,7 +482,15 @@ int employee_createEmployee(Employee* list, int len, int* pflagFirstEmployee)
 	}
 	return retorno;
 }
-int employee_publicModifyEmployee(Employee* list, int len, int flagFirstEmployee)
+/** \brief call the statics functions to modify an employee
+*
+* \param list Employee*
+* \param len int
+* \param flagFirstEmployee int it's a pointer that indicates if a new employeed has been created.
+* * \return int Return (-1) if Error - (0) if Ok
+*
+*/
+int employee_modifyEmployee(Employee* list, int len, int flagFirstEmployee)
 {
 	int retorno = -1;
 	if(flagFirstEmployee == TRUE && employee_loadEmployee(list, QTY_EMPLOYEE, FALSE) == 0)
@@ -488,6 +504,14 @@ int employee_publicModifyEmployee(Employee* list, int len, int flagFirstEmployee
 	}
 	return retorno;
 }
+/** \brief call the statics functions to remove an employee
+*
+* \param list Employee*
+* \param len int
+* \param flagFirstEmployee int it's a pointer that indicates if a new employeed has been created.
+* * \return int Return (-1) if Error - (0) if Ok
+*
+*/
 int employee_unsuscribeEmployee(Employee* list, int len, int flagFirstEmployee)
 {
 	int retorno = -1;
@@ -505,6 +529,14 @@ int employee_unsuscribeEmployee(Employee* list, int len, int flagFirstEmployee)
 
 	return retorno;
 }
+/** \brief call the statics functions to create an report of employees
+*
+* \param list Employee*
+* \param len int
+* \param flagFirstEmployee int it's a pointer that indicates if a new employeed has been created.
+* * \return int Return (-1) if Error - (0) if Ok
+*
+*/
 int employee_PrintEmployeesByLastNameAndSector(Employee* list, int len, int flagFirstEmployee)
 {
 	int retorno = -1;
@@ -520,6 +552,29 @@ int employee_PrintEmployeesByLastNameAndSector(Employee* list, int len, int flag
 	else
 	{
 		send_errorMessage(flagFirstEmployee, REPORT_EMPLOYEES_ERROR);
+	}
+	return retorno;
+}
+
+/** \brief esta función solo es usada en fase de desarrollo para poder crear rapidamente una lista de empleados para hacer pruebas.
+*
+* \param list Employee*
+* \param len int
+* * \return int Return (-1) if Error - (0) if Ok
+*
+*/
+int employee_createTestEmployeesList(Employee* list, int len)
+{
+	int retorno = -1;
+
+	if(employee_addEmployee(list, QTY_EMPLOYEE, 400, "Lionel", "Zoriano", 1800, 1) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 401, "Marianela", "Hernandez", 2500, 2) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 402, "Jorge", "Sampaio", 4000, 1) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 403, "Dario", "Soldado", 4000, 2) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 404, "Oscar", "Ruggeri", 4000, 1) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 405, "Daniel", "Sendra", 4000, 2) == 0)
+	{
+		retorno = 0;
 	}
 	return retorno;
 }

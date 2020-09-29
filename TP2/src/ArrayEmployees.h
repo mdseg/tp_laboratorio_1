@@ -11,12 +11,12 @@
 #define TRUE 1
 #define FALSE 0
 #define LONG_NAME 50
-#define QTY_EMPLOYEE 10
+#define QTY_EMPLOYEE 1000
 #define ATTEMPTS 5
 #define SECTOR_MIN 1
-#define SECTOR_MAX 10
-#define SALARY_MIN 1000
-#define SALARY_MAX 100000
+#define SECTOR_MAX 100
+#define SALARY_MIN 1
+#define SALARY_MAX 10000000
 #define ID_MAX 1000
 #define ID_MIN 0
 #define MAIN_MENU "\nElija una de estas opciones:\n1-ALTA\n2-MODIFICAR\n3-BAJA\n4-INFORMAR\n5-SALIR"
@@ -36,9 +36,9 @@
 #define DOWN 0
 #define INPUT_LASTNAME "Ingrese el apellido:\n"
 #define INPUT_NAME "Ingrese el nombre:\n"
-#define INPUT_SECTOR "Ingrese el sector:\n"
+#define INPUT_SECTOR "Ingrese el sector (valores permitidos: 1-100):\n"
 #define INPUT_ID "Ingrese el Id del empleado:\n"
-#define INPUT_SALARY "Ingrese el salario:\n"
+#define INPUT_SALARY "Ingrese el salario (valores permitidos: 1-1000000):\n"
 struct
 {
  int id;
@@ -50,11 +50,11 @@ struct
 }typedef Employee;
 
 int employee_initEmployees(Employee* list, int len);
-int employee_publicModifyEmployee(Employee* list, int len, int flagFirstEmployee);
+int employee_modifyEmployee(Employee* list, int len, int flagFirstEmployee);
 int employee_unsuscribeEmployee(Employee* list, int len, int flagFirstEmployee);
 int employee_createEmployee(Employee* list, int len, int* pflagFirstEmployee);
 int employee_PrintEmployeesByLastNameAndSector(Employee* list, int len, int pflagFirstEmployee);
 int employee_addEmployee(Employee* list, int len, int id, char name[],char lastName[],float salary,int sector);
-
+int employee_createTestEmployeesList(Employee* list, int len);
 
 #endif
