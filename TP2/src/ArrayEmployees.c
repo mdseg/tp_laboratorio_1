@@ -5,6 +5,28 @@
 #include <stdlib.h>
 #include <string.h>
 
+static int generateNewId(void);
+static int employee_modifyEmployee(Employee* list, int len, int id, char name[],char lastName[],float salary,int sector,int index);
+static int employee_searchIndexFree(Employee* list,int* pIndex, int len);
+static int employee_findEmployeeById(Employee* list, int len,int id);
+static int employee_printEmployees(Employee* list, int length);
+static int employee_removeEmployee(Employee* list, int len, int id);
+static int employee_loadEmployee(Employee* list, int len, int new);
+static int employee_sortEmployees(Employee* list, int len, int order);
+static int employee_calculateAverageSalary(Employee* list, int len, float *pAvg, int *pSavg, float *acmulatorSalary);
+
+
+static void send_errorMessage(int flagFirstEmployee,char* mainError)
+{
+	if(flagFirstEmployee == TRUE)
+	{
+		printf("%s",mainError);
+	}
+	else
+	{
+		printf("Debe cargar al menos un registro para poder acceder a esta funcionalidad.");
+	}
+}
 
 /** \brief To indicate that all position in the array are empty,
  * this function put the flag (isEmpty) in TRUE in all
@@ -72,7 +94,7 @@ lastName[],float salary,int sector)
  * \return int Return (-1) if Error [Invalid length or NULL pointer or without
 free space] - (0) if Ok
  */
-int employee_modifyEmployee(Employee* list, int len, int id, char name[],char
+static int employee_modifyEmployee(Employee* list, int len, int id, char name[],char
 lastName[],float salary,int sector, int index)
 {
 
@@ -97,7 +119,7 @@ lastName[],float salary,int sector, int index)
 pointer received or employee not found]
  *
  */
-int employee_findEmployeeById(Employee* list, int len,int id)
+static int employee_findEmployeeById(Employee* list, int len,int id)
 {
 	int i = 0;
 	int retorno = -1;
@@ -123,7 +145,7 @@ int employee_findEmployeeById(Employee* list, int len,int id)
 find a employee] - (0) if Ok
  *
  */
-int employee_removeEmployee(Employee* list, int len, int id)
+static int employee_removeEmployee(Employee* list, int len, int id)
 {
 	int retorno = -1;
 	int bufferIndex = employee_findEmployeeById(list, len, id);
@@ -143,7 +165,7 @@ int employee_removeEmployee(Employee* list, int len, int id)
  * \return retorno
  *
  */
-int employee_printEmployees(Employee* list, int length)
+static int employee_printEmployees(Employee* list, int length)
 {
 	int retorno = -1;
 	int i;
@@ -186,7 +208,7 @@ static int generateNewId(void)
 * \return int Return (-1) if Error [Invalid length or NULL pointer] - (0) if Ok
 *
 */
-int employee_uploadEmployee(Employee* list, int len, int new)
+static int employee_loadEmployee(Employee* list, int len, int new)
 {
 
 	int retorno = -1;
@@ -220,7 +242,6 @@ int employee_uploadEmployee(Employee* list, int len, int new)
     		{
     			Employee bufferEmployee = list[index];
     			int flagCarga = FALSE;
-
     			do
     			{
         			utn_getInt(&op, MENU_MODIFY, ERROR_GENERIC, 1, 5, ATTEMPTS);
@@ -304,7 +325,7 @@ indicate UP or DOWN order
 * \return int Return (-1) if Error [Invalid length or NULL pointer] - (0) if Ok
 *
 */
-int employee_sortEmployees(Employee* list, int len, int order)
+static int employee_sortEmployees(Employee* list, int len, int order)
 {
 	int retorno = -1;
 
@@ -314,41 +335,6 @@ int employee_sortEmployees(Employee* list, int len, int order)
 	int nuevoLimite;
 	if(list != NULL && len >=0)
 	{
-		nuevoLimite = len - 1;
-		do
-		{
-
-			flagSwap=0;
-			for(i=0; i<nuevoLimite;i++)
-			{
-				switch (order)
-				{
-					case 0:
-						if(list[i].lastName[0] < list[i+1].lastName[0])
-						{
-
-							flagSwap=1;
-							buffer = list[i];
-							list[i] = list[i+1];
-							list[i+1] = buffer;
-
-						}
-						break;
-					case 1:
-						if(list[i].lastName[0] > list[i+1].lastName[0])
-						{
-							flagSwap=1;
-							buffer = list[i];
-							list[i] = list[i+1];
-							list[i+1] = buffer;
-						}
-						break;
-				}
-			}
-			nuevoLimite--;
-
-		}
-		while(flagSwap);
 		nuevoLimite = len - 1;
 		do
 		{
@@ -381,6 +367,42 @@ int employee_sortEmployees(Employee* list, int len, int order)
 
 		}
 		while(flagSwap);
+		nuevoLimite = len - 1;
+				do
+				{
+
+					flagSwap=0;
+					for(i=0; i<nuevoLimite;i++)
+					{
+						switch (order)
+						{
+							case 0:
+								if(list[i].lastName[0] < list[i+1].lastName[0])
+								{
+
+									flagSwap=1;
+									buffer = list[i];
+									list[i] = list[i+1];
+									list[i+1] = buffer;
+
+								}
+								break;
+							case 1:
+								if(list[i].lastName[0] > list[i+1].lastName[0])
+								{
+									flagSwap=1;
+									buffer = list[i];
+									list[i] = list[i+1];
+									list[i+1] = buffer;
+								}
+								break;
+						}
+					}
+					nuevoLimite--;
+
+				}
+				while(flagSwap);
+
 		retorno = 0;
 
 
@@ -398,7 +420,7 @@ int employee_sortEmployees(Employee* list, int len, int order)
 * \return int Return (-1) if Error [Invalid length or NULL pointer] - (0) if Ok
 *
 */
-int employee_calculateAverageSalary(Employee* list, int len, float *pAvg, int *pSAvg, float *acumulatorSalary)
+static int employee_calculateAverageSalary(Employee* list, int len, float *pAvg, int *pSAvg, float *acumulatorSalary)
 {
 	int retorno = -1;
 	float bAcumulatorSalary = 0;
@@ -434,5 +456,70 @@ int employee_calculateAverageSalary(Employee* list, int len, float *pAvg, int *p
 	}
 
 
+	return retorno;
+}
+int employee_createEmployee(Employee* list, int len, int* pflagFirstEmployee)
+{
+
+	int retorno = -1;
+	if(employee_loadEmployee(list, QTY_EMPLOYEE, TRUE) == 0)
+	{
+		*pflagFirstEmployee = 1;
+		printf(CREATE_EMPLOYEE_SUCCESS);
+		retorno = 0;
+	}
+	else
+	{
+		printf(CREATE_EMPLOYEE_ERROR);
+	}
+	return retorno;
+}
+int employee_publicModifyEmployee(Employee* list, int len, int flagFirstEmployee)
+{
+	int retorno = -1;
+	if(flagFirstEmployee == TRUE && employee_loadEmployee(list, QTY_EMPLOYEE, FALSE) == 0)
+	{
+		printf(MODIFY_EMPLOYEE_SUCCESS);
+		retorno = 0;
+	}
+	else
+	{
+		send_errorMessage(flagFirstEmployee, MODIFY_EMPLOYEE_ERROR);
+	}
+	return retorno;
+}
+int employee_unsuscribeEmployee(Employee* list, int len, int flagFirstEmployee)
+{
+	int retorno = -1;
+	int scanId;
+	if(flagFirstEmployee == TRUE && utn_getInt(&scanId, INPUT_ID, ERROR_GENERIC, ID_MIN, ID_MAX, ATTEMPTS) == 0 &&
+		employee_removeEmployee(list, QTY_EMPLOYEE, scanId) == 0)
+	{
+		printf(DELETE_EMPLOYEE_SUCCESS);
+		retorno = 0;
+	}
+	else
+	{
+		send_errorMessage(flagFirstEmployee, DELETE_EMPLOYEE_ERROR);
+	}
+
+	return retorno;
+}
+int employee_PrintEmployeesByLastNameAndSector(Employee* list, int len, int flagFirstEmployee)
+{
+	int retorno = -1;
+	float resultAvg;
+	int resultCountAvg;
+	float acumulatorSalary;
+	if(flagFirstEmployee == TRUE && employee_sortEmployees(list, QTY_EMPLOYEE, UP) == 0 &&
+	   employee_printEmployees(list, QTY_EMPLOYEE) == 0 &&
+	   employee_calculateAverageSalary(list, QTY_EMPLOYEE, &resultAvg, &resultCountAvg,&acumulatorSalary) == 0)
+	{
+		printf(REPORT_EMPLOYEES_SUCCESS,acumulatorSalary,resultAvg,resultCountAvg);
+	}
+	else
+	{
+		send_errorMessage(flagFirstEmployee, REPORT_EMPLOYEES_ERROR);
+	}
 	return retorno;
 }

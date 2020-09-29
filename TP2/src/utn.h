@@ -25,4 +25,4 @@ int utn_getChar(char* pResultado,char* mensaje,char* mensajeError,int minimo,int
 int utn_verifyUpperFirstCharArray(char *pArray);
 int utn_UpperFirstCharArray(char pArray[]);
 int utn_isValidName(char* array, int limit);
-#endif /* UTN_H_ */
+#endif

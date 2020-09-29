@@ -12,7 +12,7 @@ static int utn_myGets(char* array, int length);
 static int utn_isValidName(char* array, int limit);
 static int utn_verifyCharArray(char *pArray);
 static int getChar(char* pResultado);
-
+static int isOnlyLettersAndSpace(char cadena[]);
 
 /**
 * \brief Lee ​ de​ ​ stdin​ ​ hasta​ ​ que​ ​ encuentra​ ​ un​ '\n' o ​ hasta​ ​ que​ ​ haya​ ​ copiado​ ​ en​ ​ cadena
@@ -606,4 +606,29 @@ int utn_UpperFirstCharArray(char pArray[])
 			retorno = -1;
 		}
 		return retorno;
+}
+/**
+ * \brief Verifica si la cadena ingresada son letras
+ * \param cadena Cadena de caracteres a ser analizada
+ * \return 1 EXITO / (0) ERROR
+ */
+
+static int isOnlyLettersAndSpace(char cadena[])
+{
+	int retorno = 1;
+	int i;
+
+	for(i=0 ; cadena[i] != '\0'; i++)
+	{
+		if((cadena[i] < 'A' || cadena[i] > 'Z') &&
+			(cadena[i] < 'a' || cadena[i] > 'z') &&
+			(cadena[i] != ' ') &&
+			(cadena[i] < 'á' || cadena[i] > 'ú') &&
+			(cadena[i] != 'é'))
+		{
+			retorno = 0;
+			break;
+		}
+	}
+	return retorno;
 }
