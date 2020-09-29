@@ -16,9 +16,13 @@ static int employee_sortEmployees(Employee* list, int len, int order);
 static int employee_calculateAverageSalary(Employee* list, int len, float *pAvg, int *pSavg, float *acmulatorSalary);
 static int employee_checkActiveEmployees(Employee* list, int len);
 
-static void send_errorMessage(int flagFirstEmployee,char* mainError)
+/*
+static void send_errorMessage(char* mainError)
 {
-	if(flagFirstEmployee == TRUE)
+	if(employee_checkActiveEmployees(empleados, len) == 0)
+	{
+
+	} == TRUE)
 	{
 		printf("%s",mainError);
 	}
@@ -26,7 +30,7 @@ static void send_errorMessage(int flagFirstEmployee,char* mainError)
 	{
 		printf("Debe cargar al menos un registro para poder acceder a esta funcionalidad.");
 	}
-}
+}*/
 
 /** \brief To indicate that all position in the array are empty,
  * this function put the flag (isEmpty) in TRUE in all
@@ -454,12 +458,11 @@ static int employee_calculateAverageSalary(Employee* list, int len, float *pAvg,
 * \return int Return (-1) if Error - (0) if Ok
 *
 */
-int employee_createEmployee(Employee* list, int len, int* pflagFirstEmployee)
+int employee_createEmployee(Employee* list, int len)
 {
 	int retorno = -1;
 	if(employee_loadEmployee(list, QTY_EMPLOYEE, TRUE) == 0)
 	{
-		*pflagFirstEmployee = TRUE;
 		printf(CREATE_EMPLOYEE_SUCCESS);
 		retorno = 0;
 	}
@@ -477,17 +480,24 @@ int employee_createEmployee(Employee* list, int len, int* pflagFirstEmployee)
 * * \return int Return (-1) if Error - (0) if Ok
 *
 */
-int employee_modifyEmployee(Employee* list, int len, int flagFirstEmployee)
+int employee_modifyEmployee(Employee* list, int len)
 {
 	int retorno = -1;
-	if(flagFirstEmployee == TRUE && employee_loadEmployee(list, QTY_EMPLOYEE, FALSE) == 0)
+	if(employee_checkActiveEmployees(list, len) == 0)
 	{
-		printf(MODIFY_EMPLOYEE_SUCCESS);
-		retorno = 0;
+		if(employee_loadEmployee(list, QTY_EMPLOYEE, FALSE) == 0)
+		{
+			printf(MODIFY_EMPLOYEE_SUCCESS);
+			retorno = 0;
+		}
+		else
+		{
+			printf(MODIFY_EMPLOYEE_ERROR);
+		}
 	}
 	else
 	{
-		send_errorMessage(flagFirstEmployee, MODIFY_EMPLOYEE_ERROR);
+		printf(ERROR_NOT_AVAILABLE);
 	}
 	return retorno;
 }
@@ -499,23 +509,26 @@ int employee_modifyEmployee(Employee* list, int len, int flagFirstEmployee)
 * * \return int Return (-1) if Error - (0) if Ok
 *
 */
-int employee_unsuscribeEmployee(Employee* list, int len, int* flagFirstEmployee)
+int employee_unsuscribeEmployee(Employee* list, int len)
 {
 	int retorno = -1;
 	int scanId;
-	if(flagFirstEmployee == TRUE && utn_getInt(&scanId, INPUT_ID, ERROR_GENERIC, ID_MIN, ID_MAX, ATTEMPTS) == 0 &&
-		employee_removeEmployee(list, QTY_EMPLOYEE, scanId) == 0)
+	if(employee_checkActiveEmployees(list, len) == 0)
 	{
-		printf(DELETE_EMPLOYEE_SUCCESS);
-		if(employee_checkActiveEmployees(list, len) == 0)
+		if(utn_getInt(&scanId, INPUT_ID, ERROR_GENERIC, ID_MIN, ID_MAX, ATTEMPTS) == 0 &&
+				employee_removeEmployee(list, QTY_EMPLOYEE, scanId) == 0)
 		{
-			*flagFirstEmployee = FALSE;
+			printf(DELETE_EMPLOYEE_SUCCESS);
+			retorno = 0;
 		}
-		retorno = 0;
+		else
+		{
+			printf(DELETE_EMPLOYEE_ERROR);
+		}
 	}
 	else
 	{
-		send_errorMessage(flagFirstEmployee, DELETE_EMPLOYEE_ERROR);
+		printf(ERROR_NOT_AVAILABLE);
 	}
 
 	return retorno;
@@ -528,22 +541,30 @@ int employee_unsuscribeEmployee(Employee* list, int len, int* flagFirstEmployee)
 * * \return int Return (-1) if Error - (0) if Ok
 *
 */
-int employee_PrintEmployeesByLastNameAndSector(Employee* list, int len, int flagFirstEmployee)
+int employee_PrintEmployeesByLastNameAndSector(Employee* list, int len)
 {
 	int retorno = -1;
 	float resultAvg;
 	int resultCountAvg;
 	float acumulatorSalary;
-	if(flagFirstEmployee == TRUE && employee_sortEmployees(list, QTY_EMPLOYEE, UP) == 0 &&
-	   employee_printEmployees(list, QTY_EMPLOYEE) == 0 &&
-	   employee_calculateAverageSalary(list, QTY_EMPLOYEE, &resultAvg, &resultCountAvg,&acumulatorSalary) == 0)
+	if(employee_checkActiveEmployees(list, len) == 0)
 	{
-		printf(REPORT_EMPLOYEES_SUCCESS,acumulatorSalary,resultAvg,resultCountAvg);
+		if(employee_sortEmployees(list, QTY_EMPLOYEE, UP) == 0 &&
+			   employee_printEmployees(list, QTY_EMPLOYEE) == 0 &&
+			   employee_calculateAverageSalary(list, QTY_EMPLOYEE, &resultAvg, &resultCountAvg,&acumulatorSalary) == 0)
+		{
+			printf(REPORT_EMPLOYEES_SUCCESS,acumulatorSalary,resultAvg,resultCountAvg);
+		}
+		else
+		{
+			printf(REPORT_EMPLOYEES_ERROR);
+		}
 	}
 	else
 	{
-		send_errorMessage(flagFirstEmployee, REPORT_EMPLOYEES_ERROR);
+		printf(ERROR_NOT_AVAILABLE);
 	}
+
 	return retorno;
 }
 
@@ -558,12 +579,12 @@ int employee_createTestEmployeesList(Employee* list, int len)
 {
 	int retorno = -1;
 
-	if(employee_addEmployee(list, QTY_EMPLOYEE, 400, "Lionel\0", "Zoriano\0", 1800, 1) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 401, "Marianela\0", "Hernandez\0", 2500, 2) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 402, "Jorge\0", "Sampaio\0", 4000, 1) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 403, "Dario\0", "Soldado\0", 4000, 2) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 404, "Oscar\0", "Ruggeri\0", 4000, 1) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 405, "Daniel\0", "Sendra\0", 4000, 2) == 0)
+	if(employee_addEmployee(list, QTY_EMPLOYEE, 400, "Lionel", "Zoriano", 1800, 1) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 401, "Marianela", "Hernandez", 2500, 2) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 402, "Jorge", "Sampaio", 4000, 1) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 403, "Dario", "Soldado", 4000, 2) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 404, "Oscar", "Ruggeri", 4000, 1) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 405, "Daniel", "Sendra", 4000, 2) == 0)
 	{
 		retorno = 0;
 	}

@@ -655,6 +655,7 @@ static int utn_lowerCharArray(char pArray[])
 	int i = 0;
 	if(pArray != NULL && utn_verifyCharArray(pArray) == 0 )
 	{
+
 		for(i=0 ; pArray[i] != '\0'; i++)
 		{
 			if(pArray[i] >= 'A' && pArray[i] <= 'Z')
@@ -662,6 +663,7 @@ static int utn_lowerCharArray(char pArray[])
 					pArray[i] = tolower(pArray[i]);
 			}
 		}
+
 	}
 		return retorno;
 }

@@ -39,6 +39,7 @@
 #define INPUT_SECTOR "Ingrese el sector (valores permitidos: 1-100):\n"
 #define INPUT_ID "Ingrese el Id del empleado:\n"
 #define INPUT_SALARY "Ingrese el salario (valores permitidos: 1-1000000):\n"
+#define ERROR_NOT_AVAILABLE "Debe ingresar al menos un usuario para utilizar esta funcionalidad.\n"
 struct
 {
  int id;
@@ -50,10 +51,10 @@ struct
 }typedef Employee;
 
 int employee_initEmployees(Employee* list, int len);
-int employee_modifyEmployee(Employee* list, int len, int flagFirstEmployee);
-int employee_unsuscribeEmployee(Employee* list, int len, int* flagFirstEmployee);
-int employee_createEmployee(Employee* list, int len, int* pflagFirstEmployee);
-int employee_PrintEmployeesByLastNameAndSector(Employee* list, int len, int pflagFirstEmployee);
+int employee_modifyEmployee(Employee* list, int len);
+int employee_unsuscribeEmployee(Employee* list, int len);
+int employee_createEmployee(Employee* list, int len);
+int employee_PrintEmployeesByLastNameAndSector(Employee* list, int len);
 int employee_addEmployee(Employee* list, int len, int id, char name[],char lastName[],float salary,int sector);
 int employee_createTestEmployeesList(Employee* list, int len);
 

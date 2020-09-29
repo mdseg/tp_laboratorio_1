@@ -13,31 +13,33 @@
 #include <string.h>
 #include "utn.h"
 #include "ArrayEmployees.h"
-
+#include <ctype.h>
 
 
 int main(void) {
 	int op;
-	int flagFirstEmployee = FALSE;
+
+	char nombre = 'H';
+	nombre = tolower(nombre);
 	Employee empleados[QTY_EMPLOYEE];
 	employee_initEmployees(empleados, QTY_EMPLOYEE);
-//	employee_createTestEmployeesList(empleados, QTY_EMPLOYEE);
+	employee_createTestEmployeesList(empleados, QTY_EMPLOYEE);
 	do
 	{
 		utn_getInt(&op, MAIN_MENU, ERROR_GENERIC, 1, 5, ATTEMPTS);
 		switch(op)
 		{
 			case 1:
-				employee_createEmployee(empleados, QTY_EMPLOYEE, &flagFirstEmployee);
+				employee_createEmployee(empleados, QTY_EMPLOYEE);
 				break;
 			case 2:
-				employee_modifyEmployee(empleados, QTY_EMPLOYEE, flagFirstEmployee);
+				employee_modifyEmployee(empleados, QTY_EMPLOYEE);
 				break;
 			case 3:
-				employee_unsuscribeEmployee(empleados, QTY_EMPLOYEE, &flagFirstEmployee);
+				employee_unsuscribeEmployee(empleados, QTY_EMPLOYEE);
 				break;
 			case 4:
-				employee_PrintEmployeesByLastNameAndSector(empleados, QTY_EMPLOYEE, flagFirstEmployee);
+				employee_PrintEmployeesByLastNameAndSector(empleados, QTY_EMPLOYEE);
 				break;
 			case 5:
 				printf(EXIT_PROGRAM);
