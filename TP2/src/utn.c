@@ -5,6 +5,8 @@
 #include <ctype.h>
 
 #define LIMITE_BUFFER_STRING 4096
+#define TRUE 1
+#define FALSE 0
 
 static int utn_verifyNumArray(char* array);
 static int getInt(int* pResultado);
@@ -12,7 +14,8 @@ static int utn_myGets(char* array, int length);
 static int utn_isValidName(char* array, int limit);
 static int utn_verifyCharArray(char *pArray);
 static int getChar(char* pResultado);
-static int isOnlyLettersAndSpace(char cadena[]);
+static int utn_lowerCharArray(char pArray[]);
+static int utn_verifyAdjacentSpaces(char pArray[]);
 
 /**
 * \brief Lee ​ de​ ​ stdin​ ​ hasta​ ​ que​ ​ encuentra​ ​ un​ '\n' o ​ hasta​ ​ que​ ​ haya​ ​ copiado​ ​ en​ ​ cadena
@@ -66,14 +69,40 @@ int utn_isValidName(char* array, int limit)
 {
 	int respuesta = 1; // TOdo ok
 	int i;
+	int flagSpace = FALSE;
 	for (i=0;array[i] != '\0';i++)
 	{
 		if((array[i] < 'a' || array[i] > 'z') &&
-		   (array[i] < 'A' || array[i] > 'Z'))
+		   (array[i] < 'A' || array[i] > 'Z') &&
+			array[i] != ' ')
 		{
 			respuesta = 0;
 
 		}
+
+		else
+		{
+			if(array[i] == ' ')
+			{
+				if(flagSpace == FALSE)
+				{
+					flagSpace = TRUE;
+				}
+				else
+				{
+					respuesta = 0;
+				}
+			}
+			else if (((array[i] >= 'a' && array[i] <= 'z') ||
+					(array[i] >= 'A' && array[i] <= 'Z')))
+			{
+				if(flagSpace == TRUE)
+				{
+					flagSpace = FALSE;
+				}
+			}
+		}
+
 	}
 	return respuesta;
 
@@ -539,7 +568,7 @@ static int utn_verifyCharArray(char *pArray)
 {
 	int retorno = 0;
 	int i;
-	if (pArray != NULL) {
+	if (pArray != NULL && pArray[0] != ' ') {
 		for (i = 0; pArray[i] != '\0'; i++) {
 			if ((pArray[i] < 'a' || pArray[i] > 'z')
 					&& (pArray[i] < 'A' || pArray[i] > 'Z') && (pArray[i] != 32)){
@@ -547,6 +576,10 @@ static int utn_verifyCharArray(char *pArray)
 				break;
 			}
 		}
+	}
+	else
+	{
+		retorno = -1;
 	}
 	return retorno;
 }
@@ -582,61 +615,78 @@ int utn_verifyUpperFirstCharArray(char *pArray)
 * \return ​ Retorna​ 0 (​ vardadero​ ) ​ si pudo realizarse la operacion
 *  Devuelve -1 (​ falso​ ) ​ si​ no se cumplieron estas condiciones.
 */
-int utn_UpperFirstCharArray(char pArray[])
+int utn_upperFirstCharArray(char pArray[])
 {
 	int retorno = 0;
-		int i;
-		if(pArray != NULL && utn_verifyCharArray(pArray) == 0)
-		{
-
-			if(pArray[0] < 'A' || pArray[0] > 'Z' )
-			{
-				pArray[0] = toupper(pArray[0]);
-			}
-			for (i = 1; pArray[i] != '\0'; i++) {
-				if ((pArray[i] >= 'A' && pArray[i] <= 'Z'))
-				{
-					pArray[i] = tolower(pArray[i]);
-
-				}
-			}
-		}
-		else
-		{
-			retorno = -1;
-		}
-		return retorno;
-}
-/**
- * \brief Verifica si la cadena ingresada son letras
- * \param cadena Cadena de caracteres a ser analizada
- * \return 1 EXITO / (0) ERROR
- */
-
-static int isOnlyLettersAndSpace(char cadena[])
-{
-	int retorno = -11;
 	int i;
-
-	for(i=0 ; cadena[i] != '\0'; i++)
+	int flagSpace = FALSE;
+	if(pArray != NULL && utn_verifyCharArray(pArray) == 0 &&
+		utn_verifyAdjacentSpaces(pArray) == 0)
 	{
-		if((cadena[i] < 'A' || cadena[i] > 'Z') &&
-			(cadena[i] < 'a' || cadena[i] > 'z') &&
-			(cadena[i] != ' ')
-			)
+		utn_lowerCharArray(pArray);
+		pArray[0] = toupper(pArray[0]);
+		for(i = 1; pArray[i] != '\n';i++)
 		{
-			retorno = 0;
-			break;
+			if(pArray[i] == ' ')
+			{
+				flagSpace = TRUE;
+			}
+			else
+			{
+				if(flagSpace == TRUE)
+				{
+					pArray[i] = toupper(pArray[i]);
+					flagSpace = FALSE;
+				}
+
+			}
+
 		}
+	}
+	else
+	{
+		retorno = -1;
 	}
 	return retorno;
 }
-int stringCompare(char firstString[], char secondString[])
+static int utn_lowerCharArray(char pArray[])
 {
 	int retorno = -1;
-	if(isOnlyLettersAndSpace(firstString) == 0 && isOnlyLettersAndSpace(secondString))
+	int i = 0;
+	if(pArray != NULL && utn_verifyCharArray(pArray) == 0 )
+	{
+		for(i=0 ; pArray[i] != '\0'; i++)
+		{
+			if(pArray[i] >= 'A' && pArray[i] <= 'Z')
+			{
+					pArray[i] = tolower(pArray[i]);
+			}
+		}
+	}
+		return retorno;
+}
+static int utn_verifyAdjacentSpaces(char pArray[])
+{
+	int retorno = 0;
+	int i = 0;
+	int flagSpace = FALSE;
+	if(pArray != NULL && pArray[0] != ' ')
 	{
 
+		for(i=0 ; pArray[i] != '\0'; i++)
+		{
+			if(pArray[i] == ' ')
+			{
+				if(flagSpace == FALSE)
+				{
+					flagSpace = TRUE;
+				}
+				else
+				{
+					retorno = -1;
+				}
+			}
+		}
 	}
 	return retorno;
 }

@@ -51,7 +51,7 @@ struct
 
 int employee_initEmployees(Employee* list, int len);
 int employee_modifyEmployee(Employee* list, int len, int flagFirstEmployee);
-int employee_unsuscribeEmployee(Employee* list, int len, int flagFirstEmployee);
+int employee_unsuscribeEmployee(Employee* list, int len, int* flagFirstEmployee);
 int employee_createEmployee(Employee* list, int len, int* pflagFirstEmployee);
 int employee_PrintEmployeesByLastNameAndSector(Employee* list, int len, int pflagFirstEmployee);
 int employee_addEmployee(Employee* list, int len, int id, char name[],char lastName[],float salary,int sector);

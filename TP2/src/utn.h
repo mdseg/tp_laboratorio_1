@@ -23,6 +23,7 @@ int contadorArray(int* pArray, int limite, int valorBuscado, int* pContador);
 int contadorArrayChar(char* pArray, char valorBuscado, int* pContador);
 int utn_getChar(char* pResultado,char* mensaje,char* mensajeError,int minimo,int maximo,int reintentos);
 int utn_verifyUpperFirstCharArray(char *pArray);
-int utn_UpperFirstCharArray(char pArray[]);
+int utn_upperFirstCharArray(char pArray[]);
+int utn_lowerCharArray(char pArray[], int lenString);
 int utn_isValidName(char* array, int limit);
 #endif

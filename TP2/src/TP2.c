@@ -21,7 +21,7 @@ int main(void) {
 	int flagFirstEmployee = FALSE;
 	Employee empleados[QTY_EMPLOYEE];
 	employee_initEmployees(empleados, QTY_EMPLOYEE);
-	employee_createTestEmployeesList(empleados, QTY_EMPLOYEE);
+//	employee_createTestEmployeesList(empleados, QTY_EMPLOYEE);
 	do
 	{
 		utn_getInt(&op, MAIN_MENU, ERROR_GENERIC, 1, 5, ATTEMPTS);
@@ -34,7 +34,7 @@ int main(void) {
 				employee_modifyEmployee(empleados, QTY_EMPLOYEE, flagFirstEmployee);
 				break;
 			case 3:
-				employee_unsuscribeEmployee(empleados, QTY_EMPLOYEE, flagFirstEmployee);
+				employee_unsuscribeEmployee(empleados, QTY_EMPLOYEE, &flagFirstEmployee);
 				break;
 			case 4:
 				employee_PrintEmployeesByLastNameAndSector(empleados, QTY_EMPLOYEE, flagFirstEmployee);

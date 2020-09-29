@@ -14,7 +14,7 @@ static int employee_removeEmployee(Employee* list, int len, int id);
 static int employee_loadEmployee(Employee* list, int len, int new);
 static int employee_sortEmployees(Employee* list, int len, int order);
 static int employee_calculateAverageSalary(Employee* list, int len, float *pAvg, int *pSavg, float *acmulatorSalary);
-
+static int employee_checkActiveEmployees(Employee* list, int len);
 
 static void send_errorMessage(int flagFirstEmployee,char* mainError)
 {
@@ -66,14 +66,13 @@ free space] - (0) if Ok
 int employee_addEmployee(Employee* list, int len, int id, char name[],char
 lastName[],float salary,int sector)
 {
-
 	int retorno= -1;
 	int index;
 	if(employee_searchIndexFree(list, &index, len) == 0)
 	{
 		list[index].id=id;
-	    utn_UpperFirstCharArray(name);
-	    utn_UpperFirstCharArray(lastName);
+	    utn_upperFirstCharArray(name);
+	    utn_upperFirstCharArray(lastName);
 	    strcpy(list[index].name,name);
 	    strcpy(list[index].lastName,lastName);
 	    list[index].salary=salary;
@@ -98,17 +97,15 @@ free space] - (0) if Ok
 static int employee_staticModifyEmployee(Employee* list, int len, int id, char name[],char
 lastName[],float salary,int sector, int index)
 {
-
 	int retorno=0;
 	list[index].id=id;
-	utn_UpperFirstCharArray(name);
-	utn_UpperFirstCharArray(lastName);
+	utn_upperFirstCharArray(name);
+	utn_upperFirstCharArray(lastName);
 	strcpy(list[index].name,name);
 	strcpy(list[index].lastName,lastName);
 	list[index].salary=salary;
 	list[index].sector=sector;
 	list[index].isEmpty = FALSE;
-
     return retorno;
 }
 /** \brief find an Employee by Id en returns the index position in array.
@@ -194,10 +191,7 @@ static int employee_printEmployees(Employee* list, int length)
  */
 static int generateNewId(void)
 {
-	static int id= ID_MIN; // es global para solo la fn puede usarla
-
-	//guardar el ultimo que asigne (ultimo que devolvi)
-	//para devolver 1+
+	static int id= ID_MIN;
 	id = id+1;
 	return id;
 }
@@ -211,7 +205,6 @@ static int generateNewId(void)
 */
 static int employee_loadEmployee(Employee* list, int len, int new)
 {
-
 	int retorno = -1;
 	int id;
     char name[51];
@@ -329,7 +322,6 @@ indicate UP or DOWN order
 static int employee_sortEmployees(Employee* list, int len, int order)
 {
 	int retorno = -1;
-
 	int flagSwap;
 	int i;
 	Employee buffer;
@@ -354,6 +346,7 @@ static int employee_sortEmployees(Employee* list, int len, int order)
 						}
 						break;
 					case 1:
+
 						if(list[i].sector > list[i+1].sector)
 						{
 							flagSwap=1;
@@ -365,45 +358,39 @@ static int employee_sortEmployees(Employee* list, int len, int order)
 				}
 			}
 			nuevoLimite--;
-
 		}
 		while(flagSwap);
 		nuevoLimite = len - 1;
-				do
+		do
+		{
+			flagSwap=0;
+			for(i=0; i<nuevoLimite;i++)
+			{
+				switch (order)
 				{
-
-					flagSwap=0;
-					for(i=0; i<nuevoLimite;i++)
-					{
-						switch (order)
+					case 0:
+						if(strcmp(list[i].lastName,list[i+1].lastName) < 0)
 						{
-							case 0:
-								if(list[i].lastName[0] < list[i+1].lastName[0])
-								{
-
-									flagSwap=1;
-									buffer = list[i];
-									list[i] = list[i+1];
-									list[i+1] = buffer;
-
-								}
-								break;
-							case 1:
-								if(list[i].lastName[0] > list[i+1].lastName[0])
-								{
-									flagSwap=1;
-									buffer = list[i];
-									list[i] = list[i+1];
-									list[i+1] = buffer;
-								}
-								break;
+							flagSwap=1;
+							buffer = list[i];
+							list[i] = list[i+1];
+							list[i+1] = buffer;
 						}
-					}
-					nuevoLimite--;
-
+						break;
+					case 1:
+						if(strcmp(list[i].lastName,list[i+1].lastName) > 0)
+						{
+							flagSwap=1;
+							buffer = list[i];
+							list[i] = list[i+1];
+							list[i+1] = buffer;
+						}
+						break;
 				}
-				while(flagSwap);
-
+			}
+			nuevoLimite--;
+		}
+		while(flagSwap);
 		retorno = 0;
 
 
@@ -512,7 +499,7 @@ int employee_modifyEmployee(Employee* list, int len, int flagFirstEmployee)
 * * \return int Return (-1) if Error - (0) if Ok
 *
 */
-int employee_unsuscribeEmployee(Employee* list, int len, int flagFirstEmployee)
+int employee_unsuscribeEmployee(Employee* list, int len, int* flagFirstEmployee)
 {
 	int retorno = -1;
 	int scanId;
@@ -520,6 +507,10 @@ int employee_unsuscribeEmployee(Employee* list, int len, int flagFirstEmployee)
 		employee_removeEmployee(list, QTY_EMPLOYEE, scanId) == 0)
 	{
 		printf(DELETE_EMPLOYEE_SUCCESS);
+		if(employee_checkActiveEmployees(list, len) == 0)
+		{
+			*flagFirstEmployee = FALSE;
+		}
 		retorno = 0;
 	}
 	else
@@ -567,14 +558,32 @@ int employee_createTestEmployeesList(Employee* list, int len)
 {
 	int retorno = -1;
 
-	if(employee_addEmployee(list, QTY_EMPLOYEE, 400, "Lionel", "Zoriano", 1800, 1) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 401, "Marianela", "Hernandez", 2500, 2) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 402, "Jorge", "Sampaio", 4000, 1) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 403, "Dario", "Soldado", 4000, 2) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 404, "Oscar", "Ruggeri", 4000, 1) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 405, "Daniel", "Sendra", 4000, 2) == 0)
+	if(employee_addEmployee(list, QTY_EMPLOYEE, 400, "Lionel\0", "Zoriano\0", 1800, 1) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 401, "Marianela\0", "Hernandez\0", 2500, 2) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 402, "Jorge\0", "Sampaio\0", 4000, 1) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 403, "Dario\0", "Soldado\0", 4000, 2) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 404, "Oscar\0", "Ruggeri\0", 4000, 1) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 405, "Daniel\0", "Sendra\0", 4000, 2) == 0)
 	{
 		retorno = 0;
+	}
+	return retorno;
+}
+static int employee_checkActiveEmployees(Employee* list, int len)
+{
+
+	int retorno = -1;
+	int i;
+	if(list != NULL && len > 0)
+	{
+		for(i = 0;i<len;i++)
+		{
+			if(list[i].isEmpty == FALSE)
+			{
+				retorno = 0;
+				break;
+			}
+		}
 	}
 	return retorno;
 }
