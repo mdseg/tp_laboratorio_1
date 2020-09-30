@@ -31,7 +31,8 @@
 #define DELETE_EMPLOYEE_SUCCESS "Empleado dado de baja correctamente.\n"
 #define REPORT_EMPLOYEES_SUCCESS "El salario total es: %.2f.\nEl salario promedio es: %.2f.\nEl número de empleados que supera el promedio es: %d"
 #define REPORT_EMPLOYEES_ERROR "Error al realizar el informe.\n"
-#define PRINT_ONE_EMPLOYEE "ID: %d - Nombre: %s - Apellido: %s - Salario: %.2f - Sector: %d\n"
+#define PRINT_ONE_EMPLOYEE2 "ID: %d - Nombre: %s - Apellido: %s - Salario: %.2f - Sector: %d\n"
+#define PRINT_ONE_EMPLOYEE "|  %d |   %s   |     %s       |     %.2f     |     %d\n"
 #define UP 1
 #define DOWN 0
 #define INPUT_LASTNAME "Ingrese el apellido:\n"
@@ -40,6 +41,8 @@
 #define INPUT_ID "Ingrese el Id del empleado:\n"
 #define INPUT_SALARY "Ingrese el salario (valores permitidos: 1-1000000):\n"
 #define ERROR_NOT_AVAILABLE "Debe ingresar al menos un usuario para utilizar esta funcionalidad.\n"
+#define BANNER_GENERIC "--ID-----NOMBRE-------APELLIDO-------SALARIO---------SECTOR------------------"
+#
 struct
 {
  int id;

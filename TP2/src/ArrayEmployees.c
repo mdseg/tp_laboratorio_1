@@ -16,21 +16,6 @@ static int employee_sortEmployees(Employee* list, int len, int order);
 static int employee_calculateAverageSalary(Employee* list, int len, float *pAvg, int *pSavg, float *acmulatorSalary);
 static int employee_checkActiveEmployees(Employee* list, int len);
 
-/*
-static void send_errorMessage(char* mainError)
-{
-	if(employee_checkActiveEmployees(empleados, len) == 0)
-	{
-
-	} == TRUE)
-	{
-		printf("%s",mainError);
-	}
-	else
-	{
-		printf("Debe cargar al menos un registro para poder acceder a esta funcionalidad.");
-	}
-}*/
 
 /** \brief To indicate that all position in the array are empty,
  * this function put the flag (isEmpty) in TRUE in all
@@ -107,7 +92,7 @@ lastName[],float salary,int sector, int index)
 {
 	int retorno=0;
 	list[index].id=id;
-	utn_upperFirstCharArray(name);
+//	utn_upperFirstCharArray(name);
 	utn_upperFirstCharArray(lastName);
 	strcpy(list[index].name,name);
 	strcpy(list[index].lastName,lastName);
@@ -333,68 +318,25 @@ static int employee_sortEmployees(Employee* list, int len, int order)
 	int flagSwap;
 	int i;
 	Employee buffer;
-	int nuevoLimite;
 	if(list != NULL && len >=0)
 	{
-		nuevoLimite = len - 1;
 		do
 		{
 			flagSwap=0;
-			for(i=0; i<nuevoLimite;i++)
+			for(i=0; i<len-1;i++)
 			{
-				if(list[i].isEmpty == FALSE && list[i+1].isEmpty == FALSE)
-				{
-					switch (order)
-					{
-						case 0:
-							if(list[i].sector < list[i+1].sector)
-							{
-								flagSwap=1;
-								buffer = list[i];
-								list[i] = list[i+1];
-								list[i+1] = buffer;
-							}
-							break;
-						case 1:
-
-							if(list[i].sector > list[i+1].sector)
-							{
-								flagSwap=1;
-								buffer = list[i];
-								list[i] = list[i+1];
-								list[i+1] = buffer;
-							}
-							break;
-					}
-				}
-
-			}
-			nuevoLimite--;
-		}
-		while(flagSwap);
-		nuevoLimite = len - 1;
-		do
-		{
-			flagSwap=0;
-			for(i=0; i<nuevoLimite;i++)
-			{
-				if(list[i].isEmpty == FALSE && list[i+1].isEmpty == FALSE);
-				switch (order)
-				{
-					case 0:
-						if((order == 0 && strcmp(list[i].lastName,list[i+1].lastName) < 0) ||
-							(order == 0 && strcmp(list[i].lastName,list[i+1].lastName) > 0))
+						if((order == UP && (( strncmp(list[i].lastName, list[i+1].lastName,LONG_NAME) > 0) ||
+								(strncmp(list[i].lastName, list[i+1].lastName,LONG_NAME) == 0 && list[i].sector > list[i+1].sector)))
+								||
+								(order == DOWN && (( strncmp(list[i].lastName, list[i+1].lastName,LONG_NAME) < 0) ||
+								(strncmp(list[i].lastName, list[i+1].lastName,LONG_NAME) == 0 && list[i].sector < list[i+1].sector))))
 						{
 							flagSwap=1;
 							buffer = list[i];
 							list[i] = list[i+1];
 							list[i+1] = buffer;
 						}
-						break;
-
-				}
 			}
-			nuevoLimite--;
 		}
 		while(flagSwap);
 		retorno = 0;
@@ -580,12 +522,12 @@ int employee_PrintEmployeesByLastNameAndSector(Employee* list, int len)
 int employee_createTestEmployeesList(Employee* list, int len)
 {
 	int retorno = -1;
-	if(employee_addEmployee(list, QTY_EMPLOYEE, 400, "Lionel", "Zoriano", 1800, 1) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 401, "Marianela", "Hernandez", 2500, 2) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 402, "Jorge", "Sampaio", 4000, 1) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 403, "Dario", "Soldado", 4000, 2) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 404, "Oscar", "Ruggeri", 4000, 1) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 405, "Daniel", "Sendra", 4000, 2) == 0)
+	if(employee_addEmployee(list, QTY_EMPLOYEE, 5, "Lionel", "Zoriano", 1800, 1) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 6, "Marianela", "Hernandez", 2500, 2) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 7, "Jorge", "Sampaio", 4000, 1) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 8, "Dario", "Soldado", 4000, 2) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 3, "Oscar", "Ruggeri", 4000, 1) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 4, "Daniel", "Sendra", 4000, 2) == 0)
 	{
 		retorno = 0;
 	}
