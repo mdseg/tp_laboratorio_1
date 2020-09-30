@@ -15,13 +15,11 @@
 #include "ArrayEmployees.h"
 #include <ctype.h>
 
-
-
 int main(void) {
 	int op;
 	Employee empleados[QTY_EMPLOYEE];
 	employee_initEmployees(empleados, QTY_EMPLOYEE);
-	employee_createTestEmployeesList(empleados, QTY_EMPLOYEE);
+	employee_createDebugEmployeesList(empleados, QTY_EMPLOYEE);
 	do
 	{
 		utn_getInt(&op, MAIN_MENU, ERROR_GENERIC, 1, 5, ATTEMPTS);
@@ -37,7 +35,7 @@ int main(void) {
 				employee_unsuscribeEmployee(empleados, QTY_EMPLOYEE);
 				break;
 			case 4:
-				employee_PrintEmployeesByLastNameAndSector(empleados, QTY_EMPLOYEE);
+				employee_createEmployeeReport(empleados, QTY_EMPLOYEE);
 				break;
 			case 5:
 				printf(EXIT_PROGRAM);

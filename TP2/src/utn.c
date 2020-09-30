@@ -13,10 +13,33 @@ static int getInt(int* pResultado);
 static int utn_myGets(char* array, int length);
 static int utn_isValidName(char* array, int limit);
 static int utn_verifyCharArray(char *pArray);
-static int getChar(char* pResultado);
-static int utn_lowerCharArray(char pArray[]);
 static int utn_verifyAdjacentSpaces(char pArray[]);
+static int isFloat(char string[]);
 
+
+static int isFloat(char string[])
+{
+	int retorno = 1;
+	int i = 0;
+
+	if(string != NULL && strlen(string) > 0)
+	{
+		if(string[0] == '-')
+		{
+			i = 1;
+		}
+
+		for( ; string[i] != '\0' ; i++)
+		{
+			if((string[i] > '9' || string[i] < '0') && string[i] != '.')
+			{
+				retorno = 0;
+				break;
+			}
+		}
+	}
+	return retorno;
+}
 /**
 * \brief Lee ​ de​ ​ stdin​ ​ hasta​ ​ que​ ​ encuentra​ ​ un​ '\n' o ​ hasta​ ​ que​ ​ haya​ ​ copiado​ ​ en​ ​ cadena
 *  un​ ​ máximo​ ​ de​ '​ longitud​ - 1' ​ caracteres​ .
@@ -77,9 +100,7 @@ int utn_isValidName(char* array, int limit)
 			array[i] != ' ')
 		{
 			respuesta = 0;
-
 		}
-
 		else
 		{
 			if(array[i] == ' ')
@@ -102,10 +123,8 @@ int utn_isValidName(char* array, int limit)
 				}
 			}
 		}
-
 	}
 	return respuesta;
-
 }
 
 
@@ -132,30 +151,6 @@ static int utn_verifyNumArray(char* array)
 				break;
 			}
 			i++;
-		}
-	}
-	return retorno;
-}
-
-
-
-/**
-* \brief ​ se le solicita un valor del tipo char el usuario y lo valida para posteriormente almacenarlo en un puntero
-* \​param​ ​ *pResultado char puntero donde se almacena el char generado y validado.
-* \return ​ Retorna​ 1 (​ vardadero​ ) ​ si​ ​ la​ ​ cadena​ ​ es​ ​ numerica​ y 0 (​ falso​ ) ​ si​ no ​ lo​ ​ es
-*/
-static int getChar(char* pResultado)
-{
-	int retorno = -1;
-	char buffer[1];
-
-	if (pResultado != NULL)
-	{
-		if(utn_myGets(buffer,1) == 0)
-		{
-			retorno = 0;
-			*pResultado = atoi(buffer);
-
 		}
 	}
 	return retorno;
@@ -191,7 +186,6 @@ int utn_getInt(int* pResultado,char* mensaje,char* mensajeError,int minimo,int m
 				printf("%s",mensajeError);
 				reintentos--;
 			}
-
 		}
 		while(reintentos > 0);
 	}
@@ -199,67 +193,78 @@ int utn_getInt(int* pResultado,char* mensaje,char* mensajeError,int minimo,int m
 }
 /**
 * \brief Solicita un entero al usuario
-* \param char* mensaje, Es el mensaje a ser mostrado al usuario.
-* \param char* mensajeError, Es el mensaje de error a ser mostrado al usuario.
-** \param int* pResultado, puntero al espacio de memoria donde se dejará el valor obtenido.
-* \param int minimo, valor minimo admitido
-* \param int maximo, valor maximo admitido
-* \param int reintentos, cantidad de oportunidades para ingresar el dato
+* \param char* msg, Es el mensaje a ser mostrado al usuario.
+* \param char* msgError, Es el mensaje de error a ser mostrado al usuario.
+** \param int* pResult, puntero al espacio de memoria donde se dejará el valor obtenido.
+* \param int attempts, cantidad de oportunidades para ingresar el dato
+* \param int min valor minimo admitido
+* \param int max valor maximo admitido
+
 * \return (-1) Error / (0) Ok
  */
-int utn_getFloat(char* mensaje,char* mensajeError,float* pResultado,int minimo,int maximo,int reintentos)
+int utn_getFloat(char message[], char errorMessage[], float *pResult, int attemps, int minimo, int maximo)
 {
 	int retorno = -1;
-	float buffer;
+	char bufferString[LIMITE_BUFFER_STRING];
+	float bufferFloat;
 
-	if(pResultado != NULL && mensaje != NULL && mensajeError != NULL && minimo <= maximo && reintentos >= 0)
+	if(message != NULL && errorMessage != NULL && pResult != NULL && attemps >= 0 && minimo <= maximo)
 	{
 		do
 		{
-			printf("%s",mensaje);
-			if(scanf("%f",&buffer) == 1 && buffer >= minimo && buffer <= maximo)
+			printf("%s", message);
+			if(utn_myGets(bufferString, LIMITE_BUFFER_STRING) == 0 && isFloat(bufferString) == 1)
 			{
-				*pResultado = buffer;
-				retorno = 0;
-				break;
+				bufferFloat = atof(bufferString);
+				if(bufferFloat >= minimo && bufferFloat<= maximo)
+				{
+					*pResult = bufferFloat;
+					retorno = 0;
+					break;
+				}
+				else
+				{
+					printf("%s", errorMessage);
+					attemps--;
+				}
+
 			}
-			printf("%s",mensajeError);
-			reintentos--;
-		}
-		while(reintentos > 0);
+			else
+			{
+				printf("%s", errorMessage);
+				attemps--;
+			}
+
+		}while(attemps >= 0);
 	}
 	return retorno;
 }
-/**
-* \brief Solicita un char al usuario
-* \param char* pResultado, puntero al espacio de memoria donde se dejará la cadena de chars obtenida.
-* \param char* mensaje, Es el mensaje a ser mostrado al usuario.
-* \param char* mensajeError, Es el mensaje de error a ser mostrado al usuario.
-* \param int minimo, valor minimo admitido
-* \param int maximo, valor maximo admitido
-* \param int reintentos, cantidad de oportunidades para ingresar el dato
-* \return (-1) Error / (0) Ok
+/* \ brief get_char para pedirle al usuario que ingrese un caracter
+ * \ param char *message es un puntero al espacio de memoria donde está el mensaje que verá el usuario
+ * \ param char *userInput es el puntero al espacio de memoria donde se guarda el caracter que ingresa el usuario
+ * \ param char *errorMessage es el puntero al espacio de memoria donde está el mensaje de error que se mostrará si el usario ingresa una opción incorrecta
+ * \ param int attempts es la variable que decrementa en 1 cada vez que el usario comete un error al ingresar un caracter no válido
  */
-int utn_getChar(char* pResultado,char* mensaje,char* mensajeError,int minimo,int maximo,int reintentos)
-{
+int utn_get_char(char *message, char *userInput, char errorMessage,
+		int attempts) {
 	int retorno = -1;
-	char buffer;
+	char userData[LIMITE_BUFFER_STRING];
 
-	if(pResultado != NULL && mensaje != NULL && mensajeError != NULL && minimo <= maximo && reintentos >= 0)
-	{
-		do
-		{
-			printf("%s",mensaje);
-			if(getChar(pResultado) == 0 && buffer >= minimo && buffer <= maximo)
-			{
-				*pResultado = buffer;
+	if (message != NULL && userInput != NULL) {
+		do {
+			printf("%s\n", message);
+			if (utn_myGets(userData, LIMITE_BUFFER_STRING) == 0
+					&& utn_verifyCharArray(userData) == 1) {
+				strcpy(userInput, userData);
 				retorno = 0;
 				break;
+			} else {
+				attempts--;
+				if (attempts != 0) {
+					printf("Error, te quedan %d intentos.\n", attempts);
+				}
 			}
-			printf("%s",mensajeError);
-			reintentos--;
-		}
-		while(reintentos > 0);
+		} while (attempts > 0);
 	}
 	return retorno;
 }
@@ -307,7 +312,7 @@ int utn_getName(char* message, char* errorMessage, char* pResult, int attemps, i
  * \param size Es la longitud del array.
  * \return 0 si Ok o -1 para indicar un error.
  */
-int getMaximoArrayInt(int *pArray, int *pResultado, int size)
+int utn_getMaximoArrayInt(int *pArray, int *pResultado, int size)
 {
 	int retorno = -1;
 	int maximo;
@@ -333,7 +338,7 @@ int getMaximoArrayInt(int *pArray, int *pResultado, int size)
  * \param size Es la longitud del array.
  * \return 0 si Ok o -1 para indicar un error.
  */
-int getMinimoArrayInt(int *pArray, int *pResultado, int size)
+int utn_getMinimoArrayInt(int *pArray, int *pResultado, int size)
 {
 	int retorno = -1;
 	int minimo;
@@ -417,30 +422,24 @@ int ordenarArrayIntDesc(int* pArray, int limite)
 		nuevoLimite = limite - 1;
 		do
 		{
-
 			flagSwap=0;
 			for(i=0; i<nuevoLimite;i++)
 			{
 				contador++;
 				if(pArray[i] < pArray[i+1])
 				{
-
 					flagSwap=1;
 					buffer = pArray[i];
 					pArray[i] = pArray[i+1];
 					pArray[i+1] = buffer;
-
 				}
 
 			}
 			nuevoLimite--;
-
 		}
 		while(flagSwap);
 		retorno = contador;
-
 	}
-
 	return retorno;
 }
 /**
@@ -532,35 +531,8 @@ int contadorArrayChar(char* pArray, char valorBuscado, int* pContador)
 		}
 	return retorno;
 }
-int getCadenaNoNumerica(char* mensaje, char*mensajeError, char* pResultado, int reintentos, int limite)
-{
-	int retorno = -1;
-	char bufferString[LIMITE_BUFFER_STRING];
-	if ( mensaje != NULL && mensajeError != NULL && pResultado != NULL && reintentos >= 0 && limite >0)
-	{
-		do
-		{
-			printf("%s",mensaje);
-			if(utn_myGets(bufferString,LIMITE_BUFFER_STRING) == 0 &&
-				strnlen(bufferString,sizeof(bufferString)-1)<=limite &&
-				utn_isValidName(bufferString,limite) != 0)
-			{
-				retorno = 0;
-				strncpy(pResultado,bufferString,limite);
-				break;
-			}
-			else
-			{
-				printf("%s",mensajeError);
-				reintentos--;
-			}
-		}
-		while(reintentos > 0);
-	}
-	return retorno;
-}
 /**
- * \brief verifica que una cadena de char incluya solo letras mayusculas y minusculas.
+ * \brief verifica que una cadena de char incluya solo letras mayusculas y minusculas y también espacios.
  * \param pArray char es el puntero al array donde se hará la búsqueda.
  * \return 0 si Ok o -1 para indicar un error.
  */
@@ -638,9 +610,7 @@ int utn_upperFirstCharArray(char pArray[])
 					pArray[i] = toupper(pArray[i]);
 					flagSpace = FALSE;
 				}
-
 			}
-
 		}
 	}
 	else
@@ -649,7 +619,13 @@ int utn_upperFirstCharArray(char pArray[])
 	}
 	return retorno;
 }
-static int utn_lowerCharArray(char pArray[])
+/**
+* \brief ​ Convierte los caracteres alfabéticos de una cadena de char en minuscula.
+* \​param​ ​ pArray[]​ char​ Cadena​ ​ de​ ​ caracteres​ a ​ ser​ ​ analizada
+* \return ​ Retorna​ 0 (​ vardadero​ ) ​ si pudo realizarse la operacion
+*  Devuelve -1 (​ falso​ ) ​ si​ no se cumplieron estas condiciones.
+*/
+int utn_lowerCharArray(char pArray[])
 {
 	char bufferChart[50];
 	strcpy(bufferChart,pArray);
@@ -671,6 +647,12 @@ static int utn_lowerCharArray(char pArray[])
 	}
 		return retorno;
 }
+/**
+* \brief ​ Recorre una cadena de char buscando que no haya espacios adyacentes en la misma.
+* \​param​ ​ pArray[]​ char​ Cadena​ ​ de​ ​ caracteres​ a ​ ser​ ​ analizada
+* \return ​ Retorna​ 0 (​ vardadero​ ) ​ si pudo realizarse la operacion
+*  Devuelve -1 (​ falso​ ) ​ si​ no se cumplieron estas condiciones.
+*/
 static int utn_verifyAdjacentSpaces(char pArray[])
 {
 	int retorno = 0;
