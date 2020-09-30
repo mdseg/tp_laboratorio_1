@@ -16,11 +16,9 @@
 #include <ctype.h>
 
 
+
 int main(void) {
 	int op;
-
-	char nombre = 'H';
-	nombre = tolower(nombre);
 	Employee empleados[QTY_EMPLOYEE];
 	employee_initEmployees(empleados, QTY_EMPLOYEE);
 	employee_createTestEmployeesList(empleados, QTY_EMPLOYEE);
@@ -49,3 +47,4 @@ int main(void) {
 	while(op != 5);
 	return EXIT_SUCCESS;
 }
+

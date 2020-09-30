@@ -625,7 +625,7 @@ int utn_upperFirstCharArray(char pArray[])
 	{
 		utn_lowerCharArray(pArray);
 		pArray[0] = toupper(pArray[0]);
-		for(i = 1; pArray[i] != '\n';i++)
+		for(i = 1; pArray[i] != '\0';i++)
 		{
 			if(pArray[i] == ' ')
 			{
@@ -651,7 +651,10 @@ int utn_upperFirstCharArray(char pArray[])
 }
 static int utn_lowerCharArray(char pArray[])
 {
+	char bufferChart[50];
+	strcpy(bufferChart,pArray);
 	int retorno = -1;
+	char bufferChar;
 	int i = 0;
 	if(pArray != NULL && utn_verifyCharArray(pArray) == 0 )
 	{
@@ -660,7 +663,8 @@ static int utn_lowerCharArray(char pArray[])
 		{
 			if(pArray[i] >= 'A' && pArray[i] <= 'Z')
 			{
-					pArray[i] = tolower(pArray[i]);
+					bufferChar = pArray[i]+32;
+					pArray[i] = bufferChar;
 			}
 		}
 

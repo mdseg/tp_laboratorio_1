@@ -72,13 +72,17 @@ lastName[],float salary,int sector)
 {
 	int retorno= -1;
 	int index;
+	char bufferName[LONG_NAME];
+	char bufferLastName[LONG_NAME];
+	strcpy(bufferName,name);
+	strcpy(bufferLastName,lastName);
 	if(employee_searchIndexFree(list, &index, len) == 0)
 	{
 		list[index].id=id;
-	    utn_upperFirstCharArray(name);
-	    utn_upperFirstCharArray(lastName);
-	    strcpy(list[index].name,name);
-	    strcpy(list[index].lastName,lastName);
+	    utn_upperFirstCharArray(bufferName);
+	    utn_upperFirstCharArray(bufferLastName);
+	    strcpy(list[index].name,bufferName);
+	    strcpy(list[index].lastName,bufferLastName);
 	    list[index].salary=salary;
 	    list[index].sector=sector;
 	    list[index].isEmpty = FALSE;
@@ -338,28 +342,32 @@ static int employee_sortEmployees(Employee* list, int len, int order)
 			flagSwap=0;
 			for(i=0; i<nuevoLimite;i++)
 			{
-				switch (order)
+				if(list[i].isEmpty == FALSE && list[i+1].isEmpty == FALSE)
 				{
-					case 0:
-						if(list[i].sector < list[i+1].sector)
-						{
-							flagSwap=1;
-							buffer = list[i];
-							list[i] = list[i+1];
-							list[i+1] = buffer;
-						}
-						break;
-					case 1:
+					switch (order)
+					{
+						case 0:
+							if(list[i].sector < list[i+1].sector)
+							{
+								flagSwap=1;
+								buffer = list[i];
+								list[i] = list[i+1];
+								list[i+1] = buffer;
+							}
+							break;
+						case 1:
 
-						if(list[i].sector > list[i+1].sector)
-						{
-							flagSwap=1;
-							buffer = list[i];
-							list[i] = list[i+1];
-							list[i+1] = buffer;
-						}
-						break;
+							if(list[i].sector > list[i+1].sector)
+							{
+								flagSwap=1;
+								buffer = list[i];
+								list[i] = list[i+1];
+								list[i+1] = buffer;
+							}
+							break;
+					}
 				}
+
 			}
 			nuevoLimite--;
 		}
@@ -370,10 +378,12 @@ static int employee_sortEmployees(Employee* list, int len, int order)
 			flagSwap=0;
 			for(i=0; i<nuevoLimite;i++)
 			{
+				if(list[i].isEmpty == FALSE && list[i+1].isEmpty == FALSE);
 				switch (order)
 				{
 					case 0:
-						if(strcmp(list[i].lastName,list[i+1].lastName) < 0)
+						if((order == 0 && strcmp(list[i].lastName,list[i+1].lastName) < 0) ||
+							(order == 0 && strcmp(list[i].lastName,list[i+1].lastName) > 0))
 						{
 							flagSwap=1;
 							buffer = list[i];
@@ -381,15 +391,7 @@ static int employee_sortEmployees(Employee* list, int len, int order)
 							list[i+1] = buffer;
 						}
 						break;
-					case 1:
-						if(strcmp(list[i].lastName,list[i+1].lastName) > 0)
-						{
-							flagSwap=1;
-							buffer = list[i];
-							list[i] = list[i+1];
-							list[i+1] = buffer;
-						}
-						break;
+
 				}
 			}
 			nuevoLimite--;
@@ -578,7 +580,6 @@ int employee_PrintEmployeesByLastNameAndSector(Employee* list, int len)
 int employee_createTestEmployeesList(Employee* list, int len)
 {
 	int retorno = -1;
-
 	if(employee_addEmployee(list, QTY_EMPLOYEE, 400, "Lionel", "Zoriano", 1800, 1) == 0 &&
 	   employee_addEmployee(list, QTY_EMPLOYEE, 401, "Marianela", "Hernandez", 2500, 2) == 0 &&
 	   employee_addEmployee(list, QTY_EMPLOYEE, 402, "Jorge", "Sampaio", 4000, 1) == 0 &&
