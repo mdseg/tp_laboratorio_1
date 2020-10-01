@@ -15,12 +15,12 @@ int utn_getFloat(char message[], char errorMessage[], float *pResult, int attemp
 int utn_getName(char* message, char* errorMessage, char* pResult, int attemps, int limit);
 int utn_getMinimoArrayInt(int array[], int *pResultado, int size);
 int utn_getMaximoArrayInt(int array[], int *pResultado, int size);
-int promedioArray(int array[], float* pResultado, int size);
-int ordenarArrayIntAsc(int* pArray, int limite);
-int ordenarArrayIntDesc(int* pArray, int limite);
-int printArrayInt(int* pArray, int limite);
-int contadorArray(int* pArray, int limite, int valorBuscado, int* pContador);
-int contadorArrayChar(char* pArray, char valorBuscado, int* pContador);
+int utn_promedioArray(int array[], float* pResultado, int size);
+int utn_ordenarArrayIntAsc(int* pArray, int limite);
+int utn_ordenarArrayIntDesc(int* pArray, int limite);
+int utn_printArrayInt(int* pArray, int limite);
+int utn_contadorArray(int* pArray, int limite, int valorBuscado, int* pContador);
+int utn_contadorArrayChar(char* pArray, char valorBuscado, int* pContador);
 int utn_getChar(char* pResultado,char* mensaje,char* mensajeError,int minimo,int maximo,int reintentos);
 int utn_verifyUpperFirstCharArray(char *pArray);
 int utn_upperFirstCharArray(char pArray[]);

@@ -15,8 +15,97 @@ static int utn_isValidName(char* array, int limit);
 static int utn_verifyCharArray(char *pArray);
 static int utn_verifyAdjacentSpaces(char pArray[]);
 static int isFloat(char string[]);
+static int utn_countPointsArray(char pArray[]);
+int utn_lowerCharArray(char pArray[]);
 
+/**
+ * \brief verifica que una cadena de char incluya solo letras mayusculas y minusculas y también espacios.
+ * \param pArray char es el puntero al array donde se hará la búsqueda.
+ * \return 0 si Ok o -1 para indicar un error.
+ */
+static int utn_verifyCharArray(char *pArray)
+{
+	int retorno = 0;
+	int i;
+	if (pArray != NULL && pArray[0] != ' ') {
+		for (i = 0; pArray[i] != '\0'; i++) {
+			if ((pArray[i] < 'a' || pArray[i] > 'z')
+					&& (pArray[i] < 'A' || pArray[i] > 'Z') && (pArray[i] != 32)){
+				retorno = -1;
+				break;
+			}
+		}
+	}
+	else
+	{
+		retorno = -1;
+	}
+	return retorno;
+}
+/**
+* \brief ​ Recorre una cadena de char buscando que no haya espacios adyacentes en la misma.
+* \​param​ ​ pArray[]​ char​ Cadena​ ​ de​ ​ caracteres​ a ​ ser​ ​ analizada
+* \return ​ Retorna​ 0 (​ vardadero​ ) ​ si pudo realizarse la operacion
+*  Devuelve -1 (​ falso​ ) ​ si​ no se cumplieron estas condiciones.
+*/
+static int utn_verifyAdjacentSpaces(char pArray[])
+{
+	int retorno = 0;
+	int i = 0;
+	int flagSpace = FALSE;
+	if(pArray != NULL && pArray[0] != ' ')
+	{
 
+		for(i=0 ; pArray[i] != '\0'; i++)
+		{
+			if(pArray[i] == ' ')
+			{
+				if(flagSpace == FALSE)
+				{
+					flagSpace = TRUE;
+				}
+				else
+				{
+					retorno = -1;
+				}
+			}
+		}
+	}
+	return retorno;
+}
+/**
+* \brief ​ Recorre una cadena buscando que no haya mas de un punto.
+* \​param​ ​ pArray[]​ char​ Cadena​ ​ de​ ​ caracteres​ a ​ ser​ ​ analizada
+* \return ​ Retorna​ 0 (​ vardadero​ ) ​ si no hay mas de un punto.
+*  Devuelve -1 (​ falso​ ) ​ si​ no se cumplieron estas condiciones.
+*/
+static int utn_countPointsArray(char pArray[])
+{
+	int retorno = -1;
+	int i = 0;
+	int countPoint = 0;
+	if(pArray != NULL)
+	{
+
+		for(i=0 ; pArray[i] != '\0'; i++)
+		{
+			if(pArray[i] == '.')
+			{
+				countPoint++;
+			}
+		}
+		if(countPoint < 2)
+		{
+			retorno = 0;
+		}
+	}
+	return retorno;
+}
+/**
+* \brief ​ Verifica​ ​ si​ ​ la​ ​ cadena​ ​ ingresada​ ​ es​ un numero del tipo float
+* \​param​ ​ cadena​ ​ Cadena​ ​ de​ ​ caracteres​ a ​ ser​ ​ analizada
+* \return ​ Retorna​ 1 (​ vardadero​ ) ​ si​ ​ la​ ​ cadena​ ​ es​ ​ float​ y 0 (​ falso​ ) ​ si​ no ​ lo​ ​ es
+*/
 static int isFloat(char string[])
 {
 	int retorno = 1;
@@ -83,6 +172,33 @@ static int getInt(int* pResultado)
 	return retorno;
 }
 /**
+* \brief ​ Verifica​ ​ si​ ​ la​ ​ cadena​ ​ ingresada​ ​ es​ta compuesta por​ numeros del tipo int
+* \​param​ ​ cadena​ ​ Cadena​ ​ de​ ​ caracteres​ a ​ ser​ ​ analizada
+* \return ​ Retorna​ 1 (​ vardadero​ ) ​ si​ ​ la​ ​ cadena​ ​ es​ ​ numerica​ y 0 (​ falso​ ) ​ si​ no ​ lo​ ​ es
+*/
+static int utn_verifyNumArray(char* array)
+{
+	int i=0;
+	int retorno = 1;
+	if(array[0] == '-')
+		{
+			i = 1;
+		}
+	if(array != NULL && strlen(array) > 0)
+		{
+		while(array[i] != '\0')
+		{
+			if(array[i] < '0' || array[i] > '9' )
+			{
+				retorno = 0;
+				break;
+			}
+			i++;
+		}
+	}
+	return retorno;
+}
+/**
  * \brief Verifica una cadena como parametros para determinar si es un nombre valido
  * \param char* cadena, Cadena a analizar
  * \param int limite, indica la cantidad de letras maxima de la cadena
@@ -125,35 +241,6 @@ int utn_isValidName(char* array, int limit)
 		}
 	}
 	return respuesta;
-}
-
-
-/**
-* \brief ​ Verifica​ ​ si​ ​ la​ ​ cadena​ ​ ingresada​ ​ es​ ​ numerica
-* \​param​ ​ cadena​ ​ Cadena​ ​ de​ ​ caracteres​ a ​ ser​ ​ analizada
-* \return ​ Retorna​ 1 (​ vardadero​ ) ​ si​ ​ la​ ​ cadena​ ​ es​ ​ numerica​ y 0 (​ falso​ ) ​ si​ no ​ lo​ ​ es
-*/
-static int utn_verifyNumArray(char* array)
-{
-	int i=0;
-	int retorno = 1;
-	if(array[0] == '-')
-		{
-			i = 1;
-		}
-	if(array != NULL && strlen(array) > 0)
-		{
-		while(array[i] != '\0')
-		{
-			if(array[i] < '0' || array[i] > '9' )
-			{
-				retorno = 0;
-				break;
-			}
-			i++;
-		}
-	}
-	return retorno;
 }
 /**
 * \brief Solicita un entero al usuario
@@ -213,7 +300,7 @@ int utn_getFloat(char message[], char errorMessage[], float *pResult, int attemp
 		do
 		{
 			printf("%s", message);
-			if(utn_myGets(bufferString, LIMITE_BUFFER_STRING) == 0 && isFloat(bufferString) == 1)
+			if(utn_myGets(bufferString, LIMITE_BUFFER_STRING) == 0 && isFloat(bufferString) == 1 && utn_countPointsArray(bufferString) == 0)
 			{
 				bufferFloat = atof(bufferString);
 				if(bufferFloat >= minimo && bufferFloat<= maximo)
@@ -364,7 +451,7 @@ int utn_getMinimoArrayInt(int *pArray, int *pResultado, int size)
  * \param size Es la longitud del array.
  * \return 0 si Ok o -1 para indicar un error.
  */
-int promedioArray(int array[], float* pResultado, int size)
+int utn_promedioArray(int array[], float* pResultado, int size)
 {
 	int retorno = -1;
 	int i = 0;
@@ -389,7 +476,7 @@ int promedioArray(int array[], float* pResultado, int size)
  * \pram size Es la longitud del array.
  * \return 0 si Ok o -1 para indicar un error.
  */
-int printArrayInt(int* pArray, int limite)
+int utn_printArrayInt(int* pArray, int limite)
 {
 	int retorno = -1;
 	int i;
@@ -409,7 +496,7 @@ int printArrayInt(int* pArray, int limite)
  * \pram size Es la longitud del array.
  * \return Cantidad de iteraciones necesarias para Ordenar si Ok o -1 para indicar un error.
  */
-int ordenarArrayIntDesc(int* pArray, int limite)
+int utn_ordenarArrayIntDesc(int* pArray, int limite)
 {
 	int flagSwap;
 	int i;
@@ -448,7 +535,7 @@ int ordenarArrayIntDesc(int* pArray, int limite)
  * \pram size Es la longitud del array.
  * \return 0 si Ok o -1 para indicar un error.
  */
-int ordenarArrayIntAsc(int* pArray, int limite)
+int utn_ordenarArrayIntAsc(int* pArray, int limite)
 {
 	int flagSwap;
 	int i;
@@ -486,7 +573,7 @@ int ordenarArrayIntAsc(int* pArray, int limite)
  * \param pContador int es un puntero que almacena la cantidad de veces que aparece el valor buscado.
  * \return 0 si Ok o -1 para indicar un error.
  */
-int contadorArray(int* pArray, int limite, int valorBuscado, int* pContador)
+int utn_contadorArray(int* pArray, int limite, int valorBuscado, int* pContador)
 {
 	int contador;
 	int retorno = -1;
@@ -512,7 +599,7 @@ int contadorArray(int* pArray, int limite, int valorBuscado, int* pContador)
  * \param pContador int es un puntero que almacena la cantidad de veces que aparece el valor buscado.
  * \return 0 si Ok o -1 para indicar un error.
  */
-int contadorArrayChar(char* pArray, char valorBuscado, int* pContador)
+int utn_contadorArrayChar(char* pArray, char valorBuscado, int* pContador)
 {
 	int contador;
 	int retorno = -1;
@@ -529,30 +616,6 @@ int contadorArrayChar(char* pArray, char valorBuscado, int* pContador)
 			}
 			*pContador = contador;
 		}
-	return retorno;
-}
-/**
- * \brief verifica que una cadena de char incluya solo letras mayusculas y minusculas y también espacios.
- * \param pArray char es el puntero al array donde se hará la búsqueda.
- * \return 0 si Ok o -1 para indicar un error.
- */
-static int utn_verifyCharArray(char *pArray)
-{
-	int retorno = 0;
-	int i;
-	if (pArray != NULL && pArray[0] != ' ') {
-		for (i = 0; pArray[i] != '\0'; i++) {
-			if ((pArray[i] < 'a' || pArray[i] > 'z')
-					&& (pArray[i] < 'A' || pArray[i] > 'Z') && (pArray[i] != 32)){
-				retorno = -1;
-				break;
-			}
-		}
-	}
-	else
-	{
-		retorno = -1;
-	}
 	return retorno;
 }
 /**
@@ -647,34 +710,4 @@ int utn_lowerCharArray(char pArray[])
 	}
 		return retorno;
 }
-/**
-* \brief ​ Recorre una cadena de char buscando que no haya espacios adyacentes en la misma.
-* \​param​ ​ pArray[]​ char​ Cadena​ ​ de​ ​ caracteres​ a ​ ser​ ​ analizada
-* \return ​ Retorna​ 0 (​ vardadero​ ) ​ si pudo realizarse la operacion
-*  Devuelve -1 (​ falso​ ) ​ si​ no se cumplieron estas condiciones.
-*/
-static int utn_verifyAdjacentSpaces(char pArray[])
-{
-	int retorno = 0;
-	int i = 0;
-	int flagSpace = FALSE;
-	if(pArray != NULL && pArray[0] != ' ')
-	{
 
-		for(i=0 ; pArray[i] != '\0'; i++)
-		{
-			if(pArray[i] == ' ')
-			{
-				if(flagSpace == FALSE)
-				{
-					flagSpace = TRUE;
-				}
-				else
-				{
-					retorno = -1;
-				}
-			}
-		}
-	}
-	return retorno;
-}

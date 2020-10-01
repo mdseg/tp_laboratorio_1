@@ -13,7 +13,7 @@ static int employee_findEmployeeById(Employee* list, int len,int id);
 static int employee_loadEmployee(Employee* list, int len, int new);
 static int employee_printEmployees(Employee* list, int length);
 static int employee_removeEmployee(Employee* list, int len, int id);
-static int employee_searchIndexFree(Employee* list,int* pIndex, int len);
+static int employee_searchFreeIndex(Employee* list,int* pIndex, int len);
 static int employee_sortEmployees(Employee* list, int len, int order);
 static int employee_staticModifyEmployee(Employee* list, int len, int id, char name[],char lastName[],float salary,int sector,int index);
 static int generateNewId(void);
@@ -62,7 +62,7 @@ lastName[],float salary,int sector)
 	char bufferLastName[LONG_NAME];
 	strcpy(bufferName,name);
 	strcpy(bufferLastName,lastName);
-	if(employee_searchIndexFree(list, &index, len) == 0)
+	if(employee_searchFreeIndex(list, &index, len) == 0)
 	{
 		list[index].id=id;
 	    utn_upperFirstCharArray(bufferName);
@@ -210,7 +210,7 @@ static int employee_loadEmployee(Employee* list, int len, int new)
 	int flagCarga = FALSE;
     if (new == TRUE)
     {
-    	if(employee_searchIndexFree(list, &index, len) == 0 &&
+    	if(employee_searchFreeIndex(list, &index, len) == 0 &&
     	    	utn_getName(INPUT_NAME,ERROR_GENERIC,name, ATTEMPTS, LONG_NAME) == 0 &&
     	    	utn_getName(INPUT_LASTNAME,ERROR_GENERIC,lastName, ATTEMPTS, LONG_NAME) == 0 &&
     	    	utn_getFloat(INPUT_SALARY, ERROR_GENERIC,&salary, ATTEMPTS, SALARY_MIN, SALARY_MAX) == 0 &&
@@ -233,7 +233,7 @@ static int employee_loadEmployee(Employee* list, int len, int new)
     			bufferEmployee = list[index];
     			do
     			{
-        			utn_getInt(&op, MENU_MODIFY, ERROR_GENERIC, 1, 5, ATTEMPTS);
+        			utn_getInt(&op, MENU_MODIFY, MENU_SELECT_ERROR, 1, 5, ATTEMPTS);
     				switch (op)
 					{
 						case 1:
@@ -284,11 +284,6 @@ static int employee_loadEmployee(Employee* list, int len, int new)
 								printf(MODIFY_LASTNAME_ERROR);
 							}
 							break;
-						case 5:
-							break;
-						default:
-							printf(MENU_SELECT_ERROR);
-							break;
 					}
     			}
     			while(op != 5);
@@ -311,7 +306,7 @@ static int employee_loadEmployee(Employee* list, int len, int new)
 * \return int Return (-1) if Error [Invalid length or NULL pointer] - (0) if Ok
 *
 */
-static int employee_searchIndexFree(Employee* list,int* pIndex, int len)
+static int employee_searchFreeIndex(Employee* list,int* pIndex, int len)
 {
 	int retorno = -1;
 		int i;
@@ -508,18 +503,47 @@ int employee_createEmployeeReport(Employee* list, int len)
 	float resultAvg;
 	int resultCountAvg;
 	float acumulatorSalary;
+	int op;
+	int orden;
 	if(employee_checkActiveEmployees(list, len) == 0)
 	{
-		if(employee_sortEmployees(list, QTY_EMPLOYEE, UP) == 0 &&
-			   employee_printEmployees(list, QTY_EMPLOYEE) == 0 &&
-			   employee_calculateAverageSalary(list, QTY_EMPLOYEE, &resultAvg, &resultCountAvg,&acumulatorSalary) == 0)
+		do
 		{
-			printf(REPORT_EMPLOYEES_SUCCESS,acumulatorSalary,resultAvg,resultCountAvg);
+			utn_getInt(&op, MENU_REPORT, MENU_SELECT_ERROR, 1, 3, ATTEMPTS);
+			switch (op)
+			{
+				case 1:
+					if(utn_getInt(&orden, MENU_ORDER, MENU_SELECT_ERROR, 1, 2, ATTEMPTS) == 0)
+					{
+						if(orden == 1)
+						{
+							employee_sortEmployees(list, QTY_EMPLOYEE, UP);
+						}
+						else
+						{
+							employee_sortEmployees(list, QTY_EMPLOYEE, DOWN);
+						}
+						employee_printEmployees(list, QTY_EMPLOYEE);
+						printf(REPORT_EMPLOYEES_SURNAME_FINISH);
+					}
+					else
+					{
+						printf(REPORT_EMPLOYEES_ERROR);
+					}
+					break;
+				case 2:
+					if(employee_calculateAverageSalary(list, QTY_EMPLOYEE, &resultAvg, &resultCountAvg,&acumulatorSalary) == 0)
+					{
+						printf(REPORT_EMPLOYEES_SUCCESS,acumulatorSalary,resultAvg,resultCountAvg);
+					}
+					else
+					{
+						printf(REPORT_EMPLOYEES_ERROR);
+					}
+					break;
+			}
 		}
-		else
-		{
-			printf(REPORT_EMPLOYEES_ERROR);
-		}
+		while(op!= 3);
 	}
 	else
 	{
