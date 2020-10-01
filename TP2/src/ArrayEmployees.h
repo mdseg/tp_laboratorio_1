@@ -24,7 +24,7 @@
 
 #define MAIN_MENU "\n-------Sistema de Registro de Empleados----------\nElija una de estas opciones:\n1-ALTA\n2-MODIFICAR\n3-BAJA\n4-INFORMAR\n5-SALIR\n"
 #define MENU_MODIFY "-------Menu de modificación----------\nSeleccione el campo a modificar:\n1-Nombre\n2-Apellido\n3-Salario\n4-Sector\n5-Volver al menú principal\n"
-#define MENU_REPORT "-------Menu de reporte----------\nSeleccione el tipo de informe que deseado:\n1-Listado de los empleados ordenados alfabéticamente por Apellido y Sector.\n2-Total y promedio de los salarios, y cuántos empleados superan el salario promedio.\n3-Volver al menú principal\n"
+#define MENU_REPORT "-------Menu de reporte----------\nSeleccione el tipo de informe que desea:\n1-Listado de los empleados ordenados alfabéticamente por Apellido y Sector.\n2-Total y promedio de los salarios, y cuántos empleados superan el salario promedio.\n3-Volver al menú principal\n"
 #define MENU_SELECT_ERROR "Por favor, elija una opción valida.\n"
 #define EXIT_PROGRAM "Saliendo de la aplicación...\n"
 #define ERROR_GENERIC "Error\n"
@@ -36,7 +36,7 @@
 #define REPORT_EMPLOYEES_SUCCESS "El salario total es: %.2f.\nEl salario promedio es: %.2f.\nEl número de empleados que supera el promedio es: %d.\n"
 #define REPORT_EMPLOYEES_ERROR "\nError al realizar el informe.\n"
 #define CREATE_EMPLOYEE_ERROR "\nError en la carga del empleado.\n"
-#define REPORT_EMPLOYEES_SURNAME_FINISH "----Finalizado el informe----\n"
+#define REPORT_EMPLOYEES_SUCCESS_FINISH "----Finalizado el informe----\n"
 //Modifiy
 #define MODIFY_EMPLOYEE_SUCCESS "\nEmpleado modificado correctamente.\n"
 #define MODIFY_EMPLOYEE_ERROR "\nError en la modificación del empleado.\n"

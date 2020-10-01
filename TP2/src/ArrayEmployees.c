@@ -200,8 +200,8 @@ static int employee_loadEmployee(Employee* list, int len, int new)
 {
 	int retorno = -1;
 	int id;
-    char name[51];
-    char lastName[51];
+    char name[LONG_NAME];
+    char lastName[LONG_NAME];
     float salary;
     int sector;
     int index;
@@ -281,7 +281,7 @@ static int employee_loadEmployee(Employee* list, int len, int new)
 							}
 							else
 							{
-								printf(MODIFY_LASTNAME_ERROR);
+								printf(MODIFY_SECTOR_ERROR);
 							}
 							break;
 					}
@@ -524,7 +524,7 @@ int employee_createEmployeeReport(Employee* list, int len)
 							employee_sortEmployees(list, QTY_EMPLOYEE, DOWN);
 						}
 						employee_printEmployees(list, QTY_EMPLOYEE);
-						printf(REPORT_EMPLOYEES_SURNAME_FINISH);
+						printf(REPORT_EMPLOYEES_SUCCESS_FINISH);
 					}
 					else
 					{
