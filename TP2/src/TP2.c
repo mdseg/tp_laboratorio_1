@@ -20,7 +20,7 @@ int main(void) {
 	Employee empleados[QTY_EMPLOYEE];
 	employee_initEmployees(empleados, QTY_EMPLOYEE);
 	// funcion debugger, descomentar si se quiere iniciar el programa con 5 empleados almacenados
-	employee_createDebugEmployeesList(empleados, QTY_EMPLOYEE);
+	//employee_createDebugEmployeesList(empleados, QTY_EMPLOYEE);
 	do
 	{
 		utn_getInt(&op, MAIN_MENU, MENU_SELECT_ERROR, 1, 5, ATTEMPTS);
