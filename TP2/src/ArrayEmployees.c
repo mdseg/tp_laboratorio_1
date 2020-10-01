@@ -249,7 +249,7 @@ static int employee_loadEmployee(Employee* list, int len, int new)
 							}
 							break;
 						case 2:
-							if(utn_getName(INPUT_LASTNAME,ERROR_GENERIC,name, ATTEMPTS, LONG_NAME) == 0)
+							if(utn_getName(INPUT_LASTNAME,ERROR_GENERIC,lastName, ATTEMPTS, LONG_NAME) == 0)
 							{
 								strcpy(bufferEmployee.lastName,lastName);
 								flagCarga = TRUE;
@@ -538,12 +538,12 @@ int employee_createEmployeeReport(Employee* list, int len)
 int employee_createDebugEmployeesList(Employee* list, int len)
 {
 	int retorno = -1;
-	if(employee_addEmployee(list, QTY_EMPLOYEE, 5, "Lionel", "Zoriano", 1800, 1) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 6, "Marianela", "Hernandez", 2500, 2) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 7, "Jorge", "Sampaio", 4000, 1) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 8, "Dario", "Soldado", 4000, 2) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 3, "Oscar", "Ruggeri", 4000, 1) == 0 &&
-	   employee_addEmployee(list, QTY_EMPLOYEE, 4, "Daniel", "Sendra", 4000, 2) == 0)
+	if(employee_addEmployee(list, QTY_EMPLOYEE, 50, "Lionel", "Zoriano", 1800, 1) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 51, "Marianela", "Hernandez", 2500, 2) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 52, "Jorge", "Sampaio", 4000, 1) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 53, "Dario", "Soldado", 4000, 2) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 54, "Oscar", "Ruggeri", 4000, 1) == 0 &&
+	   employee_addEmployee(list, QTY_EMPLOYEE, 55, "Daniel", "Sendra", 4000, 2) == 0)
 	{
 		retorno = 0;
 	}
