@@ -9,7 +9,6 @@
 #define UTN_H_
 #define LIMITE_BUFFER_STRING 4096
 
-int utn_lowerCharArray(char pArray[]);
 int utn_getInt(int* pResultado,char* mensaje,char* mensajeError,int minimo,int maximo,int reintentos);
 int utn_getFloat(char message[], char errorMessage[], float *pResult, int attemps, int minimo, int maximo);
 int utn_getName(char* message, char* errorMessage, char* pResult, int attemps, int limit);

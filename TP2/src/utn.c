@@ -7,6 +7,7 @@
 #define LIMITE_BUFFER_STRING 4096
 #define TRUE 1
 #define FALSE 0
+#define LONG_NAME 50
 
 static int utn_verifyNumArray(char* array);
 static int getInt(int* pResultado);
@@ -16,7 +17,7 @@ static int utn_verifyCharArray(char *pArray);
 static int utn_verifyAdjacentSpaces(char pArray[]);
 static int isFloat(char string[]);
 static int utn_countPointsArray(char pArray[]);
-int utn_lowerCharArray(char pArray[]);
+static int utn_lowerCharArray(char pArray[]);
 
 /**
  * \brief verifica que una cadena de char incluya solo letras mayusculas y minusculas y también espacios.
@@ -136,12 +137,11 @@ static int isFloat(char string[])
 * \​param​ ​ longitud​ Define el ​ tamaño​ ​ de​ ​ cadena
 * \return ​ Retorna​ 0 (EXITO) ​ si​ ​ se​ ​ obtiene​ ​ una​ ​ cadena​ y -1 (ERROR) ​ si​ no
 */
-
 static int utn_myGets(char* array, int length)
 {
 	int retorno=-1;
 	__fpurge(stdin);// fflush o __fpurge
-	if(array != NULL && length >0 && fgets(array,length,stdin)==array)
+	if(array != NULL && length >0 && fgets(array,length,stdin)==array && array[0] != '\n')
 	{
 		if(array[strlen(array)-1] == '\n')
 		{
@@ -209,6 +209,7 @@ int utn_isValidName(char* array, int limit)
 	int respuesta = 1; // TOdo ok
 	int i;
 	int flagSpace = FALSE;
+
 	for (i=0;array[i] != '\0';i++)
 	{
 		if((array[i] < 'a' || array[i] > 'z') &&
@@ -240,6 +241,8 @@ int utn_isValidName(char* array, int limit)
 			}
 		}
 	}
+
+
 	return respuesta;
 }
 /**
@@ -314,14 +317,12 @@ int utn_getFloat(char message[], char errorMessage[], float *pResult, int attemp
 					printf("%s", errorMessage);
 					attemps--;
 				}
-
 			}
 			else
 			{
 				printf("%s", errorMessage);
 				attemps--;
 			}
-
 		}while(attemps >= 0);
 	}
 	return retorno;
@@ -332,22 +333,28 @@ int utn_getFloat(char message[], char errorMessage[], float *pResult, int attemp
  * \ param char *errorMessage es el puntero al espacio de memoria donde está el mensaje de error que se mostrará si el usario ingresa una opción incorrecta
  * \ param int attempts es la variable que decrementa en 1 cada vez que el usario comete un error al ingresar un caracter no válido
  */
-int utn_get_char(char *message, char *userInput, char errorMessage,
-		int attempts) {
+int utn_get_char(char *message, char *userInput, char errorMessage,int attempts)
+{
 	int retorno = -1;
 	char userData[LIMITE_BUFFER_STRING];
 
-	if (message != NULL && userInput != NULL) {
-		do {
+	if (message != NULL && userInput != NULL)
+	{
+		do
+		{
 			printf("%s\n", message);
 			if (utn_myGets(userData, LIMITE_BUFFER_STRING) == 0
-					&& utn_verifyCharArray(userData) == 1) {
+					&& utn_verifyCharArray(userData) == 1)
+			{
 				strcpy(userInput, userData);
 				retorno = 0;
 				break;
-			} else {
+			}
+			else
+			{
 				attempts--;
-				if (attempts != 0) {
+				if (attempts != 0)
+				{
 					printf("Error, te quedan %d intentos.\n", attempts);
 				}
 			}
@@ -690,8 +697,6 @@ int utn_upperFirstCharArray(char pArray[])
 */
 int utn_lowerCharArray(char pArray[])
 {
-	char bufferChart[50];
-	strcpy(bufferChart,pArray);
 	int retorno = -1;
 	char bufferChar;
 	int i = 0;
@@ -702,12 +707,12 @@ int utn_lowerCharArray(char pArray[])
 		{
 			if(pArray[i] >= 'A' && pArray[i] <= 'Z')
 			{
-					bufferChar = pArray[i]+32;
-					pArray[i] = bufferChar;
+				bufferChar = pArray[i]+32;
+				pArray[i] = bufferChar;
 			}
 		}
-
+		retorno = 0;
 	}
-		return retorno;
+	return retorno;
 }
 

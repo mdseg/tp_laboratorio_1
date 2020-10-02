@@ -26,6 +26,7 @@
 #define MENU_MODIFY "-------Menu de modificación----------\nSeleccione el campo a modificar:\n1-Nombre\n2-Apellido\n3-Salario\n4-Sector\n5-Volver al menú principal\n"
 #define MENU_REPORT "-------Menu de reporte----------\nSeleccione el tipo de informe que desea:\n1-Listado de los empleados ordenados alfabéticamente por Apellido y Sector.\n2-Total y promedio de los salarios, y cuántos empleados superan el salario promedio.\n3-Volver al menú principal\n"
 #define MENU_SELECT_ERROR "Por favor, elija una opción valida.\n"
+#define MENU_ORDER "Seleccione el orden alfabético del informe:\n1-Ascendente\n2-Descendente\n"
 #define EXIT_PROGRAM "Saliendo de la aplicación...\n"
 #define ERROR_GENERIC "Error\n"
 #define PRINT_ONE_EMPLOYEE "ID: %d - Nombre: %s - Apellido: %s - Salario: %.2f - Sector: %d\n"
@@ -59,8 +60,6 @@
 #define ENTERING_MODIFY_EMPLOYEE "Ingresando al sector de modificaciones...\n"
 #define ENTERING_REMOVE_EMPLOYEE "Ingresando al sector de bajas...\n"
 #define ERROR_NOT_AVAILABLE "Debe ingresar al menos un usuario para utilizar esta funcionalidad.\n"
-
-#define MENU_ORDER "Seleccione el orden alfabético del informe:\n1-Ascendente\n2-Descendente\n"
 
 struct
 {

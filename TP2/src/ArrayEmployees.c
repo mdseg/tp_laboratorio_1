@@ -549,7 +549,6 @@ int employee_createEmployeeReport(Employee* list, int len)
 	{
 		printf(ERROR_NOT_AVAILABLE);
 	}
-
 	return retorno;
 }
 
