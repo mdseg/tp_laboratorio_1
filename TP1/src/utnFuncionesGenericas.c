@@ -26,7 +26,7 @@ int utn_getInt(int* pResultado,char* mensaje,char* mensajeError,int minimo,int m
 			__fpurge(stdin);  //fflush(stdin);
 			resultadoScan = scanf("%d",&bufferInt);
 
-			if(resultadoScan == 1 && bufferInt > minimo && bufferInt < maximo)
+			if(resultadoScan == 1 && bufferInt >= minimo && bufferInt <= maximo)
 			{
 				retorno = 0;
 				*pResultado = bufferInt;
