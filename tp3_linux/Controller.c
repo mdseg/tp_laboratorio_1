@@ -61,9 +61,14 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListEmployee)
 	}
 	else
 	{
-		parser_EmployeeFromBinary(pFile, pArrayListEmployee);
-		printf(CONTROLLER_LOAD_LIST_TEXT_SUCCESS);
-		output = 0;
+		if(parser_EmployeeFromBinary(pFile, pArrayListEmployee) == 0)
+		{
+
+			printf(CONTROLLER_LOAD_LIST_TEXT_SUCCESS);
+			output = 0;
+		}
+
+
 	}
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	return output;
@@ -88,7 +93,7 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
 
 	if(utn_getName(INPUT_NAME, INPUT_NAME_ERROR, name, ATTEMPTS, LONG_NAME) == 0 &&
 			utn_getCharInt(horasTrabajadas, INPUT_HOUR, INPUT_HOUR_ERROR, HOUR_MIN, HOUR_MAX, ATTEMPTS) == 0 &&
-			utn_getCharInt(sueldo, INPUT_SALARY, INPUT_SALARY_ERROR, SALARY_MIN, HOUR_MAX, ATTEMPTS) == 0)
+			utn_getCharFloat(sueldo, INPUT_SALARY, INPUT_SALARY_ERROR, SALARY_MIN, HOUR_MAX, ATTEMPTS) == 0)
 
 	{
 		sprintf(id, "%d",controller_getFreeIndex(pArrayListEmployee));
@@ -112,7 +117,7 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
 	int output = -1;
 	char name[LONG_NAME];
 	int hours;
-	int salary;
+	float salary;
 	int id;
 	int index;
 	int op;
@@ -156,7 +161,7 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
 								}
 								break;
 							case 3:
-								if(utn_getInt(&salary, INPUT_SALARY, INPUT_SALARY_ERROR, SALARY_MIN, SALARY_MAX,ATTEMPTS) == 0)
+								if(utn_getFloat(INPUT_SALARY, INPUT_SALARY_ERROR, &salary, ATTEMPTS, SALARY_MIN, SALARY_MAX) == 0)
 								{
 									employee_setSueldo(bufferEmployee, salary);
 									flagCarga = TRUE;
@@ -310,7 +315,7 @@ int controller_saveAsText(char* path , LinkedList* pArrayListEmployee)
 		for (i = 0; i < len;i++)
 		{
 			bufferEmployee = ll_get(pArrayListEmployee, i);
-			fprintf(pFile,"%d,%s,%d,%d\n",employee_getId(bufferEmployee),employee_getNombre(bufferEmployee),employee_getHorasTrabajadas(bufferEmployee),employee_getSueldo(bufferEmployee));
+			fprintf(pFile,"%d,%s,%d,%f.2\n",employee_getId(bufferEmployee),employee_getNombre(bufferEmployee),employee_getHorasTrabajadas(bufferEmployee),employee_getSueldo(bufferEmployee));
 		}
 		fclose(pFile);
 		output = 0;
@@ -336,7 +341,7 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee)
 	int bufferId;
 	int bufferHorasTrabajadas;
 	char bufferName[LONG_NAME];
-	int bufferSalary;
+	float bufferSalary;
 	pFile = fopen(path,"wb");
 	if(pFile != NULL)
 	{
@@ -344,7 +349,7 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee)
 		//printf("Archivo creado o abierto con éxito.");
 		len = ll_len(pArrayListEmployee);
 		//fprintf(pFile,"id,nombre,horasTrabajadas,sueldo\n");
-		fwrite(encabezado,sizeof(encabezado),1,pFile);
+		//fwrite(encabezado,sizeof(encabezado),1,pFile);
 		for (i = 0; i < len;i++)
 		{
 
@@ -356,12 +361,8 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee)
 			fwrite(&bufferId,sizeof(int),1,pFile);
 			fwrite(bufferName,LONG_NAME,1,pFile);
 			fwrite(&bufferHorasTrabajadas,sizeof(int),1,pFile);
-			fwrite(&bufferSalary,sizeof(int),1,pFile);
+			fwrite(&bufferSalary,sizeof(float),1,pFile);
 			//fprintf(pFile,"%d,%s,%d,%d\n",employee_getId(bufferEmployee),employee_getNombre(bufferEmployee),employee_getHorasTrabajadas(bufferEmployee),employee_getSueldo(bufferEmployee));
-			if(i == 5)
-			{
-				break;
-			}
 		}
 		fclose(pFile);
 		output = 0;

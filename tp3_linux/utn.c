@@ -16,8 +16,6 @@ static int getInt(int* pResultado);
 static int utn_myGets(char* array, int length);
 static int utn_verifyCharArray(char *pArray);
 static int utn_verifyAdjacentSpaces(char pArray[]);
-static int isFloat(char string[]);
-static int utn_countPointsArray(char pArray[]);
 static int utn_lowerCharArray(char pArray[]);
 static int utn_verifyLengthArray(char* pArray);
 static int utn_verifyCharArrayNoSpaces(char *pArray);
@@ -108,7 +106,7 @@ static int utn_verifyAdjacentSpaces(char pArray[])
 * \return ​ Retorna​ 0 (​ vardadero​ ) ​ si no hay mas de un punto.
 *  Devuelve -1 (​ falso​ ) ​ si​ no se cumplieron estas condiciones.
 */
-static int utn_countPointsArray(char pArray[])
+int utn_countPointsArray(char pArray[])
 {
 	int retorno = -1;
 	int i = 0;
@@ -135,7 +133,7 @@ static int utn_countPointsArray(char pArray[])
 * \​param​ string char*​ ​ Cadena​ ​ de​ ​ caracteres​ a ​ ser​ ​ analizada
 * \return ​ Retorna​ 1 (​ vardadero​ ) ​ si​ ​ la​ ​ cadena​ ​ es​ ​ float​ y 0 (​ falso​ ) ​ si​ no ​ lo​ ​ es
 */
-static int isFloat(char string[])
+int isFloat(char string[])
 {
 	int retorno = 1;
 	int i = 0;
@@ -323,7 +321,6 @@ int utn_getInt(int* pResultado,char* mensaje,char* mensajeError,int minimo,int m
 int utn_getCharInt(char* pResultado,char* mensaje,char* mensajeError,int minimo,int maximo,int reintentos)
 {
 	int retorno = -1;
-	int buffer;
 	char bufferString[LIMITE_BUFFER_STRING];
 
 	if(pResultado != NULL && mensaje != NULL && mensajeError != NULL && minimo <= maximo && reintentos >= 0)
@@ -347,6 +344,43 @@ int utn_getCharInt(char* pResultado,char* mensaje,char* mensajeError,int minimo,
 	}
 	return retorno;
 }
+/**
+* \brief Solicita un entero al usuario
+* \param pResultado int* puntero al espacio de memoria donde se dejará el valor obtenido.
+* \param mensaje char* Es el mensaje a ser mostrado al usuario.
+* \param mensajeError char* Es el mensaje de error a ser mostrado al usuario.
+* \param minimo int valor minimo admitido
+* \param maximo int valor maximo admitido
+* \param reintentos int cantidad de oportunidades para ingresar el dato
+* \return (-1) Error / (0) Ok
+ */
+int utn_getCharFloat(char* pResultado,char* mensaje,char* mensajeError,int minimo,int maximo,int reintentos)
+{
+	int retorno = -1;
+	char bufferString[LIMITE_BUFFER_STRING];
+
+	if(pResultado != NULL && mensaje != NULL && mensajeError != NULL && minimo <= maximo && reintentos >= 0)
+	{
+		do
+		{
+			printf("%s",mensaje);
+			if(utn_myGets(bufferString, LIMITE_BUFFER_STRING) == 0 && isFloat(bufferString) == 1 && utn_countPointsArray(bufferString) == 0)
+			{
+				strcpy(pResultado, bufferString);
+				retorno = 0;
+				break;
+			}
+			else
+			{
+				printf("%s",mensajeError);
+				reintentos--;
+			}
+		}
+		while(reintentos > 0);
+	}
+	return retorno;
+}
+
 /**
 * \brief Solicita un entero al usuario
 * \param message char* Es el mensaje a ser mostrado al usuario.

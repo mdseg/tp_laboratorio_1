@@ -35,4 +35,6 @@ int utn_verifyNumArray(char* array);
 int utn_upperOnlyFirstCharArray(char pArray[]);
 int utn_lowerOnlyFirstCharArray(char pArray[]);
 int utn_getCharInt(char* pResultado,char* mensaje,char* mensajeError,int minimo,int maximo,int reintentos);
+int isFloat(char string[]);
+int utn_countPointsArray(char pArray[]);
 #endif

@@ -20,11 +20,12 @@ Employee* employee_newParametros(char* id, char* nombre, char* horasTrabajadas, 
                 if(!(employee_setId(this, atoi(id)))
                         && !(employee_setNombre(this, nombre))
                         && !(employee_setHorasTrabajadas(this, atoi(horasTrabajadas)))
-                        && !(employee_setSueldo(this, atoi (sueldo))))
+                        && !(employee_setSueldo(this, atof (sueldo))))
                 {
                         return this;
                 }
         }
+        employee_delete(this);
         return NULL;
 }
 
@@ -103,15 +104,17 @@ int isValidHorasTrabajadas(int horasTrabajadas)
 	return output;
 }
 
-int employee_getSueldo(Employee* this)
+float employee_getSueldo(Employee* this)
 {
         return this->sueldo;
 }
 
-int employee_setSueldo(Employee* this, int sueldo)
+int employee_setSueldo(Employee* this, float sueldo)
 {
         int output = -1;
-        if(this != NULL  && isValidSueldo(sueldo) == 1)
+        char charSueldo[LONG_SUELDO];
+        sprintf(charSueldo,"%f",sueldo);
+        if(this != NULL && charSueldo != NULL && isValidSueldo(charSueldo) == 1)
         {
                 this->sueldo = sueldo;
                 output = 0;
@@ -119,10 +122,10 @@ int employee_setSueldo(Employee* this, int sueldo)
          return output;
 }
 
-int isValidSueldo(int sueldo)
+int isValidSueldo(char* sueldo)
 {
 	int output = 0;
-	if (sueldo > 0)
+	if (isFloat(sueldo) == 1 && utn_countPointsArray(sueldo) == 0)
 	{
 		output = 1;
 	}

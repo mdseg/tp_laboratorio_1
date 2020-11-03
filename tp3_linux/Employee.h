@@ -12,7 +12,7 @@
 #define SALARY_MIN 1
 #define SALARY_MAX 1000000
 
-#define PRINT_ONE_REGISTRY "|%-4d |%-24s| %-24d| %-24d |\n"
+#define PRINT_ONE_REGISTRY "|%-4d |%-24s| %-24d| %-24.2f |\n"
 #define PRINT_ONE_REGISTRY_TOP "--ID-------Nombre------------------Horas trabajadas--------------Sueldo--------------\n"
 #define PRINT_ONE_REGISTRY_BOTTOM "-------------------------------------------------------------------------------------\n"
 
@@ -62,7 +62,7 @@ typedef struct
     int id;
     char nombre[128];
     int horasTrabajadas;
-    int sueldo;
+    float sueldo;
 }Employee;
 
 Employee* employee_new();
@@ -78,8 +78,8 @@ char* employee_getNombre(Employee* this);
 int employee_setHorasTrabajadas(Employee* this,int horasTrabajadas);
 int employee_getHorasTrabajadas(Employee* this);
 
-int employee_setSueldo(Employee* this,int sueldo);
-int employee_getSueldo(Employee* this);
+int employee_setSueldo(Employee* this, float sueldo);
+float employee_getSueldo(Employee* this);
 
 int employee_printOneEmployee(Employee* this);
 int employee_sortEmployesByName(void* employee1, void* employee2);
@@ -87,6 +87,6 @@ int employee_sortEmployesByName(void* employee1, void* employee2);
 int isValidId(int id);
 int isValidNombre(char* nombre);
 int isValidHorasTrabajadas(int horasTrabajadas);
-int isValidSueldo(int sueldo);
+int isValidSueldo(char* sueldo);
 
 #endif // employee_H_INCLUDED
