@@ -128,3 +128,47 @@ int isValidSueldo(int sueldo)
 	}
     return output;
 }
+void employee_delete(Employee* this)
+{
+	if(this != NULL)
+	{
+		free(this);
+	}
+}
+int employee_printOneEmployee(Employee* this)
+{
+	int output = -1;
+	if (this != NULL)
+	{
+		printf(PRINT_ONE_REGISTRY_TOP);
+		printf(PRINT_ONE_REGISTRY, employee_getId(this), employee_getNombre(this), employee_getHorasTrabajadas(this), employee_getSueldo(this));
+		printf(PRINT_ONE_REGISTRY_BOTTOM);
+		output = 0;
+	}
+	return output;
+}
+int employee_sortEmployesByName(void* employee1, void* employee2)
+{
+	Employee* bufferFirstEmployee = (Employee*) employee1;
+	Employee* bufferSecondEmployee = (Employee*) employee2;
+	char bufferNameFirstEmployee[LONG_NAME];
+	char bufferNameSecondEmployee[LONG_NAME];
+	strcpy(bufferNameFirstEmployee,employee_getNombre(bufferFirstEmployee));
+	strcpy(bufferNameSecondEmployee,employee_getNombre(bufferSecondEmployee));
+	if(strncmp(bufferNameFirstEmployee,bufferNameSecondEmployee,LONG_NAME)>0)
+	{
+		return 1;
+	}
+	else
+	{
+		if(strncmp(bufferNameFirstEmployee,bufferNameSecondEmployee,LONG_NAME)<0)
+		{
+			return -1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+}

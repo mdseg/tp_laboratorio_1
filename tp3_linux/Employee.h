@@ -2,7 +2,7 @@
 #define employee_H_INCLUDED
 
 #define LONG_ID 55
-#define LONG_NAME 55
+#define LONG_NAME 128
 #define LONG_HORAS 12
 #define LONG_SUELDO 20
 #define ATTEMPTS 5
@@ -29,12 +29,15 @@
 #define MODIFY_EMPLOYEE_ERROR "\nError en la modificación del empleado.\n"
 #define MODIFY_NAME_SUCCESS "Nombre modificado con éxito.\n"
 #define MODIFY_NAME_ERROR "Error al intentar modificar el nombre.\n"
-#define MODIFY_LASTNAME_SUCCESS "Apellido modificado con éxito.\n"
-#define MODIFY_LASTNAME_ERROR "Error al intentar modificar el apellido.\n"
+#define MODIFY_HOUR_SUCCESS "Apellido modificado con éxito.\n"
+#define MODIFY_HOUR_ERROR "Error al intentar modificar el apellido.\n"
 #define MODIFY_SALARY_SUCCESS "Salario modificado con éxito.\n"
 #define MODIFY_SALARY_ERROR "Error al intentar modificar el salario.\n"
-#define MODIFY_SECTOR_SUCCESS "Sector modificado con éxito.\n"
-#define MODIFY_SECTOR_ERROR "Error al intentar modificar el sector.\n"
+
+//Delete
+
+#define DELETE_EMPLOYEE_CONFIRM "¿Desea realmente eliminar este empleado? Seleccione 1 para confirmar o 2 para cancelar.\n"
+#define DELETE_EMPLOYEE_CANCEL	"Operación cancelada por el usuario.\n"
 //Input
 #define INPUT_NAME "Ingrese el nombre:\n"
 #define INPUT_NAME_ERROR "Por favor, ingrese un nombre válido.\n"
@@ -46,10 +49,13 @@
 #define INPUT_HOUR_ERROR "Por favor, ingrese una cantidad de horas trabajadas válidas.\n"
 //Acceso
 #define ENTERING_CREATE_EMPLOYEE "Ingresando al sector de altas...\n"
+#define ENTERING_LIST_EMPLOYEE "Seleccionó la opción de listar de empleados...\n"
 #define ENTERING_MODIFY_EMPLOYEE "Ingresando al sector de modificaciones...\n"
 #define ENTERING_REMOVE_EMPLOYEE "Ingresando al sector de bajas...\n"
-#define ERROR_NOT_AVAILABLE "Debe ingresar al menos un usuario para utilizar esta funcionalidad.\n"
-
+#define ERROR_NOT_AVAILABLE "Debe realizar la carga de datos utilizando la opcion 1 o 2 para utilizar esta funcionalidad.\n"
+#define ERROR_GENERIC "Error al seleccionar una opción."
+//Order
+#define MENU_ORDER "Seleccione el criterio de ordenamiento:\n1. Ordenar por nombre ascendentemente.\n2. Ordenar por nombre descendentemente.\n3. Ordenar por horas trabajadas ascendenemente.\n4. Ordenar por horas trabajadas descendentemente.\n5. Ordenar por salario ascendentemente.\n6. Ordenar por salario descendentemente.\n7. Volver al menú anterior.\nSu opción --->"
 
 typedef struct
 {
@@ -74,6 +80,9 @@ int employee_getHorasTrabajadas(Employee* this);
 
 int employee_setSueldo(Employee* this,int sueldo);
 int employee_getSueldo(Employee* this);
+
+int employee_printOneEmployee(Employee* this);
+int employee_sortEmployesByName(void* employee1, void* employee2);
 
 int isValidId(int id);
 int isValidNombre(char* nombre);

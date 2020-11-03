@@ -27,22 +27,105 @@
 int main()
 {
     int option;
+    int flagCargaDatos = FALSE;
     LinkedList* listaEmpleados = ll_newLinkedList();
+    //controller_loadFromText("data.csv",listaEmpleados);
 
     do{
     	utn_getInt(&option, MAIN_MENU, ERROR_MENU, 1, 10, ATTEMPTS);
         switch(option)
         {
             case 1:
-                controller_loadFromText("data.csv",listaEmpleados);
+                if (controller_loadFromText("data.csv",listaEmpleados)== 0 && flagCargaDatos == FALSE)
+                {
+                	flagCargaDatos = TRUE;
+                }
                 break;
             case 2:
-            	controller_addEmployee(listaEmpleados);
-            case 6:
-            	controller_ListEmployee(listaEmpleados);
+            	if (controller_loadFromBinary("data2.csv", listaEmpleados)== 0 && flagCargaDatos == FALSE)
+				{
+					flagCargaDatos = TRUE;
+				}
             	break;
+            case 3:
+            	if(flagCargaDatos == TRUE)
+            	{
+            		controller_addEmployee(listaEmpleados);
+            	}
+            	else
+            	{
+            		printf(ERROR_NOT_AVAILABLE);
+            	}
+
+            	break;
+            case 4:
+            	if(flagCargaDatos == TRUE)
+            	{
+            		controller_editEmployee(listaEmpleados);
+
+            	}
+            	else
+            	{
+            		printf(ERROR_NOT_AVAILABLE);
+            	}
+            	break;
+            case 5:
+            	if(flagCargaDatos == TRUE)
+				{
+                	controller_removeEmployee(listaEmpleados);
+				}
+				else
+				{
+					printf(ERROR_NOT_AVAILABLE);
+				}
+            	break;
+            case 6:
+            	if(flagCargaDatos == TRUE)
+				{
+                	controller_ListEmployee(listaEmpleados);
+				}
+				else
+				{
+					printf(ERROR_NOT_AVAILABLE);
+				}
+            	break;
+            case 7:
+            	if(flagCargaDatos == TRUE)
+				{
+                	controller_sortEmployee(listaEmpleados);
+				}
+				else
+				{
+					printf(ERROR_NOT_AVAILABLE);
+				}
+            	break;
+            case 8:
+            	if(flagCargaDatos == TRUE)
+				{
+                	controller_saveAsText("data1.csv", listaEmpleados);
+				}
+				else
+				{
+					printf(ERROR_NOT_AVAILABLE);
+				}
+            	break;
+            case 9:
+            	if(flagCargaDatos == TRUE)
+				{
+    				controller_saveAsBinary("data2.csv", listaEmpleados);
+				}
+				else
+				{
+					printf(ERROR_NOT_AVAILABLE);
+				}
+            	break;
+            case 10:
+            	printf(EXIT_PROGRAM);
+
         }
     }while(option != 10);
     return 0;
 }
+
+
 
