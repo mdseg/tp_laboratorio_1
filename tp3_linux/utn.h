@@ -37,4 +37,5 @@ int utn_lowerOnlyFirstCharArray(char pArray[]);
 int utn_getCharInt(char* pResultado,char* mensaje,char* mensajeError,int minimo,int maximo,int reintentos);
 int isFloat(char string[]);
 int utn_countPointsArray(char pArray[]);
+int utn_getCharFloat(char* pResultado,char* mensaje,char* mensajeError,int minimo,int maximo,int reintentos);
 #endif

@@ -9,7 +9,6 @@
 
 
 int controller_findEmployeeById(LinkedList* pArrayListEmployee, int id);
-
 int controller_getFreeIndex(LinkedList* pArrayListEmployee);
 
 
@@ -52,25 +51,34 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListEmployee)
 {
 	int output = -1;
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
-	printf(CONTROLLER_LOAD_LIST_TEXT);
+	printf(CONTROLLER_LOAD_LIST_BINARY);
 	FILE* pFile;
-	pFile = fopen(path,"rb");
-	if(pFile == NULL)
+	if(pArrayListEmployee != NULL)
 	{
-		printf(CONTROLLER_LOAD_LIST_NO_FILE);
+		pFile = fopen(path,"rb");
+			if(pFile == NULL)
+			{
+				printf(CONTROLLER_LOAD_LIST_NO_FILE);
+			}
+			else
+			{
+				if(parser_EmployeeFromBinary(pFile, pArrayListEmployee) == 0)
+				{
+
+					printf(CONTROLLER_LOAD_LIST_BINARY_SUCCESS);
+					output = 0;
+				}
+				fclose(pFile);
+
+			}
 	}
 	else
 	{
-		if(parser_EmployeeFromBinary(pFile, pArrayListEmployee) == 0)
-		{
-
-			printf(CONTROLLER_LOAD_LIST_TEXT_SUCCESS);
-			output = 0;
-		}
-		fclose(pFile);
-
+		printf(LL_NULL_ERROR);
 	}
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
+
+
 	return output;
 
 }
@@ -90,6 +98,8 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
 	char sueldo[LONG_SUELDO];
 	char id[LONG_ID];
 	Employee* bufferEmpleado;
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
+	printf(ENTERING_CREATE_EMPLOYEE);
 
 	if(utn_getName(INPUT_NAME, INPUT_NAME_ERROR, name, ATTEMPTS, LONG_NAME) == 0 &&
 			utn_getCharInt(horasTrabajadas, INPUT_HOUR, INPUT_HOUR_ERROR, HOUR_MIN, HOUR_MAX, ATTEMPTS) == 0 &&
@@ -100,6 +110,8 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
 		bufferEmpleado = employee_newParametros(id, name, horasTrabajadas, sueldo);
 		ll_add(pArrayListEmployee, bufferEmpleado);
 		printf(CREATE_EMPLOYEE_SUCCESS);
+		employee_printOneEmployee(bufferEmpleado);
+		printf(PRINT_ONE_REGISTRY_BOTTOM);
 		output = 0;
 	}
     return output;
@@ -123,66 +135,76 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
 	int op;
 	int flagCarga = FALSE;
 	Employee* bufferEmployee;
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	printf(ENTERING_MODIFY_EMPLOYEE);
-	if(utn_getInt(&id, INPUT_ID, INPUT_ID_ERROR, 1, 2000, ATTEMPTS) == 0)
-	    	{
-	    		index = controller_findEmployeeById(pArrayListEmployee, id);
+	if(pArrayListEmployee != NULL)
+	{
+		if(utn_getInt(&id, INPUT_ID, INPUT_ID_ERROR, 1, 2000, ATTEMPTS) == 0)
+		{
+			index = controller_findEmployeeById(pArrayListEmployee, id);
 
-	    		if(index != -1)
-	    		{
-	    			bufferEmployee = ll_get(pArrayListEmployee, index);
-	    			do
-	    			{
-	        			utn_getInt(&op, MENU_MODIFY, MENU_SELECT_ERROR, 1, 4, ATTEMPTS);
-	    				switch (op)
-						{
-							case 1:
-								if(utn_getName(INPUT_NAME,INPUT_NAME_ERROR,name, ATTEMPTS, LONG_NAME) == 0)
-								{
-									employee_setNombre(bufferEmployee, name);
-									flagCarga = TRUE;
-									printf(MODIFY_NAME_SUCCESS);
-								}
-								else
-								{
-									printf(MODIFY_NAME_ERROR);
-								}
-								break;
-							case 2:
-								if(utn_getInt(&hours, INPUT_HOUR, INPUT_HOUR_ERROR, HOUR_MIN, HOUR_MAX, ATTEMPTS) == 0)
-								{
-									employee_setHorasTrabajadas(bufferEmployee, hours);
-									flagCarga = TRUE;
-									printf(MODIFY_HOUR_SUCCESS);
-								}
-								else
-								{
-									printf(MODIFY_HOUR_ERROR);
-								}
-								break;
-							case 3:
-								if(utn_getFloat(INPUT_SALARY, INPUT_SALARY_ERROR, &salary, ATTEMPTS, SALARY_MIN, SALARY_MAX) == 0)
-								{
-									employee_setSueldo(bufferEmployee, salary);
-									flagCarga = TRUE;
-									printf(MODIFY_SALARY_SUCCESS);
-								}
-								else
-								{
-									printf(MODIFY_SALARY_ERROR);
-								}
-								break;
+			if(index != -1)
+			{
+				bufferEmployee = ll_get(pArrayListEmployee, index);
+				employee_printOneEmployee(bufferEmployee);
+				do
+				{
+					utn_getInt(&op, MENU_MODIFY, MENU_SELECT_ERROR, 1, 4, ATTEMPTS);
+					switch (op)
+					{
+						case 1:
+							if(utn_getName(INPUT_NAME,INPUT_NAME_ERROR,name, ATTEMPTS, LONG_NAME) == 0)
+							{
+								employee_setNombre(bufferEmployee, name);
+								flagCarga = TRUE;
+								printf(MODIFY_NAME_SUCCESS);
 							}
-	    			}
-	    			while(op != 4);
-	    			if(flagCarga == TRUE)
-	    			{
-	    				ll_set(pArrayListEmployee, index, bufferEmployee);
-            			printf(MODIFY_EMPLOYEE_SUCCESS);
-	    				output = 0;
-	    			}
-	    		}
-	    	}
+							else
+							{
+								printf(MODIFY_NAME_ERROR);
+							}
+							break;
+						case 2:
+							if(utn_getInt(&hours, INPUT_HOUR, INPUT_HOUR_ERROR, HOUR_MIN, HOUR_MAX, ATTEMPTS) == 0)
+							{
+								employee_setHorasTrabajadas(bufferEmployee, hours);
+								flagCarga = TRUE;
+								printf(MODIFY_HOUR_SUCCESS);
+							}
+							else
+							{
+								printf(MODIFY_HOUR_ERROR);
+							}
+							break;
+						case 3:
+							if(utn_getFloat(INPUT_SALARY, INPUT_SALARY_ERROR, &salary, ATTEMPTS, SALARY_MIN, SALARY_MAX) == 0)
+							{
+								employee_setSueldo(bufferEmployee, salary);
+								flagCarga = TRUE;
+								printf(MODIFY_SALARY_SUCCESS);
+							}
+							else
+							{
+								printf(MODIFY_SALARY_ERROR);
+							}
+							break;
+						}
+				}
+				while(op != 4);
+				if(flagCarga == TRUE)
+				{
+					ll_set(pArrayListEmployee, index, bufferEmployee);
+					printf(MODIFY_EMPLOYEE_SUCCESS);
+					output = 0;
+				}
+			}
+		}
+	}
+	else
+	{
+		printf(LL_NULL_ERROR);
+	}
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
     return output;
 }
 
@@ -200,7 +222,9 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
 	int index;
 	int op;
 	Employee* bufferEmployee;
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	printf(ENTERING_REMOVE_EMPLOYEE);
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	if(ll_len(pArrayListEmployee) > 0 && utn_getInt(&id, INPUT_ID, INPUT_ID_ERROR, 1, 2000, ATTEMPTS) == 0)
 	{
 		index = controller_findEmployeeById(pArrayListEmployee, id);
@@ -210,14 +234,17 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
 			if(employee_printOneEmployee(bufferEmployee) == 0 &&
 				utn_getInt(&op, DELETE_EMPLOYEE_CONFIRM, MENU_SELECT_ERROR, 1, 2, ATTEMPTS) == 0)
 			{
-				ll_pop(pArrayListEmployee, index);
-				employee_delete(ll_get(pArrayListEmployee, index));
-				printf(DELETE_EMPLOYEE_SUCCESS);
+				if(op == 1)
+				{
+					ll_pop(pArrayListEmployee, index);
+					employee_delete(ll_get(pArrayListEmployee, index));
+					printf(DELETE_EMPLOYEE_SUCCESS);
+				}
+				else
+				{
+					printf(DELETE_EMPLOYEE_CANCEL);
+				}
 				output = 0;
-			}
-			else
-			{
-				printf(DELETE_EMPLOYEE_CANCEL);
 			}
 		}
 		else
@@ -273,32 +300,54 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
 int controller_sortEmployee(LinkedList* pArrayListEmployee)
 {
 	int output = -1;
+	int op;
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
+	printf(ENTERING_SORT_EMPLOYEE);
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	if(pArrayListEmployee != NULL)
 	{
-		ll_sort(pArrayListEmployee,employee_compareByName,1);
-		output = 0;
-	}
-	return output;
-	/*
-	int output = -1;
-	int len = ll_len(pArrayListEmployee);
-	Employee* bufferFirstEmployee;
-	Employee* bufferSecondEmployee;
-	int r;
-	int i;
-	if (pArrayListEmployee != NULL)
-	{
-		for(i = 0;i < len;i++)
+		do
 		{
-			bufferFirstEmployee = ll_get(pArrayListEmployee, i);
-			bufferSecondEmployee = ll_get(pArrayListEmployee,i+1);
-			r = ll_sort(pArrayListEmployee, employee_sortEmployesByName, 1);
+			utn_getInt(&op, CONTROLLER_SORT_MENU, MENU_SELECT_ERROR, 1, 9, ATTEMPTS);
+			switch(op)
+			{
+				case 1:
+					ll_sort(pArrayListEmployee,employee_compareById,1);
+					break;
+				case 2:
+					ll_sort(pArrayListEmployee,employee_compareById,0);
+					break;
+				case 3:
+					ll_sort(pArrayListEmployee,employee_compareByName,1);
+					output = 0;
+					break;
+				case 4:
+					ll_sort(pArrayListEmployee,employee_compareByName,0);
+					output = 0;
+					break;
+				case 5:
+					ll_sort(pArrayListEmployee,employee_compareByHours,1);
+					output = 0;
+					break;
+				case 6:
+					ll_sort(pArrayListEmployee,employee_compareByHours,0);
+					output = 0;
+					break;
+				case 7:
+					ll_sort(pArrayListEmployee,employee_compareBySalary,1);
+					output = 0;
+					break;
+				case 8:
+					ll_sort(pArrayListEmployee,employee_compareBySalary,0);
+					output = 0;
+					break;
+			}
 		}
-		output = 0;
-
+		while(op != 9);
 	}
-    return output;
-    */
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
+	return output;
+
 }
 
 /** \brief Guarda los datos de los empleados en el archivo data.csv (modo texto).
@@ -316,11 +365,12 @@ int controller_saveAsText(char* path , LinkedList* pArrayListEmployee)
 	Employee* bufferEmployee;
 	FILE* pFile;
 	pFile = fopen(path,"w");
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	if(pFile != NULL)
 	{
-		printf("Archivo creado o abierto con éxito.");
+		printf(CONTROLLER_CREATE_SUCCESS);
 		len = ll_len(pArrayListEmployee);
-		fprintf(pFile,"id,nombre,horasTrabajadas,sueldo\n");
+		fprintf(pFile,CONTROLLER_CSV_TOP);
 		for (i = 0; i < len;i++)
 		{
 			bufferEmployee = ll_get(pArrayListEmployee, i);
@@ -329,6 +379,11 @@ int controller_saveAsText(char* path , LinkedList* pArrayListEmployee)
 		fclose(pFile);
 		output = 0;
 	}
+	else
+	{
+		printf(CONTROLLER_SAVE_BINARY_PATH_ERROR);
+	}
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
     return output;
 }
 
@@ -345,7 +400,8 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee)
 	int output = -1;
 	int len = ll_len(pArrayListEmployee);
 	Employee* pEmpleado;
-	if(path != NULL && pArrayListEmployee != NULL)
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
+	if(path != NULL && pArrayListEmployee != NULL && len > 0)
 	{
 		pFile = fopen(path,"wb");
 		if(pFile != NULL)
@@ -355,57 +411,12 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee)
 			{
 				pEmpleado = ll_get(pArrayListEmployee, i);
 				fwrite(pEmpleado,sizeof(Employee),1,pFile);
-				printf("%s\n",pEmpleado->nombre);
 			}
-
 		}
 		fclose(pFile);
-
 	}
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	return output;
-
-	/*
-	int output = -1;
-	int len;
-	int i = 0;
-	char encabezado[100];
-	Employee* bufferEmployee;
-	FILE* pFile;
-	int bufferId;
-	int bufferHorasTrabajadas;
-	char bufferName[LONG_NAME];
-	float bufferSalary;
-	pFile = fopen(path,"wb");
-	if(pFile != NULL)
-	{
-		//strcpy(encabezado,"id,nombre,horasTrabajadas,sueldo\n");
-		//printf("Archivo creado o abierto con éxito.");
-		len = ll_len(pArrayListEmployee);
-		//fprintf(pFile,"id,nombre,horasTrabajadas,sueldo\n");
-		//fwrite(encabezado,sizeof(encabezado),1,pFile);
-		for (i = 0; i < len;i++)
-		{
-
-			bufferEmployee = ll_get(pArrayListEmployee, i);
-			fwrite(&bufferEmployee,sizeof(Employee),1,pFile);
-
-			bufferId = employee_getId(bufferEmployee);
-			strcpy(bufferName, employee_getNombre(bufferEmployee));
-			bufferHorasTrabajadas = employee_getHorasTrabajadas(bufferEmployee);
-			bufferSalary = employee_getSueldo(bufferEmployee);
-			fwrite(&bufferId,sizeof(int),1,pFile);
-			fwrite(bufferName,LONG_NAME,1,pFile);
-			fwrite(&bufferHorasTrabajadas,sizeof(int),1,pFile);
-			fwrite(&bufferSalary,sizeof(float),1,pFile);
-
-			//fprintf(pFile,"%d,%s,%d,%d\n",employee_getId(bufferEmployee),employee_getNombre(bufferEmployee),employee_getHorasTrabajadas(bufferEmployee),employee_getSueldo(bufferEmployee));
-		}
-		fclose(pFile);
-		output = 0;
-	}
-
-    return output;
-    */
 }
 
 int controller_getFreeIndex(LinkedList* pArrayListEmployee)
@@ -444,27 +455,6 @@ int controller_findEmployeeById(LinkedList* pArrayListEmployee, int id)
 	return output;
 }
 
-int controller_saveBinaryPrueba(char* path)
-{
-	int retorno = -1;
-	FILE* pFile;
-	int prueba = 8;
-
-	pFile = fopen(path,"wb");
-		if(pFile != NULL)
-		{
-			//strcpy(encabezado,"id,nombre,horasTrabajadas,sueldo\n");
-			//printf("Archivo creado o abierto con éxito.");
-			//fprintf(pFile,"id,nombre,horasTrabajadas,sueldo\n");
-			//fwrite(encabezado,sizeof(encabezado),1,pFile);
-			fwrite(&prueba,sizeof(int),1,pFile);
-				//fprintf(pFile,"%d,%s,%d,%d\n",employee_getId(bufferEmployee),employee_getNombre(bufferEmployee),employee_getHorasTrabajadas(bufferEmployee),employee_getSueldo(bufferEmployee));
-			fclose(pFile);
-			retorno = 0;
-		}
-
-	return retorno;
-}
 
 
 

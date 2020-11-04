@@ -179,3 +179,93 @@ int employee_compareByName(void* employee1, void* employee2)
 	return output;
 
 }
+int employee_compareById(void* employee1, void* employee2)
+{
+	int output;
+	Employee* bufferFirstEmployee;
+	Employee* bufferSecondEmployee;
+	bufferFirstEmployee = (Employee*) employee1;
+	bufferSecondEmployee = (Employee*) employee2;
+	int bufferIdFirstEmployee;
+	int bufferIdSecondEmployee;
+	bufferIdFirstEmployee = employee_getId(bufferFirstEmployee);
+	bufferIdSecondEmployee = employee_getId(bufferSecondEmployee);
+
+	if(bufferIdFirstEmployee > bufferIdSecondEmployee)
+	{
+		output = 1;
+	}
+	else
+	{
+		if(bufferIdFirstEmployee < bufferIdSecondEmployee)
+		{
+			output = -1;
+		}
+		else
+		{
+			output = 0;
+		}
+	}
+	return output;
+
+}
+int employee_compareByHours(void* employee1, void* employee2)
+{
+	int output;
+	Employee* bufferFirstEmployee;
+	Employee* bufferSecondEmployee;
+	bufferFirstEmployee = (Employee*) employee1;
+	bufferSecondEmployee = (Employee*) employee2;
+	int bufferHourFirstEmployee;
+	int bufferHourSecondEmployee;
+	bufferHourFirstEmployee = employee_getHorasTrabajadas(bufferFirstEmployee);
+	bufferHourSecondEmployee = employee_getHorasTrabajadas(bufferSecondEmployee);
+
+	if(bufferHourFirstEmployee > bufferHourSecondEmployee)
+	{
+		output = 1;
+	}
+	else
+	{
+		if(bufferHourFirstEmployee < bufferHourSecondEmployee)
+		{
+			output = -1;
+		}
+		else
+		{
+			output = 0;
+		}
+	}
+	return output;
+
+}
+int employee_compareBySalary(void* employee1, void* employee2)
+{
+	int output;
+	Employee* bufferFirstEmployee;
+	Employee* bufferSecondEmployee;
+	bufferFirstEmployee = (Employee*) employee1;
+	bufferSecondEmployee = (Employee*) employee2;
+	int bufferSalaryFirstEmployee;
+	int bufferSalarySecondEmployee;
+	bufferSalaryFirstEmployee = employee_getSueldo(bufferFirstEmployee);
+	bufferSalarySecondEmployee = employee_getSueldo(bufferSecondEmployee);
+
+	if(bufferSalaryFirstEmployee > bufferSalarySecondEmployee)
+	{
+		output = 1;
+	}
+	else
+	{
+		if(bufferSalaryFirstEmployee < bufferSalarySecondEmployee)
+		{
+			output = -1;
+		}
+		else
+		{
+			output = 0;
+		}
+	}
+	return output;
+
+}

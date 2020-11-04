@@ -29,7 +29,7 @@
 #define MODIFY_EMPLOYEE_ERROR "\nError en la modificación del empleado.\n"
 #define MODIFY_NAME_SUCCESS "Nombre modificado con éxito.\n"
 #define MODIFY_NAME_ERROR "Error al intentar modificar el nombre.\n"
-#define MODIFY_HOUR_SUCCESS "Apellido modificado con éxito.\n"
+#define MODIFY_HOUR_SUCCESS "Horas trabajadas modificadas con éxito.\n"
 #define MODIFY_HOUR_ERROR "Error al intentar modificar el apellido.\n"
 #define MODIFY_SALARY_SUCCESS "Salario modificado con éxito.\n"
 #define MODIFY_SALARY_ERROR "Error al intentar modificar el salario.\n"
@@ -52,6 +52,7 @@
 #define ENTERING_LIST_EMPLOYEE "Seleccionó la opción de listar de empleados...\n"
 #define ENTERING_MODIFY_EMPLOYEE "Ingresando al sector de modificaciones...\n"
 #define ENTERING_REMOVE_EMPLOYEE "Ingresando al sector de bajas...\n"
+#define ENTERING_SORT_EMPLOYEE "Ingresando al sector de ordenamiento...\n"
 #define ERROR_NOT_AVAILABLE "Debe realizar la carga de datos utilizando la opcion 1 o 2 para utilizar esta funcionalidad.\n"
 #define ERROR_GENERIC "Error al seleccionar una opción."
 //Order
@@ -84,6 +85,9 @@ float employee_getSueldo(Employee* this);
 int employee_printOneEmployee(Employee* this);
 int employee_sortEmployesByName(void* employee1, void* employee2);
 int employee_compareByName(void* employee1, void* employee2);
+int employee_compareById(void* employee1, void* employee2);
+int employee_compareByHours(void* employee1, void* employee2);
+int employee_compareBySalary(void* employee1, void* employee2);
 
 int isValidId(int id);
 int isValidNombre(char* nombre);

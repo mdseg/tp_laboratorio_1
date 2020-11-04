@@ -43,7 +43,7 @@ int main()
                 }
                 break;
             case 2:
-            	if (controller_loadFromBinary("data2.bin", listaEmpleados)== 0 && flagCargaDatos == FALSE)
+            	if (controller_loadFromBinary("data.bin", listaEmpleados)== 0 && flagCargaDatos == FALSE)
 				{
 					flagCargaDatos = TRUE;
 				}
@@ -113,7 +113,7 @@ int main()
             case 9:
             	if(flagCargaDatos == TRUE)
 				{
-    				controller_saveAsBinary("data2.bin", listaEmpleados);
+    				controller_saveAsBinary("data.bin", listaEmpleados);
 				}
 				else
 				{
