@@ -31,6 +31,7 @@ int main()
     LinkedList* listaEmpleados = ll_newLinkedList();
     //controller_loadFromText("data.csv",listaEmpleados);
 
+
     do{
     	utn_getInt(&option, MAIN_MENU, ERROR_MENU, 1, 10, ATTEMPTS);
         switch(option)
@@ -42,7 +43,7 @@ int main()
                 }
                 break;
             case 2:
-            	if (controller_loadFromBinary("data.csv", listaEmpleados)== 0 && flagCargaDatos == FALSE)
+            	if (controller_loadFromBinary("data2.bin", listaEmpleados)== 0 && flagCargaDatos == FALSE)
 				{
 					flagCargaDatos = TRUE;
 				}
@@ -112,7 +113,7 @@ int main()
             case 9:
             	if(flagCargaDatos == TRUE)
 				{
-    				controller_saveAsBinary("data2.csv", listaEmpleados);
+    				controller_saveAsBinary("data2.bin", listaEmpleados);
 				}
 				else
 				{

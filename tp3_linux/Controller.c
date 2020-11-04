@@ -67,7 +67,7 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListEmployee)
 			printf(CONTROLLER_LOAD_LIST_TEXT_SUCCESS);
 			output = 0;
 		}
-
+		fclose(pFile);
 
 	}
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
@@ -273,6 +273,14 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
 int controller_sortEmployee(LinkedList* pArrayListEmployee)
 {
 	int output = -1;
+	if(pArrayListEmployee != NULL)
+	{
+		ll_sort(pArrayListEmployee,employee_compareByName,1);
+		output = 0;
+	}
+	return output;
+	/*
+	int output = -1;
 	int len = ll_len(pArrayListEmployee);
 	Employee* bufferFirstEmployee;
 	Employee* bufferSecondEmployee;
@@ -290,6 +298,7 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
 
 	}
     return output;
+    */
 }
 
 /** \brief Guarda los datos de los empleados en el archivo data.csv (modo texto).
@@ -332,6 +341,30 @@ int controller_saveAsText(char* path , LinkedList* pArrayListEmployee)
  */
 int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee)
 {
+	FILE* pFile;
+	int output = -1;
+	int len = ll_len(pArrayListEmployee);
+	Employee* pEmpleado;
+	if(path != NULL && pArrayListEmployee != NULL)
+	{
+		pFile = fopen(path,"wb");
+		if(pFile != NULL)
+		{
+			output = 0;
+			for (int i = 0; i < len;i++)
+			{
+				pEmpleado = ll_get(pArrayListEmployee, i);
+				fwrite(pEmpleado,sizeof(Employee),1,pFile);
+				printf("%s\n",pEmpleado->nombre);
+			}
+
+		}
+		fclose(pFile);
+
+	}
+	return output;
+
+	/*
 	int output = -1;
 	int len;
 	int i = 0;
@@ -354,6 +387,8 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee)
 		{
 
 			bufferEmployee = ll_get(pArrayListEmployee, i);
+			fwrite(&bufferEmployee,sizeof(Employee),1,pFile);
+
 			bufferId = employee_getId(bufferEmployee);
 			strcpy(bufferName, employee_getNombre(bufferEmployee));
 			bufferHorasTrabajadas = employee_getHorasTrabajadas(bufferEmployee);
@@ -362,12 +397,15 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee)
 			fwrite(bufferName,LONG_NAME,1,pFile);
 			fwrite(&bufferHorasTrabajadas,sizeof(int),1,pFile);
 			fwrite(&bufferSalary,sizeof(float),1,pFile);
+
 			//fprintf(pFile,"%d,%s,%d,%d\n",employee_getId(bufferEmployee),employee_getNombre(bufferEmployee),employee_getHorasTrabajadas(bufferEmployee),employee_getSueldo(bufferEmployee));
 		}
 		fclose(pFile);
 		output = 0;
 	}
+
     return output;
+    */
 }
 
 int controller_getFreeIndex(LinkedList* pArrayListEmployee)
@@ -405,4 +443,28 @@ int controller_findEmployeeById(LinkedList* pArrayListEmployee, int id)
 	}
 	return output;
 }
+
+int controller_saveBinaryPrueba(char* path)
+{
+	int retorno = -1;
+	FILE* pFile;
+	int prueba = 8;
+
+	pFile = fopen(path,"wb");
+		if(pFile != NULL)
+		{
+			//strcpy(encabezado,"id,nombre,horasTrabajadas,sueldo\n");
+			//printf("Archivo creado o abierto con éxito.");
+			//fprintf(pFile,"id,nombre,horasTrabajadas,sueldo\n");
+			//fwrite(encabezado,sizeof(encabezado),1,pFile);
+			fwrite(&prueba,sizeof(int),1,pFile);
+				//fprintf(pFile,"%d,%s,%d,%d\n",employee_getId(bufferEmployee),employee_getNombre(bufferEmployee),employee_getHorasTrabajadas(bufferEmployee),employee_getSueldo(bufferEmployee));
+			fclose(pFile);
+			retorno = 0;
+		}
+
+	return retorno;
+}
+
+
 

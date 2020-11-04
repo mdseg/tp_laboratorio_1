@@ -74,31 +74,70 @@ int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee)
 	char idChar[LONG_ID];
 	int flagEncabezado = 0;
 	char encabezado[50];
+	int retornoLectura;
+
+
 	if(pFile != NULL && pArrayListEmployee != NULL)
 	{
-		//fread(encabezado,sizeof(encabezado),1,pFile);
+
+
 		do
 		{
-			if (fread(&idEmpleado,sizeof(int),1,pFile) == 1 && fread(nombre,LONG_NAME,1,pFile) == 1 &&
-					fread(&horasTrabajadas, sizeof(int), 1, pFile)==1 && fread(&sueldo,sizeof(float),1,pFile) == 1)
+		bufferEmployee = employee_new();
+			if(bufferEmployee != NULL)
 			{
-				sprintf(horasChar,"%d",horasTrabajadas);
-				sprintf(sueldoChar,"%f",sueldo);
-				sprintf(idChar,"%d",idEmpleado);
-
-				bufferEmployee = employee_newParametros(idChar, nombre, horasChar, sueldoChar);
-				if (bufferEmployee != NULL)
+				retornoLectura = fread(bufferEmployee,sizeof(Employee),1,pFile);
+				if(retornoLectura == 1)
 				{
 					ll_add(pArrayListEmployee, bufferEmployee);
 				}
+				else
+				{
+					employee_delete(bufferEmployee);
+					break;
+				}
+				output = 0;
+			}
+
+		}while(!feof(pFile));
+
+
+
+	}
+	return output;
+
+}
+
+
+int parser_Prueba(char* path)
+{
+	int output = -1;
+	int numero;
+	FILE* pFile;
+	pFile = fopen(path,"rb");
+	if(pFile != NULL)
+	{
+
+		//fread(encabezado,sizeof(encabezado),1,pFile);
+		do
+		{
+			if (fread(&numero,sizeof(int),1,pFile) == 1 )
+			{
+
+				printf("%d",numero);
 
 				output = 0;
 			}
 
 
-		}while(feof(pFile) == 0);
+
+		}while(!feof(pFile));
 		fclose(pFile);
 
+
+
 	}
-    return output;
+	return output;
+
 }
+

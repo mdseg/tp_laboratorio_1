@@ -150,28 +150,32 @@ int employee_printOneEmployee(Employee* this)
 	}
 	return output;
 }
-int employee_sortEmployesByName(void* employee1, void* employee2)
+int employee_compareByName(void* employee1, void* employee2)
 {
-	Employee* bufferFirstEmployee = (Employee*) employee1;
-	Employee* bufferSecondEmployee = (Employee*) employee2;
+	int output;
+	Employee* bufferFirstEmployee;
+	Employee* bufferSecondEmployee;
+	bufferFirstEmployee = (Employee*) employee1;
+	bufferSecondEmployee = (Employee*) employee2;
 	char bufferNameFirstEmployee[LONG_NAME];
 	char bufferNameSecondEmployee[LONG_NAME];
 	strcpy(bufferNameFirstEmployee,employee_getNombre(bufferFirstEmployee));
 	strcpy(bufferNameSecondEmployee,employee_getNombre(bufferSecondEmployee));
 	if(strncmp(bufferNameFirstEmployee,bufferNameSecondEmployee,LONG_NAME)>0)
 	{
-		return 1;
+		output = 1;
 	}
 	else
 	{
 		if(strncmp(bufferNameFirstEmployee,bufferNameSecondEmployee,LONG_NAME)<0)
 		{
-			return -1;
+			output = -1;
 		}
 		else
 		{
-			return 0;
+			output = 0;
 		}
 	}
+	return output;
 
 }

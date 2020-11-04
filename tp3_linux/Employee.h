@@ -83,6 +83,7 @@ float employee_getSueldo(Employee* this);
 
 int employee_printOneEmployee(Employee* this);
 int employee_sortEmployesByName(void* employee1, void* employee2);
+int employee_compareByName(void* employee1, void* employee2);
 
 int isValidId(int id);
 int isValidNombre(char* nombre);
