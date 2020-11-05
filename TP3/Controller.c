@@ -99,7 +99,7 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
 
 	if(utn_getName(INPUT_NAME, INPUT_NAME_ERROR, name, ATTEMPTS, LONG_NAME) == 0 &&
 			utn_getCharInt(horasTrabajadas, INPUT_HOUR, INPUT_HOUR_ERROR, HOUR_MIN, HOUR_MAX, ATTEMPTS) == 0 &&
-			utn_getCharFloat(sueldo, INPUT_SALARY, INPUT_SALARY_ERROR, SALARY_MIN, HOUR_MAX, ATTEMPTS) == 0)
+			utn_getCharFloat(sueldo, INPUT_SALARY, INPUT_SALARY_ERROR, SALARY_MIN, SALARY_MAX, ATTEMPTS) == 0)
 	{
 		sprintf(id, "%d",controller_getNewId(pArrayListEmployee));
 		bufferEmpleado = employee_newParametros(id, name, horasTrabajadas, sueldo);

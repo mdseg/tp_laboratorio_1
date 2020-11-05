@@ -43,7 +43,7 @@
 #define INPUT_NAME_ERROR "Por favor, ingrese un nombre válido.\n"
 #define INPUT_ID "Ingrese el Id del empleado:\n"
 #define INPUT_ID_ERROR "Por favor, ingrese un id válido.\n"
-#define INPUT_SALARY "Ingrese el salario (minimo:0, máximo 1000000):\n"
+#define INPUT_SALARY "Ingrese el salario (minimo:1, máximo 1000000):\n"
 #define INPUT_SALARY_ERROR "Por favor, ingrese un salario válido.\n"
 #define INPUT_HOUR "Ingrese la cantidad de horas trabajadas (mínimo: 0, máximo: 480):\n"
 #define INPUT_HOUR_ERROR "Por favor, ingrese una cantidad de horas trabajadas válidas:\n"

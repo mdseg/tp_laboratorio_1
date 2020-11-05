@@ -135,7 +135,7 @@ int main()
             case 8:
             	if(flagCargaDatos == TRUE)
 				{
-                	controller_saveAsText(TEXT_DEBUG_FILE, listaEmpleados);
+                	controller_saveAsText(TEXT_FILE, listaEmpleados);
 				}
 				else
 				{

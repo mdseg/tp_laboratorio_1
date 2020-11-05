@@ -323,7 +323,7 @@ int utn_getCharInt(char* pResultado,char* mensaje,char* mensajeError,int minimo,
 {
 	int retorno = -1;
 	char bufferString[LIMITE_BUFFER_STRING];
-
+	int bufferInt = atoi(bufferString);
 	if(pResultado != NULL && mensaje != NULL && mensajeError != NULL && minimo <= maximo && reintentos >= 0)
 	{
 		do
@@ -351,8 +351,8 @@ int utn_getCharInt(char* pResultado,char* mensaje,char* mensajeError,int minimo,
 * \param pResultado char* puntero al espacio de memoria donde se dejará el valor obtenido.
 * \param mensaje char* Es el mensaje a ser mostrado al usuario.
 * \param mensajeError char* Es el mensaje de error a ser mostrado al usuario.
-* \param minimo int valor minimo admitido
-* \param maximo int valor maximo admitido
+* \param minimo float valor minimo admitido
+* \param maximo float valor maximo admitido
 * \param reintentos int cantidad de oportunidades para ingresar el dato
 * \return (-1) Error / (0) Ok
  */
@@ -360,7 +360,6 @@ int utn_getCharFloat(char* pResultado,char* mensaje,char* mensajeError,float min
 {
 	int retorno = -1;
 	char bufferString[LIMITE_BUFFER_STRING];
-
 	if(pResultado != NULL && mensaje != NULL && mensajeError != NULL && minimo <= maximo && reintentos >= 0)
 	{
 		do
