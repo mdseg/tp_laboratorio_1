@@ -21,33 +21,65 @@
 
 #define MAIN_MENU "\n-------Sistema de Registro de Empleados ----------\nElija una de estas opciones:\n1. Cargar los datos de los empleados desde el archivo data.csv (modo texto)\n2. Cargar los datos de los empleados desde el archivo data.csv (modo binario).\n3. Alta de empleado\n4. Modificar datos de empleado\n5. Baja de empleado\n6. Listar empleados\n7. Ordenar empleados\n8. Guardar los datos de los empleados en el archivo data.csv (modo texto).\n9. Guardar los datos de los empleados en el archivo data.csv (modo binario).\n10. Salir\nSu elección -->  "
 #define ERROR_MENU "Por favor, elija una opción válida.\n"
+#define LIST_OVERWRITE_CONFIRM "Usted ya ha realizado una carga de datos previamente. ¿Desea eliminar los datos previos? elija 1 para si o 2 para no.\n"
 #define EXIT_PROGRAM "Saliendo de la aplicación...\n"
+#define LIST_OVERWRITE_USER_CANCEL "Operación cancelada por el usuario.\n"
 #define ATTEMPTS 5
+#define BINARY_FILE "data.bin"
+#define TEXT_FILE "data.csv"
+#define TEXT_DEBUG_FILE "data1.csv"
 
 int main()
 {
     int option;
     int flagCargaDatos = FALSE;
+    int optionSec;
     LinkedList* listaEmpleados = ll_newLinkedList();
-    //controller_loadFromText("data.csv",listaEmpleados);
-
 
     do{
     	utn_getInt(&option, MAIN_MENU, ERROR_MENU, 1, 10, ATTEMPTS);
         switch(option)
         {
             case 1:
-                if (controller_loadFromText("data.csv",listaEmpleados)== 0 && flagCargaDatos == FALSE)
-                {
-                	flagCargaDatos = TRUE;
-                }
+            	if(flagCargaDatos == TRUE)
+            	{
+            		if(utn_getInt(&optionSec, LIST_OVERWRITE_CONFIRM, MENU_SELECT_ERROR, 1, 2, ATTEMPTS) == 0)
+					{
+            			if(optionSec == 1)
+            			{
+            				controller_loadFromText(TEXT_FILE,listaEmpleados);
+            			}
+            			else
+            			{
+            				printf(LIST_OVERWRITE_USER_CANCEL);
+            			}
+					}
+            	}
+            	else if( controller_loadFromText(TEXT_FILE,listaEmpleados) == 0)
+            	{
+            		flagCargaDatos = TRUE;
+            	}
                 break;
             case 2:
-            	if (controller_loadFromBinary("data.bin", listaEmpleados)== 0 && flagCargaDatos == FALSE)
-				{
-					flagCargaDatos = TRUE;
-				}
-            	break;
+            	if(flagCargaDatos == TRUE)
+            	{
+            		if(utn_getInt(&optionSec, LIST_OVERWRITE_CONFIRM, MENU_SELECT_ERROR, 1, 2, ATTEMPTS) == 0)
+					{
+            			if(optionSec == 1)
+            			{
+            				controller_loadFromBinary(BINARY_FILE,listaEmpleados);
+            			}
+            			else
+            			{
+            				printf(LIST_OVERWRITE_USER_CANCEL);
+            			}
+					}
+            	}
+            	else if( controller_loadFromBinary(BINARY_FILE,listaEmpleados) == 0)
+            	{
+            		flagCargaDatos = TRUE;
+            	}
+                break;
             case 3:
             	if(flagCargaDatos == TRUE)
             	{
@@ -103,7 +135,7 @@ int main()
             case 8:
             	if(flagCargaDatos == TRUE)
 				{
-                	controller_saveAsText("data1.csv", listaEmpleados);
+                	controller_saveAsText(TEXT_DEBUG_FILE, listaEmpleados);
 				}
 				else
 				{
@@ -113,7 +145,7 @@ int main()
             case 9:
             	if(flagCargaDatos == TRUE)
 				{
-    				controller_saveAsBinary("data.bin", listaEmpleados);
+    				controller_saveAsBinary(BINARY_FILE, listaEmpleados);
 				}
 				else
 				{
@@ -127,6 +159,7 @@ int main()
     }while(option != 10);
     return 0;
 }
+
 
 
 

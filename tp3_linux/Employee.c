@@ -6,12 +6,26 @@
 #include "LinkedList.h"
 
 
+/** \brief crea un espacio de memoria del tipo Employee
+ *
+ * \param void
+ * \return (Employee*)malloc(sizeof(Employee))
+ *
+ */
 Employee* employee_new(void)
 {
         return (Employee*)malloc(sizeof(Employee));
 }
 
-
+/** \brief crea un espacio de memoria del tipo Employee y les asigna los valores recibidos por parámetros
+ *
+ * \param id char*
+ * \param nombre char*
+ * \param horasTrabajadas char*
+ * \param sueldo char*
+ * \return int id
+ *
+ */
 Employee* employee_newParametros(char* id, char* nombre, char* horasTrabajadas, char* sueldo)
 {
         Employee* this = employee_new();
@@ -28,12 +42,28 @@ Employee* employee_newParametros(char* id, char* nombre, char* horasTrabajadas, 
         employee_delete(this);
         return NULL;
 }
-
+/** \brief devuelve por valor del Id asociado a un puntero del timpo empleado y lo retorna por valor
+ *
+ * \param this Employee*
+ * \return int id
+ *
+ */
 int employee_getId(Employee* this)
 {
-        return this->id;
+	int output = -1;
+	if(this != NULL)
+	{
+		output = this->id;
+	}
+	return output;
 }
-
+/** \brief asigna el valor ingresado como parametro al campo id del tipo empleado
+ *
+ * \param this Employee*
+ * \param id int
+ * \return output int 0 si ok // -1 si error
+ *
+ */
 int employee_setId(Employee* this, int id)
 {
         int output = -1;
@@ -44,6 +74,12 @@ int employee_setId(Employee* this, int id)
         }
          return output;
 }
+/** \brief verifica que una cadena de caracteres sea del tipo Id
+ *
+ * \param employee1 Employee*
+ * \return int si es sueldo = 1 // si no es sueldo = 0
+ *
+ */
 int isValidId(int id)
 {
 	int output = 0;
@@ -53,12 +89,28 @@ int isValidId(int id)
 	}
     return output;
 }
-
+/** \brief devuelve por valor el nombre asociado a un puntero del timpo empleado y lo retorna por valor
+ *
+ * \param this Employee*
+ * \return char*
+ *
+ */
 char* employee_getNombre(Employee* this)
 {
-        return this->nombre;
+	char* output = NULL;
+	if(this != NULL)
+	{
+		output = this->nombre;
+	}
+    return output;
 }
-
+/** \brief asigna el valor ingresado como parametro al campo nombre del tipo empleado
+ *
+ * \param this Employee*
+ * \param nombre char*
+ * \return output int 0 si ok // -1 si error
+ *
+ */
 int employee_setNombre(Employee* this, char* nombre)
 {
         int output = -1;
@@ -69,6 +121,12 @@ int employee_setNombre(Employee* this, char* nombre)
         }
         return output;
 }
+/** \brief verifica que una cadena de caracteres sea del tipo Nombre
+ *
+ * \param nombre char*
+ * \return int si es nombre = 1 // si no es nombre = 0
+ *
+ */
 int isValidNombre(char* nombre)
 {
 	int output = 0;
@@ -78,12 +136,28 @@ int isValidNombre(char* nombre)
 	}
 	return output;
 }
-
+/** \brief devuelve por valor de las horas trabajadas asociado a un puntero del timpo empleado y lo retorna por valor
+ *
+ * \param this Employee*
+ * \return float*
+ *
+ */
 int employee_getHorasTrabajadas(Employee* this)
 {
-        return this->horasTrabajadas;
+	int output = -1;
+	if (this!= NULL)
+	{
+		output = this->horasTrabajadas;
+	}
+	return output;
 }
-
+/** \brief asigna el valor ingresado como parametro al campo horas trabajadas del tipo empleado
+ *
+ * \param this Employee*
+ * \param horasTrabajadas int
+ * \return output int 0 si ok // -1 si error
+ *
+ */
 int employee_setHorasTrabajadas(Employee* this, int horasTrabajadas)
 {
         int output = -1;
@@ -94,6 +168,12 @@ int employee_setHorasTrabajadas(Employee* this, int horasTrabajadas)
         }
          return output;
 }
+/** \brief verifica que un valor int sea del tipo horasTrabajadas
+ *
+ * \param horasTrabajadas int
+ * \return int si es horasTrabajadas = 1 // si no es horasTrabajadas = 0
+ *
+ */
 int isValidHorasTrabajadas(int horasTrabajadas)
 {
 	int output = 0;
@@ -103,12 +183,28 @@ int isValidHorasTrabajadas(int horasTrabajadas)
 	}
 	return output;
 }
-
+/** \brief devuelve por valor del sueldo asociado a un puntero del timpo empleado y lo retorna por valor
+ *
+ * \param this Employee*
+ * \return float*
+ *
+ */
 float employee_getSueldo(Employee* this)
 {
-        return this->sueldo;
+	float output = -1;
+	if(this != NULL)
+	{
+		output = this->sueldo;
+	}
+    return output;
 }
-
+/** \brief asigna el valor ingresado como parametro al campo sueldo trabajadas del tipo empleado
+ *
+ * \param this Employee*
+ * \param horasTrabajadas fload
+ * \return output int 0 si ok // -1 si error
+ *
+ */
 int employee_setSueldo(Employee* this, float sueldo)
 {
         int output = -1;
@@ -121,7 +217,12 @@ int employee_setSueldo(Employee* this, float sueldo)
         }
          return output;
 }
-
+/** \brief verifica que una cadena de caracteres sea del tipo sueldo
+ *
+ * \param sueldo char*
+ * \return int si es sueldo = 1 // si no es sueldo = 0
+ *
+ */
 int isValidSueldo(char* sueldo)
 {
 	int output = 0;
@@ -131,6 +232,12 @@ int isValidSueldo(char* sueldo)
 	}
     return output;
 }
+/** \brief verifica que un puntero del tipo Empleado no sea nulo y posteriormente lo elimina, liberando la memoria asociada a él
+ *
+ * \param employee1 Employee*
+ * \return void
+ *
+ */
 void employee_delete(Employee* this)
 {
 	if(this != NULL)
@@ -138,6 +245,12 @@ void employee_delete(Employee* this)
 		free(this);
 	}
 }
+/** \brief imprime una tabla con los datos de un unico registro de empleado
+ *
+ * \param employee1 Employee*
+ * \return int
+ *
+ */
 int employee_printOneEmployee(Employee* this)
 {
 	int output = -1;
@@ -150,6 +263,13 @@ int employee_printOneEmployee(Employee* this)
 	}
 	return output;
 }
+/** \brief función criterio para ordenar empleados por el nombre y devuelve el resultado de la comparación por valor
+ *
+ * \param employee1 void*
+ * \param employee1 void*
+ * \return int
+ *
+ */
 int employee_compareByName(void* employee1, void* employee2)
 {
 	int output;
@@ -179,6 +299,13 @@ int employee_compareByName(void* employee1, void* employee2)
 	return output;
 
 }
+/** \brief función criterio para ordenar empleados comparando por el id y devuelve el resultado de la comparación por valor
+ *
+ * \param employee1 void*
+ * \param employee1 void*
+ * \return int
+ *
+ */
 int employee_compareById(void* employee1, void* employee2)
 {
 	int output;
@@ -209,6 +336,13 @@ int employee_compareById(void* employee1, void* employee2)
 	return output;
 
 }
+/** \brief función criterio para ordenar empleados comparando por la cantidad de horas trabajadas y devuelve el resultado de la comparación por valor
+ *
+ * \param employee1 void*
+ * \param employee1 void*
+ * \return int
+ *
+ */
 int employee_compareByHours(void* employee1, void* employee2)
 {
 	int output;
@@ -239,6 +373,13 @@ int employee_compareByHours(void* employee1, void* employee2)
 	return output;
 
 }
+/** \brief función criterio para ordenar empleados comparando por el salario y devuelve el resultado de la comparación por valor
+ *
+ * \param employee1 void*
+ * \param employee1 void*
+ * \return int
+ *
+ */
 int employee_compareBySalary(void* employee1, void* employee2)
 {
 	int output;
@@ -246,8 +387,8 @@ int employee_compareBySalary(void* employee1, void* employee2)
 	Employee* bufferSecondEmployee;
 	bufferFirstEmployee = (Employee*) employee1;
 	bufferSecondEmployee = (Employee*) employee2;
-	int bufferSalaryFirstEmployee;
-	int bufferSalarySecondEmployee;
+	float bufferSalaryFirstEmployee;
+	float bufferSalarySecondEmployee;
 	bufferSalaryFirstEmployee = employee_getSueldo(bufferFirstEmployee);
 	bufferSalarySecondEmployee = employee_getSueldo(bufferSecondEmployee);
 

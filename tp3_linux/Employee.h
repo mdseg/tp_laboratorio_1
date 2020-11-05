@@ -8,7 +8,7 @@
 #define ATTEMPTS 5
 
 #define HOUR_MIN 0
-#define HOUR_MAX 1000
+#define HOUR_MAX 480
 #define SALARY_MIN 1
 #define SALARY_MAX 1000000
 
@@ -43,10 +43,10 @@
 #define INPUT_NAME_ERROR "Por favor, ingrese un nombre válido.\n"
 #define INPUT_ID "Ingrese el Id del empleado:\n"
 #define INPUT_ID_ERROR "Por favor, ingrese un id válido.\n"
-#define INPUT_SALARY "Ingrese el salario:\n"
+#define INPUT_SALARY "Ingrese el salario (minimo:0, máximo 1000000):\n"
 #define INPUT_SALARY_ERROR "Por favor, ingrese un salario válido.\n"
-#define INPUT_HOUR "Ingrese la cantidad de horas trabajadas:\n"
-#define INPUT_HOUR_ERROR "Por favor, ingrese una cantidad de horas trabajadas válidas.\n"
+#define INPUT_HOUR "Ingrese la cantidad de horas trabajadas (mínimo: 0, máximo: 480):\n"
+#define INPUT_HOUR_ERROR "Por favor, ingrese una cantidad de horas trabajadas válidas:\n"
 //Acceso
 #define ENTERING_CREATE_EMPLOYEE "Ingresando al sector de altas...\n"
 #define ENTERING_LIST_EMPLOYEE "Seleccionó la opción de listar de empleados...\n"

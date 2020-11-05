@@ -7,11 +7,6 @@
 #include "utn.h"
 #include "Controller.h"
 
-
-int controller_findEmployeeById(LinkedList* pArrayListEmployee, int id);
-int controller_getFreeIndex(LinkedList* pArrayListEmployee);
-
-
 /** \brief Carga los datos de los empleados desde el archivo data.csv (modo texto).
  *
  * \param path char*
@@ -22,19 +17,27 @@ int controller_getFreeIndex(LinkedList* pArrayListEmployee);
 int controller_loadFromText(char* path , LinkedList* pArrayListEmployee)
 {
 	int output = -1;
+	FILE* pFile;
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	printf(CONTROLLER_LOAD_LIST_TEXT);
-	FILE* pFile;
-	pFile = fopen(path,"r");
-	if(pFile == NULL)
+	ll_clear(pArrayListEmployee);
+	if(pArrayListEmployee != NULL)
 	{
-		printf(CONTROLLER_LOAD_LIST_NO_FILE);
+		pFile = fopen(path,"r");
+		if(pFile == NULL)
+		{
+			printf(CONTROLLER_LOAD_LIST_NO_FILE);
+		}
+		else if(parser_EmployeeFromText(pFile, pArrayListEmployee) == 0)
+		{
+			printf(CONTROLLER_LOAD_LIST_TEXT_SUCCESS);
+			output = 0;
+		}
+		fclose(pFile);
 	}
 	else
 	{
-		parser_EmployeeFromText(pFile, pArrayListEmployee);
-		printf(CONTROLLER_LOAD_LIST_TEXT_SUCCESS);
-		output = 0;
+		printf(LL_NULL_ERROR);
 	}
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
     return output;
@@ -50,37 +53,30 @@ int controller_loadFromText(char* path , LinkedList* pArrayListEmployee)
 int controller_loadFromBinary(char* path , LinkedList* pArrayListEmployee)
 {
 	int output = -1;
+	FILE* pFile;
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	printf(CONTROLLER_LOAD_LIST_BINARY);
-	FILE* pFile;
+	ll_clear(pArrayListEmployee);
 	if(pArrayListEmployee != NULL)
 	{
 		pFile = fopen(path,"rb");
-			if(pFile == NULL)
-			{
-				printf(CONTROLLER_LOAD_LIST_NO_FILE);
-			}
-			else
-			{
-				if(parser_EmployeeFromBinary(pFile, pArrayListEmployee) == 0)
-				{
-
-					printf(CONTROLLER_LOAD_LIST_BINARY_SUCCESS);
-					output = 0;
-				}
-				fclose(pFile);
-
-			}
+		if(pFile == NULL)
+		{
+			printf(CONTROLLER_LOAD_LIST_NO_FILE);
+		}
+		else if(parser_EmployeeFromBinary(pFile, pArrayListEmployee) == 0)
+		{
+			printf(CONTROLLER_LOAD_LIST_BINARY_SUCCESS);
+			output = 0;
+		}
+		fclose(pFile);
 	}
 	else
 	{
 		printf(LL_NULL_ERROR);
 	}
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
-
-
 	return output;
-
 }
 
 /** \brief Alta de empleados
@@ -104,9 +100,8 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
 	if(utn_getName(INPUT_NAME, INPUT_NAME_ERROR, name, ATTEMPTS, LONG_NAME) == 0 &&
 			utn_getCharInt(horasTrabajadas, INPUT_HOUR, INPUT_HOUR_ERROR, HOUR_MIN, HOUR_MAX, ATTEMPTS) == 0 &&
 			utn_getCharFloat(sueldo, INPUT_SALARY, INPUT_SALARY_ERROR, SALARY_MIN, HOUR_MAX, ATTEMPTS) == 0)
-
 	{
-		sprintf(id, "%d",controller_getFreeIndex(pArrayListEmployee));
+		sprintf(id, "%d",controller_getNewId(pArrayListEmployee));
 		bufferEmpleado = employee_newParametros(id, name, horasTrabajadas, sueldo);
 		ll_add(pArrayListEmployee, bufferEmpleado);
 		printf(CREATE_EMPLOYEE_SUCCESS);
@@ -236,8 +231,8 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
 			{
 				if(op == 1)
 				{
-					ll_pop(pArrayListEmployee, index);
-					employee_delete(ll_get(pArrayListEmployee, index));
+					ll_remove(pArrayListEmployee, index);
+					employee_delete(bufferEmployee);
 					printf(DELETE_EMPLOYEE_SUCCESS);
 				}
 				else
@@ -279,8 +274,12 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
 		printf(PRINT_ONE_REGISTRY_TOP);
 		do{
 			bufferEmpleado = ll_get(pArrayListEmployee, i);
+			if(pArrayListEmployee != NULL)
+			{
 				printf(PRINT_ONE_REGISTRY,employee_getId(bufferEmpleado),employee_getNombre(bufferEmpleado),
-						employee_getHorasTrabajadas(bufferEmpleado), employee_getSueldo(bufferEmpleado));
+								employee_getHorasTrabajadas(bufferEmpleado), employee_getSueldo(bufferEmpleado));
+
+			}
 			i++;
 		}
 		while(i != len);
@@ -290,9 +289,8 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
     return output;
 }
 
-/** \brief Ordenar empleados
+/** \brief muestra un menu para que el usuario seleccione por que campo y en que orden desea ordenar la lista de empleados
  *
- * \param path char*
  * \param pArrayListEmployee LinkedList*
  * \return int
  *
@@ -313,9 +311,11 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
 			{
 				case 1:
 					ll_sort(pArrayListEmployee,employee_compareById,1);
+					output = 0;
 					break;
 				case 2:
 					ll_sort(pArrayListEmployee,employee_compareById,0);
+					output = 0;
 					break;
 				case 3:
 					ll_sort(pArrayListEmployee,employee_compareByName,1);
@@ -366,22 +366,26 @@ int controller_saveAsText(char* path , LinkedList* pArrayListEmployee)
 	FILE* pFile;
 	pFile = fopen(path,"w");
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
-	if(pFile != NULL)
+	if(path != NULL && pArrayListEmployee != NULL)
 	{
-		printf(CONTROLLER_CREATE_SUCCESS);
-		len = ll_len(pArrayListEmployee);
-		fprintf(pFile,CONTROLLER_CSV_TOP);
-		for (i = 0; i < len;i++)
+		if(pFile != NULL)
 		{
-			bufferEmployee = ll_get(pArrayListEmployee, i);
-			fprintf(pFile,"%d,%s,%d,%f.2\n",employee_getId(bufferEmployee),employee_getNombre(bufferEmployee),employee_getHorasTrabajadas(bufferEmployee),employee_getSueldo(bufferEmployee));
+
+			len = ll_len(pArrayListEmployee);
+			fprintf(pFile,CONTROLLER_CSV_TOP);
+			for (i = 0; i < len;i++)
+			{
+				bufferEmployee = ll_get(pArrayListEmployee, i);
+				fprintf(pFile,"%d,%s,%d,%f.2\n",employee_getId(bufferEmployee),employee_getNombre(bufferEmployee),employee_getHorasTrabajadas(bufferEmployee),employee_getSueldo(bufferEmployee));
+			}
+			fclose(pFile);
+			printf(CONTROLLER_CREATE_SUCCESS);
+			output = 0;
 		}
-		fclose(pFile);
-		output = 0;
-	}
-	else
-	{
-		printf(CONTROLLER_SAVE_BINARY_PATH_ERROR);
+		else
+		{
+			printf(CONTROLLER_SAVE_BINARY_PATH_ERROR);
+		}
 	}
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
     return output;
@@ -406,20 +410,31 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee)
 		pFile = fopen(path,"wb");
 		if(pFile != NULL)
 		{
-			output = 0;
 			for (int i = 0; i < len;i++)
 			{
 				pEmpleado = ll_get(pArrayListEmployee, i);
 				fwrite(pEmpleado,sizeof(Employee),1,pFile);
 			}
+			output = 0;
+			printf(CONTROLLER_CREATE_SUCCESS);
+			fclose(pFile);
 		}
-		fclose(pFile);
+	}
+	else
+	{
+		printf(CONTROLLER_SAVE_TEXT_ERROR);
 	}
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	return output;
 }
 
-int controller_getFreeIndex(LinkedList* pArrayListEmployee)
+/** \brief Busca un nuevo Id disponible en una lista enlazada de empleados y lo devuelve por valor.
+ *
+ * \param pArrayListEmployee LinkedList*
+ * \return int
+ *
+ */
+int controller_getNewId(LinkedList* pArrayListEmployee)
 {
 	int output = -1;
 	int len;
@@ -433,7 +448,13 @@ int controller_getFreeIndex(LinkedList* pArrayListEmployee)
 
 	return output;
 }
-
+/** \brief Busca un nuevo dato del tipo Empleado en una lista enlazada tomando como parametro el id retornando el valor por referencias.
+ *
+ * \param pArrayListEmployee LinkedList*
+ * \param int id
+ * \return int
+ *
+ */
 int controller_findEmployeeById(LinkedList* pArrayListEmployee, int id)
 {
 	int output = -1;

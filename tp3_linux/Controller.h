@@ -13,6 +13,7 @@
 #define CONTROLLER_CSV_TOP "id,nombre,horasTrabajadas,sueldo\n"
 #define LL_NULL_ERROR "Problema al cargar la lista de empleados.\n"
 #define CONTROLLER_SAVE_BINARY_PATH_ERROR "Error al crear el archivo.\n"
+#define CONTROLLER_SAVE_TEXT_ERROR "Error al crear el archivo.\n"
 #define CONTROLLER_SORT_MENU "-------Menu de ordenamiento----------\nElija el tipo de ordenamiento deseado:\n1. Por Id ascendentemente.\n2. Por Id descendentemente.\n3. Por nombre ascendentemente.\n4. Por nombre descendentemente.\n5. Por horas trabajadas ascendentemente.\n6. Por horas trabajadas descendentemente.\n7. Por salario ascendentemente.\n8. Por salario descendentemente.\n9. Volver al menú anterior.\nSu opción --->"
 
 
@@ -27,6 +28,8 @@ int controller_saveAsText(char* path , LinkedList* pArrayListEmployee);
 int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee);
 int controller_getFreeIndex(LinkedList* pArrayListEmployee);
 int controller_saveBinaryPrueba(char* path);
+int controller_findEmployeeById(LinkedList* pArrayListEmployee, int id);
+int controller_getNewId(LinkedList* pArrayListEmployee);
 
 
 

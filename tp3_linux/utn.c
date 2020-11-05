@@ -20,6 +20,7 @@ static int utn_lowerCharArray(char pArray[]);
 static int utn_verifyLengthArray(char* pArray);
 static int utn_verifyCharArrayNoSpaces(char *pArray);
 int isValidFileName(char* array);
+int utn_verifyNumArray(char* buffer);
 
 /**
  * \brief verifica que una cadena de char incluya solo letras mayusculas y minusculas y también espacios.
@@ -309,8 +310,8 @@ int utn_getInt(int* pResultado,char* mensaje,char* mensajeError,int minimo,int m
 	return retorno;
 }
 /**
-* \brief Solicita un entero al usuario
-* \param pResultado int* puntero al espacio de memoria donde se dejará el valor obtenido.
+* \brief Solicita una cadena de caracteres numérica de enteros al usuario
+* \param pResultado char* puntero al espacio de memoria donde se dejará el valor obtenido.
 * \param mensaje char* Es el mensaje a ser mostrado al usuario.
 * \param mensajeError char* Es el mensaje de error a ser mostrado al usuario.
 * \param minimo int valor minimo admitido
@@ -328,7 +329,8 @@ int utn_getCharInt(char* pResultado,char* mensaje,char* mensajeError,int minimo,
 		do
 		{
 			printf("%s",mensaje);
-			if(utn_myGets(bufferString, LIMITE_BUFFER_STRING) == 0 && utn_verifyNumArray(bufferString) == 1 )
+			if(utn_myGets(bufferString, LIMITE_BUFFER_STRING) == 0 && utn_verifyNumArray(bufferString) == 1
+					&& atoi(bufferString) >= minimo && atoi(bufferString) <= maximo)
 			{
 				strcpy(pResultado, bufferString);
 				retorno = 0;
@@ -345,8 +347,8 @@ int utn_getCharInt(char* pResultado,char* mensaje,char* mensajeError,int minimo,
 	return retorno;
 }
 /**
-* \brief Solicita un entero al usuario
-* \param pResultado int* puntero al espacio de memoria donde se dejará el valor obtenido.
+* \brief Solicita una cadena de caracteres numérica de del tipo float al usuario
+* \param pResultado char* puntero al espacio de memoria donde se dejará el valor obtenido.
 * \param mensaje char* Es el mensaje a ser mostrado al usuario.
 * \param mensajeError char* Es el mensaje de error a ser mostrado al usuario.
 * \param minimo int valor minimo admitido
@@ -354,7 +356,7 @@ int utn_getCharInt(char* pResultado,char* mensaje,char* mensajeError,int minimo,
 * \param reintentos int cantidad de oportunidades para ingresar el dato
 * \return (-1) Error / (0) Ok
  */
-int utn_getCharFloat(char* pResultado,char* mensaje,char* mensajeError,int minimo,int maximo,int reintentos)
+int utn_getCharFloat(char* pResultado,char* mensaje,char* mensajeError,float minimo,float maximo,int reintentos)
 {
 	int retorno = -1;
 	char bufferString[LIMITE_BUFFER_STRING];
@@ -364,7 +366,8 @@ int utn_getCharFloat(char* pResultado,char* mensaje,char* mensajeError,int minim
 		do
 		{
 			printf("%s",mensaje);
-			if(utn_myGets(bufferString, LIMITE_BUFFER_STRING) == 0 && isFloat(bufferString) == 1 && utn_countPointsArray(bufferString) == 0)
+			if(utn_myGets(bufferString, LIMITE_BUFFER_STRING) == 0 && isFloat(bufferString) == 1 && utn_countPointsArray(bufferString) == 0
+					&& atof(bufferString) >= minimo && atof(bufferString) <= maximo)
 			{
 				strcpy(pResultado, bufferString);
 				retorno = 0;
@@ -382,7 +385,7 @@ int utn_getCharFloat(char* pResultado,char* mensaje,char* mensajeError,int minim
 }
 
 /**
-* \brief Solicita un entero al usuario
+* \brief Solicita un flotante al usuario
 * \param message char* Es el mensaje a ser mostrado al usuario.
 * \param errorMessage char* Es el mensaje de error a ser mostrado al usuario.
 ** \param pResult int puntero al espacio de memoria donde se dejará el valor obtenido.

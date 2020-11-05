@@ -7,6 +7,9 @@
 #define LONG_NOMBRE 55
 #define LONG_HORAS 12
 #define LONG_SUELDO 20
+#define READ_ERROR "Error al leer el archivo"
+#define TRUE 1
+#define FALSE 0
 
 /** \brief Parsea los datos los datos de los empleados desde el archivo data.csv (modo texto).
  *
@@ -17,40 +20,47 @@
  */
 int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
 {
+	int output = -1;
 	Employee* bufferEmployee;
 	char idEmpleado[LONG_ID];
 	char nombre[LONG_NOMBRE];
 	char horasTrabajadas[LONG_HORAS];
 	char sueldo[LONG_SUELDO];
 	int r;
-	int flagEncabezado = 0;
-
-	do
+	int flagEncabezado = FALSE;
+	int flagErrores = FALSE;
+	if(pFile != NULL && pArrayListEmployee != NULL)
 	{
-		r = fscanf(pFile,"%[^,],%[^,],%[^,],%[^\n]\n",idEmpleado,nombre,horasTrabajadas,sueldo);
-		if (flagEncabezado == 0)
+		do
 		{
-			flagEncabezado = 1;
-		}
-		else
-		{
-			if(r==4)
+			r = fscanf(pFile,"%[^,],%[^,],%[^,],%[^\n]\n",idEmpleado,nombre,horasTrabajadas,sueldo);
+			if (flagEncabezado == 0)
 			{
-				//printf("Lei %s %s %s %s\n",idEmpleado,nombre,horasTrabajadas,sueldo);
-				bufferEmployee = employee_newParametros(idEmpleado, nombre,horasTrabajadas, sueldo);
-				ll_add(pArrayListEmployee, bufferEmployee);
+				flagEncabezado = 1;
 			}
 			else
 			{
-				printf("El archivo esta corrupto");
-				break;
+				if(r==4)
+				{
+					bufferEmployee = employee_newParametros(idEmpleado, nombre,horasTrabajadas, sueldo);
+					ll_add(pArrayListEmployee, bufferEmployee);
+				}
+				else
+				{
+					employee_delete(bufferEmployee);
+					flagErrores = TRUE;
+					break;
+				}
 			}
+
+
+		}while(!feof(pFile));
+		if(flagErrores == FALSE)
+		{
+			output = 0;
 		}
-
-
-	}while(!feof(pFile));
-	fclose(pFile);
-    return 1;
+	}
+    return output;
 }
 
 /** \brief Parsea los datos los datos de los empleados desde el archivo data.csv (modo binario).
@@ -64,26 +74,12 @@ int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee)
 {
 	int output = -1;
 	Employee* bufferEmployee;
-	Employee* newEmployee;
-	int idEmpleado;
-	char nombre[LONG_NOMBRE];
-	int horasTrabajadas;
-	float sueldo;
-	char horasChar[LONG_HORAS];
-	char sueldoChar[LONG_SUELDO];
-	char idChar[LONG_ID];
-	int flagEncabezado = 0;
-	char encabezado[50];
 	int retornoLectura;
-
-
 	if(pFile != NULL && pArrayListEmployee != NULL)
 	{
-
-
 		do
 		{
-		bufferEmployee = employee_new();
+			bufferEmployee = employee_new();
 			if(bufferEmployee != NULL)
 			{
 				retornoLectura = fread(bufferEmployee,sizeof(Employee),1,pFile);
@@ -96,48 +92,10 @@ int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee)
 					employee_delete(bufferEmployee);
 					break;
 				}
-				output = 0;
 			}
-
 		}while(!feof(pFile));
-
-
-
+		output = 0;
 	}
 	return output;
-
-}
-
-
-int parser_Prueba(char* path)
-{
-	int output = -1;
-	int numero;
-	FILE* pFile;
-	pFile = fopen(path,"rb");
-	if(pFile != NULL)
-	{
-
-		//fread(encabezado,sizeof(encabezado),1,pFile);
-		do
-		{
-			if (fread(&numero,sizeof(int),1,pFile) == 1 )
-			{
-
-				printf("%d",numero);
-
-				output = 0;
-			}
-
-
-
-		}while(!feof(pFile));
-		fclose(pFile);
-
-
-
-	}
-	return output;
-
 }
 
