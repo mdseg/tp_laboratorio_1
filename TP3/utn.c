@@ -323,7 +323,6 @@ int utn_getCharInt(char* pResultado,char* mensaje,char* mensajeError,int minimo,
 {
 	int retorno = -1;
 	char bufferString[LIMITE_BUFFER_STRING];
-	int bufferInt = atoi(bufferString);
 	if(pResultado != NULL && mensaje != NULL && mensajeError != NULL && minimo <= maximo && reintentos >= 0)
 	{
 		do
