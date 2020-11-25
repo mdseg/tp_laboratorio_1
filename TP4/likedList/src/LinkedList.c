@@ -634,6 +634,44 @@ int ll_map(LinkedList* this, int (*pFunc)(void*))
 	}
 	return output;
 }
+
+/** \brief Recorre todos los elementos de la LinkedList para utilizar una función criterio en cada elemento de cada nodo y
+ *  terminar el ciclo cuando la funcion criterio retorne 1
+ * \param pList LinkedList* Puntero a la lista
+ * \param pFunc (*pFunc) Puntero a la funcion criterio
+ * \return int Retorna  (-1) Error: si el puntero a la listas es NULL
+                                ( 0) Si la función criterio nunca retorno 1
+                                (1) Si la función criterio retornó 1
+ */
+
+int ll_map2(LinkedList* this, int(*pFunc)(void*, char*), void* value)
+{
+	int output = -1;
+	int len = ll_len(this);
+	void *pElement = NULL;
+	if(this != NULL)
+	{
+		output = 0;
+		for(int i = 0; i < len;i++)
+		{
+			pElement = ll_get(this, i);
+			if(pFunc(pElement, value) == 1)
+			{
+				output = 1;
+				break;
+			}
+		}
+
+	}
+	return output;
+}
+/** \brief Recorre todos los elementos de la LinkedList para utilizar una función criterio en cada elemento de cada nodo
+ *  y eliminar de la lista a lo que la funcion criterio retorne como 0
+ * \param pList LinkedList* Puntero a la lista
+ * \param pFunc (*pFunc) Puntero a la funcion criterio
+ * \return int Retorna  (-1) Error: si el puntero a la listas es NULL si pFunc es NULL o si len <= 0
+                                ( 0) Si si ok
+ */
 int ll_filter(LinkedList* this, int (*pFunc)(void*))
 {
 	int output = -1;
@@ -651,23 +689,88 @@ int ll_filter(LinkedList* this, int (*pFunc)(void*))
 	}
 	return output;
 }
-// Reduce una lista a un numero
-// obtener salarios de empleados
-int ll_reduceFloat(LinkedList* this, int (*pFunc)(void*))
+/** \brief Recorre todos los elementos de la LinkedList para utilizar una función criterio en cada elemento de cada nodo
+ *  y agregar a una nueva lista pasada por parametro a lo que la funcion criterio retorne como 1
+ * \param pList LinkedList* Puntero a la lista
+ * \param pFunc (*pFunc) Puntero a la funcion criterio
+ * \return int Retorna  (-1) Error: si el puntero a la listas es NULL si pFunc es NULL o si len <= 0 o si newLen != 0
+                                ( 0) Si si ok
+ */
+int ll_filterAdd(LinkedList* originalList,LinkedList* newList, int (*pFunc)(void*))
 {
 	int output = -1;
+	int len = ll_len(originalList);
+	int newLen = ll_len(newList);
+	void* bufferElement;
+	int i;
+	if(originalList != NULL && newList != NULL && newLen == 0 && pFunc != NULL && len > 0)
+	{
+		for(i=0; i<len;i++)
+		{
+			bufferElement = ll_get(originalList, i);
+
+			if((pFunc(bufferElement) == 1))
+			{
+				ll_add(newList, bufferElement);
+
+			}
+		}
+		output = 0;
+	}
+
 	return output;
+}
+
+
+/** \brief Recorre todos los elementos de la LinkedList para utilizar una función criterio en cada elemento de cada nodo
+ *  y almacenar en un acumulador los retornos de estas funciones
+ * \param pList LinkedList* Puntero a la lista
+ * \param pFunc (*pFunc) Puntero a la funcion criterio
+ * \param idInt
+ * \return int Retorna  (-1) Error: si el puntero a la listas es NULL si pFunc es NULL o si len <= 0 o si newLen != 0
+                                ( 0) Si si ok
+ */
+int ll_reduceFloat(LinkedList* this, int (*pFunc)(void*,int value), int id)
+{
+	int len = ll_len(this);
+	float acumulator=-1;
+	void* pElement=NULL;
+	if(this!=NULL && pFunc!=NULL && len>-1)
+	{
+		acumulator = 0;
+		for(int i = 0; i<len;i++)
+		{
+			pElement = ll_get(this, i);
+			acumulator+= pFunc(pElement, id);
+		}
+	}
+	return acumulator;
 }
 // obtener edades de empleados
-int ll_reduceInt(LinkedList* this, int (*pFunc)(void*))
+/** \brief Recorre todos los elementos de la LinkedList para utilizar una función criterio en cada elemento de cada nodo
+ *  y almacenar en un acumulador los retornos de estas funciones
+ * \param pList LinkedList* Puntero a la lista
+ * \param pFunc (*pFunc) Puntero a la funcion criterio
+ * \param id int
+ * \return int Retorna  (-1) Error: si el puntero a la listas es NULL si pFunc es NULL o si len <= 0 o si newLen != 0
+                                ( 0) Si si ok
+ */
+int ll_reduceInt(LinkedList* this, int (*pFunc)(void*,int value), int id)
 {
-	int output = -1;
-	return output;
+	int len = ll_len(this);
+	int acumulator=-1;
+	void* pElement=NULL;
+	if(this!=NULL && pFunc!=NULL && len>-1)
+	{
+		acumulator = 0;
+		for(int i = 0; i<len;i++)
+		{
+			pElement = ll_get(this, i);
+			acumulator+= pFunc(pElement, id);
+		}
+	}
+	return acumulator;
 }
-// No es necesario hacerla para el jueves
-int ll_findInt(LinkedList* this, int (*pFunc)(void*))
-{
-	int output = -1;
-	return output;
-}
+
+
 
