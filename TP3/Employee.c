@@ -410,3 +410,43 @@ int employee_compareBySalary(void* employee1, void* employee2)
 	return output;
 
 }
+int employee_filterBySalary(void* employee)
+{
+	int output = -1;
+	int salary = employee_getSueldo(employee);
+	if(salary > 30000)
+	{
+		output = 0;
+	}
+	else
+	{
+		output = 1;
+	}
+	return output;
+}
+
+float employee_sumAllSalaries(void* employee, float* pSueldo)
+{
+	float output = -1;
+	Employee* empleado = (Employee*)(employee);
+	if(employee!= NULL)
+	{
+		*pSueldo = employee_getSueldo(empleado);
+		output = 0;
+	}
+	return output;
+}
+int employee_countEmployees(void* employee)
+{
+	float output = -1;
+	if(employee!= NULL)
+	{
+		output = 1;
+	}
+	else
+	{
+		output = 0;
+	}
+	return output;
+}
+

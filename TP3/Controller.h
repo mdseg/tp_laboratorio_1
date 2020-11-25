@@ -30,6 +30,8 @@ int controller_getFreeIndex(LinkedList* pArrayListEmployee);
 int controller_saveBinaryPrueba(char* path);
 int controller_findEmployeeById(LinkedList* pArrayListEmployee, int id);
 int controller_getNewId(LinkedList* pArrayListEmployee);
-
+int controller_filterById(LinkedList* pArrayListEmployee);
+int controller_sumAllSalaries(LinkedList* pArrayListEmployee);
+int controller_countEmployees(LinkedList* pArrayListEmployee);
 
 

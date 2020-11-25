@@ -16,7 +16,7 @@
      7. Ordenar empleados
      8. Guardar los datos de los empleados en el archivo data.csv (modo texto).
      9. Guardar los datos de los empleados en el archivo data.csv (modo binario).
-    10. Salir
+    10. Filtrar
 *****************************************************/
 
 #define MAIN_MENU "\n-------Sistema de Registro de Empleados ----------\nElija una de estas opciones:\n1. Cargar los datos de los empleados desde el archivo data.csv (modo texto)\n2. Cargar los datos de los empleados desde el archivo data.csv (modo binario).\n3. Alta de empleado\n4. Modificar datos de empleado\n5. Baja de empleado\n6. Listar empleados\n7. Ordenar empleados\n8. Guardar los datos de los empleados en el archivo data.csv (modo texto).\n9. Guardar los datos de los empleados en el archivo data.csv (modo binario).\n10. Salir\nSu elección -->  "
@@ -34,10 +34,11 @@ int main()
     int option;
     int flagCargaDatos = FALSE;
     int optionSec;
-    LinkedList* listaEmpleados = ll_newLinkedList();
+    LinkedList* listaEmployee = ll_newLinkedList();
+
 
     do{
-    	utn_getInt(&option, MAIN_MENU, ERROR_MENU, 1, 10, ATTEMPTS);
+    	utn_getInt(&option, MAIN_MENU, ERROR_MENU, 1, 13, ATTEMPTS);
         switch(option)
         {
             case 1:
@@ -47,7 +48,7 @@ int main()
 					{
             			if(optionSec == 1)
             			{
-            				controller_loadFromText(TEXT_FILE,listaEmpleados);
+            				controller_loadFromText(TEXT_FILE,listaEmployee);
             			}
             			else
             			{
@@ -55,7 +56,7 @@ int main()
             			}
 					}
             	}
-            	else if( controller_loadFromText(TEXT_FILE,listaEmpleados) == 0)
+            	else if( controller_loadFromText(TEXT_FILE,listaEmployee) == 0)
             	{
             		flagCargaDatos = TRUE;
             	}
@@ -67,7 +68,7 @@ int main()
 					{
             			if(optionSec == 1)
             			{
-            				controller_loadFromBinary(BINARY_FILE,listaEmpleados);
+            				controller_loadFromBinary(BINARY_FILE,listaEmployee);
             			}
             			else
             			{
@@ -75,7 +76,7 @@ int main()
             			}
 					}
             	}
-            	else if( controller_loadFromBinary(BINARY_FILE,listaEmpleados) == 0)
+            	else if( controller_loadFromBinary(BINARY_FILE,listaEmployee) == 0)
             	{
             		flagCargaDatos = TRUE;
             	}
@@ -83,7 +84,7 @@ int main()
             case 3:
             	if(flagCargaDatos == TRUE)
             	{
-            		controller_addEmployee(listaEmpleados);
+            		controller_addEmployee(listaEmployee);
             	}
             	else
             	{
@@ -94,7 +95,7 @@ int main()
             case 4:
             	if(flagCargaDatos == TRUE)
             	{
-            		controller_editEmployee(listaEmpleados);
+            		controller_editEmployee(listaEmployee);
 
             	}
             	else
@@ -105,7 +106,7 @@ int main()
             case 5:
             	if(flagCargaDatos == TRUE)
 				{
-                	controller_removeEmployee(listaEmpleados);
+                	controller_removeEmployee(listaEmployee);
 				}
 				else
 				{
@@ -115,7 +116,7 @@ int main()
             case 6:
             	if(flagCargaDatos == TRUE)
 				{
-                	controller_ListEmployee(listaEmpleados);
+                	controller_ListEmployee(listaEmployee);
 				}
 				else
 				{
@@ -125,7 +126,7 @@ int main()
             case 7:
             	if(flagCargaDatos == TRUE)
 				{
-                	controller_sortEmployee(listaEmpleados);
+                	controller_sortEmployee(listaEmployee);
 				}
 				else
 				{
@@ -135,7 +136,7 @@ int main()
             case 8:
             	if(flagCargaDatos == TRUE)
 				{
-                	controller_saveAsText(TEXT_FILE, listaEmpleados);
+                	controller_saveAsText(TEXT_FILE, listaEmployee);
 				}
 				else
 				{
@@ -145,7 +146,7 @@ int main()
             case 9:
             	if(flagCargaDatos == TRUE)
 				{
-    				controller_saveAsBinary(BINARY_FILE, listaEmpleados);
+    				controller_saveAsBinary(BINARY_FILE, listaEmployee);
 				}
 				else
 				{
@@ -153,10 +154,38 @@ int main()
 				}
             	break;
             case 10:
-            	printf(EXIT_PROGRAM);
+            	if(flagCargaDatos == TRUE)
+				{
+            		controller_filterById(listaEmployee);
+				}
+				else
+				{
+					printf(ERROR_NOT_AVAILABLE);
+				}
+				break;
+            case 11:
+				if(flagCargaDatos == TRUE)
+				{
+					controller_sumAllSalaries(listaEmployee);
+				}
+				else
+				{
+					printf(ERROR_NOT_AVAILABLE);
+				}
+				break;
+            case 12:
+				if(flagCargaDatos == TRUE)
+				{
+					//controller_countEmployee(listaEmployee);
+				}
+				else
+				{
+					printf(ERROR_NOT_AVAILABLE);
+				}
+				break;
 
         }
-    }while(option != 10);
+    }while(option != 13);
     return 0;
 }
 

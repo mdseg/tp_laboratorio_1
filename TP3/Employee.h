@@ -88,7 +88,9 @@ int employee_compareByName(void* employee1, void* employee2);
 int employee_compareById(void* employee1, void* employee2);
 int employee_compareByHours(void* employee1, void* employee2);
 int employee_compareBySalary(void* employee1, void* employee2);
-
+int employee_filterBySalary(void* employee);
+float employee_sumAllSalaries(void* employee, float* pSueldo);
+int employee_countEmployees(void* employee);
 int isValidId(int id);
 int isValidNombre(char* nombre);
 int isValidHorasTrabajadas(int horasTrabajadas);

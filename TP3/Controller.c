@@ -475,7 +475,40 @@ int controller_findEmployeeById(LinkedList* pArrayListEmployee, int id)
 	}
 	return output;
 }
+int controller_filterById(LinkedList* pArrayListEmployee)
+{
+	int output = -1;
+	if (ll_filter(pArrayListEmployee, employee_filterBySalary) == 0)
+	{
+		printf("ok");
+	}
 
+	return output;
+}
+int controller_sumAllSalaries(LinkedList* pArrayListEmployee)
+{
+	int output = -1;
+	float salarios;
+	ll_reduceFloat(pArrayListEmployee, employee_sumAllSalaries, &salarios);
+	if (salarios >= 0)
+	{
+		//salarios = salarios / 1000;
+		printf("La suma de todos los salarios es: %.2f", salarios);
+	}
 
+	return output;
+}
+int controller_countEmployees(LinkedList* pArrayListEmployee)
+{
+	int output = -1;
+	int conteo = 0;
+	ll_reduceInt(pArrayListEmployee, employee_countEmployees, &conteo);
+	if (conteo >= 0)
+	{
+		//salarios = salarios / 1000;
+		printf("La suma de todos los salarios es: %d", conteo);
+	}
 
+	return output;
+}
 
