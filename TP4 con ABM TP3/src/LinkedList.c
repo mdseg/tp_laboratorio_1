@@ -586,7 +586,6 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
     return returnAux;
 
 }
-
 /** \brief Recorre todos los elementos de la LinkedList para utilizar una función criterio en cada elemento de cada nodo
  * \param pList LinkedList* Puntero a la lista
  * \param pFunc (*pFunc) Puntero a la funcion criterio
@@ -619,7 +618,7 @@ int ll_map(LinkedList* this, int (*pFunc)(void*))
                                 (1) Si la función criterio retornó 1
  */
 
-int ll_map2(LinkedList* this, int(*pFunc)(void*, char*), void* value)
+int ll_mapWithBreak(LinkedList* this, int(*pFunc)(void*, char*), void* value)
 {
 	int output = -1;
 	int len = ll_len(this);
@@ -635,6 +634,32 @@ int ll_map2(LinkedList* this, int(*pFunc)(void*, char*), void* value)
 				output = 1;
 				break;
 			}
+		}
+
+	}
+	return output;
+}
+/** \brief Recorre todos los elementos de la LinkedList para utilizar una función criterio en cada elemento de cada nodo
+ *  y agregando un entero de referencia para agregarselo a la funcion criterio.
+ * \param pList LinkedList* Puntero a la lista
+ * \param pFunc (*pFunc) Puntero a la funcion criterio
+ * \return int Retorna  (-1) Error: si el puntero a la listas es NULL
+                                ( 0) Si la función criterio nunca retorno 1
+                                (1) Si la función criterio retornó 1
+ */
+
+int ll_mapIntParam(LinkedList* this, int(*pFunc)(void*, int), int value)
+{
+	int output = -1;
+	int len = ll_len(this);
+	void *pElement = NULL;
+	if(this != NULL)
+	{
+		output = 0;
+		for(int i = 0; i < len;i++)
+		{
+			pElement = ll_get(this, i);
+			pFunc(pElement, value);
 		}
 
 	}
@@ -746,5 +771,3 @@ int ll_reduceInt(LinkedList* this, int (*pFunc)(void*,int value), int id)
 	}
 	return acumulator;
 }
-
-
