@@ -746,7 +746,6 @@ int ll_reduceFloat(LinkedList* this, int (*pFunc)(void*,int value), int id)
 	}
 	return acumulator;
 }
-// obtener edades de empleados
 /** \brief Recorre todos los elementos de la LinkedList para utilizar una función criterio en cada elemento de cada nodo
  *  y almacenar en un acumulador los retornos de estas funciones
  * \param pList LinkedList* Puntero a la lista
